@@ -1,232 +1,119 @@
-# Profile Website
+# 👋 Hamed Afzali - Senior Full-Stack Engineer
 
-A modern portfolio website inspired by Adham Dannaway's design, built with React, TypeScript, Node.js, and MongoDB.
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://linkedin.com/in/hamedafzali)
+[![GitHub](https://img.shields.io/badge/GitHub-Follow-black)](https://github.com/hamedafzali)
+[![Location](https://img.shields.io/badge/Location-Tübingen%2C%20Germany-green)](https://maps.google.com/?q=Tübingen,Germany)
 
-## Features
+## 🚀 About Me
 
-- **Modern Design**: Clean, minimalist design inspired by professional portfolios
-- **Responsive**: Fully responsive layout that works on all devices
-- **Interactive**: Smooth animations and transitions
-- **Contact Form**: Functional contact form with backend integration
-- **Portfolio Management**: Dynamic portfolio section with MongoDB backend
-- **TypeScript**: Type-safe frontend development
-- **Node.js Backend**: RESTful API for data management
+**Senior Full-Stack Engineer** with **15+ years** of experience in enterprise software development, specializing in distributed systems architecture, high-performance computing, and mission-critical applications. Proven track record of leading large-scale digital transformations and modernizing legacy banking systems.
 
-## Tech Stack
+### 🎯 Expertise Areas
+- **Distributed Systems & Architecture** - Microservices, Message Queues (IBM MQ), Fault-Tolerant Systems
+- **Enterprise Software Development** - .NET Core/C#, Node.js, Enterprise Banking Systems
+- **Cloud-Native Solutions** - AWS, Azure, Docker, Kubernetes
+- **Performance Optimization** - System Architecture, Database Design, Scalability
+- **Team Leadership** - 10+ years leading development teams, SAFe Agile, CI/CD
 
-### Frontend
+## 💼 Professional Highlights
 
-- React 18
-- TypeScript
-- CSS3 (no frameworks)
-- React Router
+### 🏦 Enterprise Banking & FinTech
+- **Core Banking System Modernization** - Led complete migration of legacy systems using .NET microservices, achieving 40% performance improvement and 60% reduction in downtime
+- **Distributed Payment Gateway** - Architected high-availability payment system handling 10,000+ TPS with 99.99% uptime
+- **National Banking Reporting** - Engineered high-throughput reporting systems for Iran's national banking network
 
-### Backend
+### 🏗️ Systems Integration & Architecture
+- **API Gateway Architecture** - Centralized API management handling 100M+ daily calls with comprehensive monitoring
+- **Hardware-Software Integration** - Complex printer integrations using IPC, Named Pipes, and socket programming
+- **Cloud Migration Platform** - Automated migration of 50+ enterprise applications to AWS with zero downtime
 
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
+### 🛠️ Technology Stack
 
-## Project Structure
-
-```
-profile-website/
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── App.tsx
-│   │   ├── index.tsx
-│   │   └── index.css
-│   ├── package.json
-│   └── tsconfig.json
-├── backend/
-│   ├── server.js
-│   ├── seed.js
-│   ├── package.json
-│   └── .env.example
-└── README.md
+#### Backend & Systems
+```text
+Languages: C#, .NET Core, Node.js, TypeScript, VB.NET
+Databases: SQL Server, MongoDB, PostgreSQL, Redis
+Messaging: IBM MQ, Apache Kafka, RabbitMQ
+Cloud: AWS, Azure, Docker, Kubernetes
 ```
 
-## Installation
-
-### Prerequisites
-
-- Node.js (v14 or higher)
-- MongoDB (local installation or MongoDB Atlas)
-- npm or yarn
-
-### Backend Setup
-
-1. Navigate to the backend directory:
-
-```bash
-cd backend
+#### Frontend & Mobile
+```text
+Frameworks: React, Angular, Vue.js
+Mobile: React Native, Flutter, Xamarin
+UI/UX: Tailwind CSS, Material-UI, Bootstrap
 ```
 
-2. Install dependencies:
-
-```bash
-npm install
+#### DevOps & Tools
+```text
+CI/CD: Jenkins, GitLab CI, Azure DevOps
+Infrastructure: Terraform, Ansible, Helm
+Monitoring: Prometheus, Grafana, ELK Stack
 ```
 
-3. Create environment file:
+## 📊 Key Achievements
 
-```bash
-cp .env.example .env
-```
+- ✅ **50+ Enterprise Projects** delivered successfully
+- ✅ **15+ System Modernizations** completed
+- ✅ **40% Average Performance Improvement** across projects
+- ✅ **99.99% Uptime** achieved for critical systems
+- ✅ **10M+ Transactions** processed daily
+- ✅ **Zero-Downtime Deployments** for major migrations
 
-4. Update the `.env` file with your MongoDB connection string
+## 🎓 Education & Certifications
 
-5. Start the server:
+- **Computer Engineering** - Bachelor's Degree
+- **SAFe Agile** - Certified Program Consultant
+- **AWS Solutions Architect** - Associate Level
+- **Microsoft Certified** - Azure Solutions Architect Expert
 
-```bash
-npm run dev
-```
+## 📈 Current Focus
 
-6. Seed the database with sample data:
+🔍 **Open to New Challenges** - Seeking opportunities in:
+- Large-scale distributed systems architecture
+- Enterprise digital transformation projects
+- High-performance computing solutions
+- Team leadership and technical mentoring
 
-```bash
-node seed.js
-```
+## 💻 Featured Projects
 
-### Frontend Setup
+### Core Banking System Modernization
+*Led the complete modernization of legacy core banking systems using .NET microservices architecture*
+- **Technologies**: .NET Core, C#, IBM MQ, SQL Server, Docker
+- **Impact**: 40% improvement in transaction processing, 60% reduction in system downtime
+- **Scale**: 1M+ daily transactions
 
-1. Navigate to the frontend directory:
+### Distributed Payment Gateway
+*Architected and implemented a high-availability payment processing system*
+- **Technologies**: Node.js, MongoDB, Redis, Docker, Kubernetes
+- **Performance**: 10,000+ transactions/second, 99.99% uptime
+- **Architecture**: Distributed systems with fault tolerance
 
-```bash
-cd frontend
-```
+### Hardware-Software Printer Integration
+*Engineered high-reliability interprocess communication for hardware-software printer integrations*
+- **Technologies**: Named Pipes, Socket Programming, C++, IPC
+- **Challenge**: Real-time communication between hardware and software systems
+- **Solution**: Fault-tolerant communication protocols
 
-2. Install dependencies:
+## 🌟 Skills Overview
 
-```bash
-npm install
-```
+| Category | Skills | Proficiency |
+|----------|--------|-------------|
+| **Backend** | .NET Core, C#, Node.js, Express | ⭐⭐⭐⭐⭐ |
+| **Frontend** | React, TypeScript, Angular | ⭐⭐⭐⭐⭐ |
+| **Databases** | SQL Server, MongoDB, PostgreSQL | ⭐⭐⭐⭐⭐ |
+| **Cloud** | AWS, Azure, Docker, Kubernetes | ⭐⭐⭐⭐⭐ |
+| **Architecture** | Microservices, API Design | ⭐⭐⭐⭐⭐ |
+| **DevOps** | CI/CD, Infrastructure as Code | ⭐⭐⭐⭐⭐ |
 
-3. Start the development server:
+## 📞 Contact
 
-```bash
-npm start
-```
+I'm always interested in discussing innovative projects and new opportunities. Feel free to reach out!
 
-## API Endpoints
+- **Email**: [hamed.afzali@email.com](mailto:hamed.afzali@email.com)
+- **LinkedIn**: [linkedin.com/in/hamedafzali](https://linkedin.com/in/hamedafzali)
+- **Location**: Tübingen, Germany
 
-### Projects
+---
 
-- `GET /api/projects` - Get all projects
-- `GET /api/projects/featured` - Get featured projects
-- `GET /api/projects/:id` - Get single project
-- `POST /api/projects` - Create new project
-
-### Contact
-
-- `POST /api/contact` - Submit contact form
-- `GET /api/contacts` - Get all contacts (admin)
-
-### Health
-
-- `GET /api/health` - Health check
-
-## Features Breakdown
-
-### Navigation
-
-- Fixed navigation with scroll effects
-- Mobile-responsive hamburger menu
-- Smooth scroll to sections
-- Social media links
-
-### Hero Section
-
-- Eye-catching headline with dual role display
-- Call-to-action buttons
-- Animated visual elements
-
-### About Section
-
-- Skills showcase with interactive tags
-- Professional description
-- Visual design elements
-
-### Portfolio Section
-
-- Grid layout for project cards
-- Category filtering
-- Hover effects and animations
-- Project details and links
-
-### Contact Section
-
-- Functional contact form
-- Form validation
-- Contact information display
-- Social media links
-
-### Footer
-
-- Site navigation links
-- Social media links
-- Back to top functionality
-- Copyright information
-
-## Deployment
-
-### Frontend (Netlify/Vercel)
-
-1. Build the frontend:
-
-```bash
-npm run build
-```
-
-2. Deploy the `build` folder to your preferred hosting platform
-
-### Backend (Heroku/Railway)
-
-1. Set environment variables in your hosting platform
-2. Deploy the backend application
-3. Ensure MongoDB is accessible from your hosting environment
-
-## Customization
-
-### Personal Information
-
-Update the following files with your information:
-
-- `frontend/src/components/Hero.tsx` - Update hero text and buttons
-- `frontend/src/components/About.tsx` - Update about section and skills
-- `frontend/src/components/Contact.tsx` - Update contact information
-- `frontend/src/components/Footer.tsx` - Update footer links
-
-### Styling
-
-All styles are located in component-specific CSS files:
-
-- `frontend/src/components/Navigation.css`
-- `frontend/src/components/Hero.css`
-- `frontend/src/components/About.css`
-- `frontend/src/components/Portfolio.css`
-- `frontend/src/components/Contact.css`
-- `frontend/src/components/Footer.css`
-
-### Colors and Fonts
-
-Modify the global styles in `frontend/src/index.css` to change colors, fonts, and base styles.
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## Support
-
-For support and questions, please open an issue in the repository.
+*"Building scalable, reliable, and innovative software solutions that make a real impact."* 🚀
