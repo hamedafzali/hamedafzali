@@ -1,0 +1,15 @@
+# Cloudflare Tunnel Configuration
+# This file configures a Cloudflare tunnel to expose your local container to the internet
+
+tunnel: hamed-profile-tunnel
+credentials-file: /home/user/.cloudflared/hamed-profile-tunnel.json
+
+ingress:
+  # Route to your local running container
+  - hostname: your-domain.com  # Replace with your actual domain
+    service: http://localhost:5001
+  - hostname: www.your-domain.com  # Optional: www subdomain
+    service: http://localhost:5001
+  
+  # Fallback for other requests
+  - service: http_status:404

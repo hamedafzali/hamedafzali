@@ -1,0 +1,92 @@
+{
+  "projects": [
+    {
+      "title": "Core Banking System Modernization",
+      "description": "Spearheaded the transition of mission-critical software from .NET Framework to .NET 8, resolving complex legacy constraints and ensuring long-term system stability.",
+      "category": "Enterprise Modernization",
+      "image": "/core-banking-modernization.jpg",
+      "link": "#",
+      "featured": true,
+      "technologies": [".NET 8", "C#", "SQL CE to SQLite", "System Architecture", "Legacy Migration"],
+      "status": "Completed",
+      "duration": "6 months"
+    },
+    {
+      "title": "Hardware-Software Printer Integration",
+      "description": "Engineered high-reliability interprocess communication (IPC) using Named Pipes and socket-based networking for complex hardware-software printer integrations.",
+      "category": "Systems Integration",
+      "image": "/printer-integration.jpg",
+      "link": "#",
+      "featured": true,
+      "technologies": ["Named Pipes", "Socket Programming", "C++", "Hardware Integration", "IPC"],
+      "status": "Completed",
+      "duration": "4 months"
+    },
+    {
+      "title": "SHETAB Banking Reporting System",
+      "description": "Engineered a high-throughput reporting engine using IBM MQ and SQL Server to reconcile national-scale card transactions for Iran's national banking network.",
+      "category": "FinTech & Distributed Infrastructure",
+      "image": "/shetab-banking.jpg",
+      "link": "#",
+      "featured": true,
+      "technologies": ["IBM MQ", "SQL Server", ".NET", "Distributed Systems", "High-Throughput"],
+      "status": "Completed",
+      "duration": "8 months"
+    },
+    {
+      "title": "Chakavak National Cheque Clearing System",
+      "description": "Architected an IBM MQ-based messaging backbone for the national cheque clearing system, ensuring fault-tolerant, asynchronous processing across distributed nodes.",
+      "category": "FinTech & Distributed Infrastructure",
+      "image": "/chakavak-system.jpg",
+      "link": "#",
+      "featured": false,
+      "technologies": ["IBM MQ", "Distributed Messaging", "Fault Tolerance", "Asynchronous Processing", "Banking Systems"],
+      "status": "Completed",
+      "duration": "6 months"
+    },
+    {
+      "title": "Amitis Hamta Payment Panel",
+      "description": "Designed a secure, responsive payment dashboard and website using ReactJS, Node.js, and MongoDB for financial transaction management.",
+      "category": "Web & Cloud Platforms",
+      "image": "/payment-panel.jpg",
+      "link": "#",
+      "featured": false,
+      "technologies": ["ReactJS", "Node.js", "MongoDB", "Payment Systems", "Dashboard Design"],
+      "status": "Completed",
+      "duration": "3 months"
+    },
+    {
+      "title": "POS Management Application",
+      "description": "Built a terminal management suite using VB.NET Core and WPF focused on hardware-software integration for payment terminals.",
+      "category": "Enterprise & Mobile Solutions",
+      "image": "/pos-management.jpg",
+      "link": "#",
+      "featured": false,
+      "technologies": ["VB.NET Core", "WPF", "POS Systems", "Hardware Integration", "Payment Terminals"],
+      "status": "Completed",
+      "duration": "5 months"
+    },
+    {
+      "title": "Budget & Reporting Web Apps",
+      "description": "Orchestrated containerized reporting tools using Docker, ReactJS, Node.js, and SQL Server for enterprise financial reporting.",
+      "category": "Web & Cloud Platforms",
+      "image": "/budget-reporting.jpg",
+      "link": "#",
+      "featured": false,
+      "technologies": ["Docker", "ReactJS", "Node.js", "SQL Server", "Containerization", "Financial Reporting"],
+      "status": "Completed",
+      "duration": "4 months"
+    },
+    {
+      "title": "Reporting Mobile App",
+      "description": "Developed a cross-platform data visualization tool for banking metrics using React Native and Node.js.",
+      "category": "Enterprise & Mobile Solutions",
+      "image": "/reporting-mobile.jpg",
+      "link": "#",
+      "featured": false,
+      "technologies": ["React Native", "Node.js", "Data Visualization", "Cross-Platform", "Mobile Development"],
+      "status": "Completed",
+      "duration": "3 months"
+    }
+  ]
+}

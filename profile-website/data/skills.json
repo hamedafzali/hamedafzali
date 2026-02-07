@@ -1,0 +1,40 @@
+{
+  "skills": [
+    {
+      "name": ".NET & C#",
+      "level": 95,
+      "category": "backend",
+      "description": "Expert in .NET Framework, .NET Core, and C# programming with 15+ years of enterprise experience"
+    },
+    {
+      "name": "Distributed Systems",
+      "level": 90,
+      "category": "architecture",
+      "description": "Experience with microservices, message queues, IBM MQ, and distributed computing patterns"
+    },
+    {
+      "name": "React & TypeScript",
+      "level": 85,
+      "category": "frontend",
+      "description": "Modern React development with TypeScript, hooks, and ecosystem management"
+    },
+    {
+      "name": "Cloud Architecture",
+      "level": 88,
+      "category": "cloud",
+      "description": "AWS, Azure, Docker, Kubernetes, and cloud-native architecture patterns"
+    },
+    {
+      "name": "Database Design",
+      "level": 92,
+      "category": "database",
+      "description": "SQL Server, MongoDB, PostgreSQL, data modeling, and performance optimization"
+    },
+    {
+      "name": "System Integration",
+      "level": 87,
+      "category": "integration",
+      "description": "API design, RESTful services, system integration, and enterprise connectivity"
+    }
+  ]
+}

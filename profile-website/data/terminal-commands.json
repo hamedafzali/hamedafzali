@@ -1,0 +1,14 @@
+{
+  "terminalCommands": [
+    "$ whoami",
+    "$ grep -r 'experience' /career/ --include='*.md'",
+    "$ curl -X POST https://api.hamed.dev/contact",
+    "$ echo 'Ready for new challenges'"
+  ],
+  "fallbackCommands": [
+    "$ whoami",
+    "$ grep -r 'experience' /career/ --include='*.md'",
+    "$ curl -X POST https://api.hamed.dev/contact",
+    "$ echo 'Ready for new challenges'"
+  ]
+}

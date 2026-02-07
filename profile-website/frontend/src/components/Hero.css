@@ -1,0 +1,901 @@
+/* High-End Premium Portfolio Styles */
+
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a0a;
+  color: #ffffff;
+  overflow: visible;
+  font-family: "Fira Code", "Monaco", "Consolas", monospace;
+  z-index: 1;
+}
+
+.photo-sticker {
+  position: absolute;
+  top: 9%;
+  left: 5%;
+  opacity: 1;
+  pointer-events: auto;
+  animation: none;
+  overflow: visible;
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.1s ease-out;
+}
+
+.hero .photo-sticker.active {
+  outline-offset: 3px;
+  box-shadow: 0 0 20px #ff0000;
+}
+
+.hero .code-editor.active,
+.hero .floating-terminal.active,
+.hero .skill-visualization.active,
+.hero .hero-actions.active {
+  outline: 2px solid rgba(255, 255, 255, 0.3);
+  outline-offset: 2px;
+}
+
+.photo-sticker.dragging,
+.code-editor.dragging,
+.floating-terminal.dragging,
+.skill-visualization.dragging,
+.hero-actions.dragging {
+  cursor: grabbing;
+  transition: none;
+}
+
+.code-editor,
+.floating-terminal,
+.skill-visualization,
+.hero-actions {
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.1s ease-out;
+}
+
+.code-editor:hover,
+.floating-terminal:hover,
+.skill-visualization:hover,
+.hero-actions:hover {
+  cursor: grab;
+}
+
+.sticker-photo {
+  width: 250px;
+  border-radius: 0;
+  object-fit: cover;
+  filter: none;
+  border: 3px solid #ffffff;
+  box-shadow:
+    0 15px 30px rgba(0, 0, 0, 0.4),
+    0 5px 15px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+  position: relative;
+}
+
+.sticker-photo::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: inherit;
+  transform-origin: bottom center;
+  animation: paperFold 8s ease-in-out infinite;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes paperFold {
+  0%,
+  100% {
+    transform: rotateX(0deg) translateY(0px);
+  }
+  20% {
+    transform: rotateX(-8deg) translateY(-3px);
+  }
+  40% {
+    transform: rotateX(5deg) translateY(2px);
+  }
+  60% {
+    transform: rotateX(-12deg) translateY(-4px);
+  }
+  80% {
+    transform: rotateX(3deg) translateY(1px);
+  }
+}
+
+.photo-pin {
+  position: absolute;
+  top: calc(11% - 15px);
+  left: calc(2% + 255px);
+  perspective: 200px;
+  transform-style: preserve-3d;
+  animation: none;
+}
+
+.pin-head {
+  width: 20px;
+  height: 20px;
+  background:
+    radial-gradient(
+      circle at 30% 30%,
+      #ff6b6b 0%,
+      #ff5252 10%,
+      #e53935 30%,
+      #c62828 60%,
+      #b71c1c 90%,
+      #8b0000 100%
+    ),
+    linear-gradient(
+      135deg,
+      #ef5350 0%,
+      #f44336 25%,
+      #e53935 50%,
+      #d32f2f 75%,
+      #c62828 100%
+    );
+  background-blend-mode: multiply, normal;
+  border-radius: 50%;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.6),
+    0 2px 6px rgba(0, 0, 0, 0.4),
+    inset -2px -2px 4px rgba(0, 0, 0, 0.5),
+    inset 2px 2px 4px rgba(255, 255, 255, 0.3),
+    inset 1px 1px 2px rgba(255, 100, 100, 0.6);
+  position: relative;
+  transform: rotateX(10deg) rotateY(-5deg) rotate(25deg);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pin-head::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(
+    circle,
+    #ff9999 0%,
+    #ff6666 40%,
+    #ff4444 80%,
+    #cc0000 100%
+  );
+  border-radius: 50%;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.6),
+    0 1px 2px rgba(255, 100, 100, 0.4);
+}
+
+.pin-head::after {
+  content: "";
+  position: absolute;
+  bottom: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 18px;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  filter: blur(1px);
+}
+
+.pin-shaft {
+  position: absolute;
+  top: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 8px;
+  background: linear-gradient(180deg, #888 0%, #666 50%, #444 100%);
+  border-radius: 0 0 1px 1px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.pin-tip {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+  border-top: 3px solid #333;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.sticker-photo {
+  width: 250px;
+  border-radius: 0;
+  object-fit: cover;
+  filter: none;
+  border: 3px solid #ffffff;
+  box-shadow:
+    0 15px 30px rgba(0, 0, 0, 0.4),
+    0 5px 15px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+  position: relative;
+}
+
+.sticker-shadow {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 250px;
+  height: 250px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 0;
+  z-index: -1;
+  filter: blur(12px);
+  transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+}
+
+.photo-sticker.moved .sticker-shadow {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  width: 250px;
+  height: 250px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 0;
+  z-index: -1;
+  filter: blur(12px);
+  transform: perspective(1000px) rotateY(-5deg) rotateX(2deg);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    radial-gradient(
+      ellipse at 20% 20%,
+      rgba(0, 123, 255, 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 80% 80%,
+      rgba(0, 255, 123, 0.1) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 50% 50%,
+      rgba(255, 255, 255, 0.02) 0%,
+      transparent 70%
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridMove 30s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+@keyframes gridMove {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(50px, 50px);
+  }
+}
+
+.particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Code Editor Styles */
+.code-editor {
+  position: relative;
+  background: #1e1e1e;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.1s ease-out;
+}
+
+.code-editor.dragging,
+.floating-terminal.dragging {
+  cursor: grabbing;
+  animation: none;
+  transition: none;
+}
+
+.code-editor.moved,
+.floating-terminal.moved {
+  animation: none;
+}
+
+.photo-sticker.moved:not(.dragging):not(.active) {
+  opacity: 0.8;
+}
+
+.photo-sticker.moved.dragging,
+.photo-sticker.moved.active {
+  opacity: 1;
+}
+
+.code-editor:hover {
+  cursor: grab;
+}
+
+@keyframes editorFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(0.5deg);
+  }
+}
+
+.editor-header {
+  background: #2d2d2d;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #3e3e3e;
+}
+
+.editor-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.control {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.control.close {
+  background: #ff5f56;
+}
+.control.minimize {
+  background: #ffbd2e;
+}
+.control.maximize {
+  background: #27c93f;
+}
+
+.control:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 10px currentColor;
+}
+
+.editor-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #cccccc;
+  font-weight: 500;
+}
+
+.file-icon {
+  font-size: 16px;
+}
+
+.run-btn {
+  background: var(--primary-color, #007bff);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.run-btn:hover {
+  background: var(--secondary-color, #0056b3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px var(--primary-color, #007bff);
+}
+
+.editor-content {
+  display: flex;
+  background: #1e1e1e;
+  min-height: 400px;
+}
+
+.line-numbers {
+  background: #252526;
+  padding: 16px 12px;
+  color: #858585;
+  font-size: 14px;
+  line-height: 1.6;
+  user-select: none;
+  border-right: 1px solid #3e3e3e;
+  min-width: 40px;
+  text-align: right;
+}
+
+.code-content {
+  flex: 1;
+  padding: 16px 20px;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+.code-line {
+  display: flex;
+  align-items: center;
+  min-height: 22px;
+  white-space: pre;
+}
+
+.keyword {
+  color: #569cd6;
+}
+.variable {
+  color: #9cdcfe;
+}
+.property {
+  color: #9cdcfe;
+}
+.function {
+  color: #dcdcaa;
+}
+.string {
+  color: #ce9178;
+}
+.number {
+  color: #b5cea8;
+}
+.comment {
+  color: #6a9955;
+}
+.operator {
+  color: #d4d4d4;
+}
+.punctuation {
+  color: #d4d4d4;
+}
+
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 18px;
+  background: var(--accent-color, #00d4ff);
+  animation: blink 1s infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Floating Terminal */
+.floating-terminal {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 350px;
+  background: #1e1e1e;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: grab;
+  user-select: none;
+  transition: transform 0.1s ease-out;
+}
+
+.floating-terminal.dragging {
+  cursor: grabbing;
+  animation: none;
+  transition: none;
+}
+
+.floating-terminal:hover {
+  cursor: grab;
+}
+
+@keyframes terminalFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-15px) rotate(-1deg);
+  }
+  75% {
+    transform: translateY(5px) rotate(1deg);
+  }
+}
+
+.terminal-header {
+  background: #2d2d2d;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #3e3e3e;
+  border-radius: 8px 8px 0 0;
+}
+
+.terminal-title {
+  font-size: 12px;
+  color: #cccccc;
+  font-weight: 500;
+}
+
+.terminal-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.terminal-control {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff5f56;
+  cursor: pointer;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.terminal-content {
+  padding: 12px;
+  font-family: "Monaco", "Consolas", monospace;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.terminal-line {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.prompt {
+  color: #4ec9b0;
+  margin-right: 8px;
+  font-weight: bold;
+}
+
+.command {
+  color: #cccccc;
+}
+
+.command.typing::after {
+  content: "|";
+  animation: blink 1s infinite;
+  color: var(--accent-color, #00d4ff);
+}
+
+.terminal-output {
+  color: #858585;
+  margin-left: 20px;
+  margin-bottom: 8px;
+  font-size: 11px;
+}
+
+/* Skill Visualization */
+.skill-visualization {
+  position: absolute;
+  bottom: 40px;
+  left: 40px;
+  width: 400px;
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 12px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideInLeft 1s ease-out;
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.viz-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--primary-color, #007bff);
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.skill-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skill-item {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.skill-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.skill-name {
+  color: #cccccc;
+  font-weight: 500;
+}
+
+.skill-level {
+  color: var(--accent-color, #00d4ff);
+  font-weight: 600;
+}
+
+.skill-bar {
+  height: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.skill-progress {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 2s ease-out;
+  box-shadow: 0 0 10px var(--primary-color, #007bff);
+}
+
+/* Action Buttons */
+.hero-actions {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  display: flex;
+  gap: 16px;
+  animation: slideInRight 1s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.action-btn.primary {
+  background: var(--primary-color, #007bff);
+  color: white;
+  box-shadow: 0 4px 15px var(--primary-color, #007bff);
+}
+
+.action-btn.primary:hover {
+  background: var(--secondary-color, #0056b3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px var(--primary-color, #007bff);
+}
+
+.action-btn.secondary {
+  background: transparent;
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.action-btn.secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--primary-color, #007bff);
+  transform: translateY(-3px);
+}
+
+.btn-icon {
+  font-size: 16px;
+}
+
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  animation: fadeIn 2s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.scroll-text {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.scroll-arrow {
+  font-size: 20px;
+  color: var(--primary-color, #007bff);
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .code-editor {
+    transform: scale(0.9);
+  }
+
+  .floating-terminal {
+    width: 300px;
+    top: 10px;
+    right: 10px;
+  }
+
+  .skill-visualization {
+    width: 350px;
+    bottom: 20px;
+    left: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 20px;
+  }
+
+  .code-editor {
+    transform: scale(0.8);
+    min-width: 300px;
+  }
+
+  .floating-terminal {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .skill-visualization {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .hero-actions {
+    position: relative;
+    bottom: auto;
+    right: auto;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  .scroll-indicator {
+    display: none;
+  }
+}
+
+/* Color Transitions */
+.hero {
+  transition:
+    --primary-color 0.5s ease,
+    --secondary-color 0.5s ease,
+    --accent-color 0.5s ease;
+}
+
+/* Loading Animation */
+.hero {
+  animation: heroEntry 1s ease-out;
+}
+
+@keyframes heroEntry {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

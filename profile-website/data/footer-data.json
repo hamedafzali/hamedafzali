@@ -1,0 +1,19 @@
+{
+  "footerData": {
+    "copyright": "Profile. All rights reserved.",
+    "navigationLinks": [
+      { "name": "about", "href": "#about" },
+      { "name": "portfolio", "href": "#portfolio" },
+      { "name": "contact", "href": "#contact" }
+    ],
+    "socialLinks": [
+      { "name": "twitter", "href": "https://twitter.com", "text": "Twitter" },
+      {
+        "name": "linkedin",
+        "href": "https://linkedin.com",
+        "text": "LinkedIn"
+      },
+      { "name": "github", "href": "https://github.com", "text": "GitHub" }
+    ]
+  }
+}

@@ -1,0 +1,51 @@
+version: '3.8'
+
+services:
+  profile-website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hamed-profile-website
+    ports:
+      - "5001:5001"
+    environment:
+      - NODE_ENV=production
+      - PORT=5001
+      - MONGODB_URI=mongodb://host.docker.internal:27017/portfolio
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - profile-network
+    healthcheck:
+      test: ["CMD", "node", "healthcheck.js"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: MongoDB container (if you want to run it locally)
+  mongodb:
+    image: mongo:6.0
+    container_name: profile-mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password123
+      - MONGO_INITDB_DATABASE=portfolio
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    restart: unless-stopped
+    networks:
+      - profile-network
+    profiles:
+      - mongodb
+
+volumes:
+  mongodb_data:
+
+networks:
+  profile-network:
+    driver: bridge
