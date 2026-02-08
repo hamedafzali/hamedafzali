@@ -1,14 +1,96 @@
+console.log("=== SERVER.JS STARTING ===");
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
+const fs = require("fs");
 require("dotenv").config();
 
+console.log("Dependencies loaded");
+
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
+
+console.log("App created, PORT:", PORT);
+
+// Disable Express security headers that cause CSP issues
+app.disable("x-powered-by");
+app.set("trust proxy", 1);
+
+// Remove security headers middleware
+app.use((req, res, next) => {
+  // Remove all security headers that Express sets
+  res.removeHeader("Content-Security-Policy");
+  res.removeHeader("X-Content-Type-Options");
+  res.removeHeader("X-Frame-Options");
+  res.removeHeader("X-XSS-Protection");
+  res.removeHeader("Strict-Transport-Security");
+  res.removeHeader("Referrer-Policy");
+  res.removeHeader("Cross-Origin-Opener-Policy");
+  res.removeHeader("Cross-Origin-Resource-Policy");
+  res.removeHeader("Origin-Agent-Cluster");
+  res.removeHeader("X-DNS-Prefetch-Control");
+  res.removeHeader("X-Download-Options");
+  res.removeHeader("X-Permitted-Cross-Domain-Policies");
+
+  // Set permissive headers
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https: http: ws: wss: chrome-extension://*; script-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https: http: chrome-extension://*; style-src 'self' 'unsafe-inline' data: blob: https: http:; img-src 'self' data: blob: https: http:; font-src 'self' data: blob: https: http:; connect-src 'self' ws: wss: data: blob: https: http: chrome-extension://*; object-src 'none';",
+  );
+  res.setHeader("X-Content-Type-Options", "nosniff");
+
+  next();
+});
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Set less restrictive CSP for development
+app.use((req, res, next) => {
+  console.log("CSP middleware executing for:", req.url);
+  // Remove any existing CSP headers first
+  res.removeHeader("Content-Security-Policy");
+  res.removeHeader("content-security-policy");
+
+  // Set new CSP header
+  const cspHeader =
+    "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https: http: ws: wss: chrome-extension://*; script-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https: http: chrome-extension://*; style-src 'self' 'unsafe-inline' data: blob: https: http:; img-src 'self' data: blob: https: http:; font-src 'self' data: blob: https: http:; connect-src 'self' ws: wss: data: blob: https: http: chrome-extension://*; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';";
+  res.setHeader("Content-Security-Policy", cspHeader);
+  console.log("CSP header set to:", cspHeader.substring(0, 100) + "...");
+  next();
+});
+
+// Response interceptor to ensure CSP is set
+app.use((req, res, next) => {
+  const originalSend = res.send;
+  res.send = function (data) {
+    // Remove any CSP headers that might have been set later
+    res.removeHeader("Content-Security-Policy");
+    res.removeHeader("content-security-policy");
+
+    // Set our CSP header
+    const cspHeader =
+      "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https: http: ws: wss: chrome-extension://*; script-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https: http: chrome-extension://*; style-src 'self' 'unsafe-inline' data: blob: https: http:; img-src 'self' data: blob: https: http:; font-src 'self' data: blob: https: http:; connect-src 'self' ws: wss: data: blob: https: http: chrome-extension://*; object-src 'none';";
+    res.setHeader("Content-Security-Policy", cspHeader);
+    console.log("Response CSP header set");
+
+    originalSend.call(this, data);
+  };
+  next();
+});
+
+// Serve static files from the React app build directory
+const frontendBuildPath = (() => {
+  const localPath = path.join(__dirname, "..", "frontend", "build");
+  const dockerPath = path.join(__dirname, "frontend", "build");
+  if (fs.existsSync(localPath)) return localPath;
+  if (fs.existsSync(dockerPath)) return dockerPath;
+  return localPath;
+})();
+app.use(express.static(frontendBuildPath));
 
 // MongoDB Connection
 mongoose
@@ -347,6 +429,11 @@ app.get("/api/footer", async (req, res) => {
 // Health check endpoint
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK", timestamp: new Date().toISOString() });
+});
+
+// Serve React app for non-API routes
+app.get("*", (req, res) => {
+  res.sendFile(path.join(frontendBuildPath, "index.html"));
 });
 
 // Error handling middleware
