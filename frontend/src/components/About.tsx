@@ -96,7 +96,7 @@ const About: React.FC = () => {
             <span className="code-bracket">{"/>"}</span>
           </h2>
           <p className="about-subtitle">
-            Senior Full-Stack Engineer & Systems Architect
+            Senior Full-Stack Engineer · Systems Architect
           </p>
         </div>
 

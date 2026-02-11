@@ -31,24 +31,16 @@ const Hero: React.FC = () => {
   const roles = [
     "Senior Full-Stack Engineer",
     "Distributed Systems Architect",
-    "High-Performance Systems Expert",
-    "Enterprise Solutions Developer",
+    "Platform & Reliability Specialist",
+    "Enterprise Solutions Lead",
   ];
 
   const colorSchemes = {
-    blue: { primary: "#007bff", secondary: "#0056b3", accent: "#00d4ff" },
-    purple: { primary: "#8b5cf6", secondary: "#7c3aed", accent: "#a78bfa" },
-    green: { primary: "#10b981", secondary: "#059669", accent: "#34d399" },
-    orange: { primary: "#f97316", secondary: "#ea580c", accent: "#fb923c" },
+    blue: { primary: "#48c6b6", secondary: "#3c6df0", accent: "#8bd3ff" },
   };
 
   useEffect(() => {
-    const colorKeys: Array<keyof typeof colorSchemes> = [
-      "blue",
-      "purple",
-      "green",
-      "orange",
-    ];
+    const colorKeys: Array<keyof typeof colorSchemes> = ["blue"];
     const interval = setInterval(() => {
       setCurrentColor((prev) => {
         const currentIndex = colorKeys.indexOf(

@@ -1,12 +1,12 @@
 /* Premium Footer Styles - Dark Theme */
 
 .footer {
-  background: #0a0a0a;
+  background: var(--bg);
   padding: 40px 0 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--border);
   position: relative;
   overflow: hidden;
-  font-family: "Fira Code", "Monaco", "Consolas", monospace;
+  font-family: var(--font-mono);
 }
 
 .footer::before {
@@ -19,12 +19,12 @@
   background:
     radial-gradient(
       ellipse at 20% 20%,
-      rgba(0, 123, 255, 0.05) 0%,
+      rgba(72, 198, 182, 0.08) 0%,
       transparent 50%
     ),
     radial-gradient(
       ellipse at 80% 80%,
-      rgba(0, 255, 123, 0.04) 0%,
+      rgba(60, 109, 240, 0.07) 0%,
       transparent 50%
     );
   pointer-events: none;

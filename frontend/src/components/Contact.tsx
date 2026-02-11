@@ -124,7 +124,7 @@ const Contact: React.FC = () => {
             <span className="code-bracket">{"/>"}</span>
           </h2>
           <p className="contact-subtitle">
-            Let's build something amazing together
+            Let's build something durable and scalable
           </p>
         </div>
 

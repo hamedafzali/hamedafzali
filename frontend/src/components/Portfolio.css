@@ -2,10 +2,10 @@
 
 .portfolio {
   min-height: 100vh;
-  background: #0a0a0a;
-  color: #ffffff;
+  background: var(--bg);
+  color: var(--text);
   padding: 80px 0;
-  font-family: "Fira Code", "Monaco", "Consolas", monospace;
+  font-family: var(--font-mono);
   position: relative;
   overflow: hidden;
 }
@@ -20,12 +20,12 @@
   background:
     radial-gradient(
       ellipse at 20% 20%,
-      rgba(0, 123, 255, 0.08) 0%,
+      rgba(72, 198, 182, 0.12) 0%,
       transparent 50%
     ),
     radial-gradient(
       ellipse at 80% 80%,
-      rgba(0, 255, 123, 0.06) 0%,
+      rgba(60, 109, 240, 0.1) 0%,
       transparent 50%
     );
   pointer-events: none;

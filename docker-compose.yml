@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   profile-website:
     build:
@@ -11,7 +9,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=5001
-      - MONGODB_URI=mongodb://host.docker.internal:27017/portfolio
+      - MONGODB_URI=mongodb://mongodb:27017/portfolio
     restart: unless-stopped
     volumes:
       - ./logs:/app/logs

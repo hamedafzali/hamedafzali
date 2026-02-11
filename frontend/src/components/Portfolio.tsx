@@ -37,7 +37,7 @@ const Portfolio: React.FC = () => {
             <span className="code-tag">projects</span>
             <span className="code-bracket">{"/>"}</span>
           </h2>
-          <p className="portfolio-subtitle">Enterprise & FinTech Projects</p>
+          <p className="portfolio-subtitle">Enterprise, Cloud & FinTech</p>
 
           <div className="filter-tabs">
             {categories.map((category) => (
@@ -104,8 +104,8 @@ const Portfolio: React.FC = () => {
                   </a>
                   {project.github && (
                     <a href={project.github} className="project-link secondary">
-                      <span className="link-icon">�</span>
-                      <span>GitHub</span>
+                      <span className="link-icon">GH</span>
+                      <span>Repository</span>
                     </a>
                   )}
                 </div>
