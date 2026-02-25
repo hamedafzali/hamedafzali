@@ -9,7 +9,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=5001
-      - MONGODB_URI=mongodb://mongodb:27017/portfolio
+      - MONGODB_URI=mongodb://admin:password123@mongodb:27017/portfolio?authSource=admin
     restart: unless-stopped
     volumes:
       - ./logs:/app/logs
@@ -38,8 +38,6 @@ services:
     restart: unless-stopped
     networks:
       - profile-network
-    profiles:
-      - mongodb
 
 volumes:
   mongodb_data:
