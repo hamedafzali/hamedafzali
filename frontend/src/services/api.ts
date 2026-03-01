@@ -1,5 +1,7 @@
 // API Service - Centralized API calls for the application
-const API_BASE_URL = "/api";
+// Default to same-origin API so Docker/remote deployments work.
+const API_BASE_URL =
+  process.env.REACT_APP_API_BASE_URL?.replace(/\/$/, "") || "/api";
 
 // Types for API responses
 export interface Project {
