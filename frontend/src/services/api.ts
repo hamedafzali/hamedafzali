@@ -1,5 +1,5 @@
 // API Service - Centralized API calls for the application
-const API_BASE_URL = "http://localhost:5001/api";
+const API_BASE_URL = "/api";
 
 // Types for API responses
 export interface Project {
