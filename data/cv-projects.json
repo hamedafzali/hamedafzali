@@ -7,8 +7,15 @@
       "image": "/core-banking-modernization.jpg",
       "link": "#",
       "featured": true,
-      "technologies": [".NET 8", "C#", "SQLite", "Azure DevOps", "Docker", "System Modernization"],
-      "status": "Active",
+      "technologies": [
+        ".NET 8",
+        "C#",
+        "SQLite",
+        "Azure DevOps",
+        "Docker",
+        "System Modernization"
+      ],
+      "status": "Completed",
       "duration": "2022 - Present"
     },
     {
@@ -18,8 +25,14 @@
       "image": "/printer-integration.jpg",
       "link": "#",
       "featured": true,
-      "technologies": ["Named Pipes", "Socket Programming", "C++", ".NET", "IPC"],
-      "status": "Active",
+      "technologies": [
+        "Named Pipes",
+        "Socket Programming",
+        "C++",
+        ".NET",
+        "IPC"
+      ],
+      "status": "Completed",
       "duration": "2022 - Present"
     },
     {
@@ -29,7 +42,13 @@
       "image": "/analytics-dashboard.jpg",
       "link": "#",
       "featured": true,
-      "technologies": ["React.js", "Node.js", "SQL Server", "ETL", "Regulatory Reporting"],
+      "technologies": [
+        "React.js",
+        "Node.js",
+        "SQL Server",
+        "ETL",
+        "Regulatory Reporting"
+      ],
       "status": "Completed",
       "duration": "2018 - 2022"
     },
@@ -40,7 +59,13 @@
       "image": "/shetab-banking.jpg",
       "link": "#",
       "featured": true,
-      "technologies": ["IBM MQ", "SQL Server", ".NET", "Distributed Systems", "High Throughput"],
+      "technologies": [
+        "IBM MQ",
+        "SQL Server",
+        ".NET",
+        "Distributed Systems",
+        "High Throughput"
+      ],
       "status": "Completed",
       "duration": "2009 - 2018"
     },
@@ -51,7 +76,12 @@
       "image": "/chakavak-system.jpg",
       "link": "#",
       "featured": true,
-      "technologies": ["IBM MQ", "Distributed Messaging", "Fault Tolerance", "Asynchronous Processing"],
+      "technologies": [
+        "IBM MQ",
+        "Distributed Messaging",
+        "Fault Tolerance",
+        "Asynchronous Processing"
+      ],
       "status": "Completed",
       "duration": "2009 - 2018"
     },
@@ -61,8 +91,14 @@
       "category": "Enterprise Modernization",
       "image": "/core-banking-modernization.jpg",
       "link": "#",
-      "featured": false,
-      "technologies": [".NET", "SQL Server", "NHibernate", "UML", "Audit Trails"],
+      "featured": true,
+      "technologies": [
+        ".NET",
+        "SQL Server",
+        "NHibernate",
+        "UML",
+        "Audit Trails"
+      ],
       "status": "Completed",
       "duration": "2009 - 2018"
     },
@@ -84,7 +120,13 @@
       "image": "/budget-reporting.jpg",
       "link": "#",
       "featured": false,
-      "technologies": ["Docker", "ReactJS", "Node.js", "SQL Server", "Containerization"],
+      "technologies": [
+        "Docker",
+        "ReactJS",
+        "Node.js",
+        "SQL Server",
+        "Containerization"
+      ],
       "status": "Completed",
       "duration": "2018 - 2022"
     },
@@ -106,7 +148,12 @@
       "image": "/reporting-mobile.jpg",
       "link": "#",
       "featured": false,
-      "technologies": ["React Native", "Node.js", "Data Visualization", "Mobile Development"],
+      "technologies": [
+        "React Native",
+        "Node.js",
+        "Data Visualization",
+        "Mobile Development"
+      ],
       "status": "Completed",
       "duration": "2018 - 2022"
     }

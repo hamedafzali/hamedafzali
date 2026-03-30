@@ -6,6 +6,7 @@ const Portfolio: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
   const [filter, setFilter] = useState("all");
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -63,16 +64,15 @@ const Portfolio: React.FC = () => {
                 onMouseEnter={() => setHoveredProject(projectId)}
                 onMouseLeave={() => setHoveredProject(null)}
               >
-                {project.featured && (
-                  <div className="featured-badge">
-                    <span className="featured-icon">⭐</span>
-                    <span className="featured-text">Featured</span>
-                  </div>
-                )}
-
                 <div className="project-header">
                   <h3 className="project-title">{project.title}</h3>
                   <div className="project-meta">
+                    {project.featured && (
+                      <span className="featured-badge">
+                        <span className="featured-icon">⭐</span>
+                        <span>Featured</span>
+                      </span>
+                    )}
                     <span
                       className={`status-badge ${project.status ? project.status.toLowerCase() : "active"}`}
                     >
@@ -95,13 +95,14 @@ const Portfolio: React.FC = () => {
                 </div>
 
                 <div className="project-actions">
-                  <a
-                    href={project.link || "#"}
-                    className="project-link primary"
+                  <button
+                    type="button"
+                    className="project-link primary project-link-button"
+                    onClick={() => setSelectedProject(project)}
                   >
-                    <span className="link-icon">🔗</span>
-                    <span>View Project</span>
-                  </a>
+                    <span className="link-icon">i</span>
+                    <span>Project Details</span>
+                  </button>
                   {project.github && (
                     <a href={project.github} className="project-link secondary">
                       <span className="link-icon">GH</span>
@@ -115,6 +116,90 @@ const Portfolio: React.FC = () => {
             );
           })}
         </div>
+
+        {selectedProject && (
+          <div
+            className="project-modal-overlay"
+            onClick={() => setSelectedProject(null)}
+          >
+            <div
+              className="project-modal"
+              onClick={(event) => event.stopPropagation()}
+            >
+              <div className="project-modal-header">
+                <div>
+                  <h3 className="project-modal-title">{selectedProject.title}</h3>
+                  <div className="project-meta">
+                    {selectedProject.featured && (
+                      <span className="featured-badge">
+                        <span className="featured-icon">⭐</span>
+                        <span>Featured</span>
+                      </span>
+                    )}
+                    <span
+                      className={`status-badge ${selectedProject.status ? selectedProject.status.toLowerCase() : "active"}`}
+                    >
+                      {selectedProject.status || "Active"}
+                    </span>
+                    <span className="duration">
+                      {selectedProject.duration || "Ongoing"}
+                    </span>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="project-modal-close"
+                  onClick={() => setSelectedProject(null)}
+                  aria-label="Close project details"
+                >
+                  ×
+                </button>
+              </div>
+
+              <p className="project-modal-description">
+                {selectedProject.description}
+              </p>
+
+              <div className="project-modal-section">
+                <span className="project-modal-label">Category</span>
+                <span className="project-modal-value">
+                  {selectedProject.category}
+                </span>
+              </div>
+
+              <div className="project-modal-section">
+                <span className="project-modal-label">Technologies</span>
+                <div className="technologies">
+                  {(selectedProject.technologies || []).map((tech, techIndex) => (
+                    <span key={techIndex} className="tech-tag">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="project-actions project-modal-actions">
+                {selectedProject.github && (
+                  <a
+                    href={selectedProject.github}
+                    className="project-link secondary"
+                  >
+                    <span className="link-icon">GH</span>
+                    <span>Repository</span>
+                  </a>
+                )}
+                {selectedProject.link &&
+                  selectedProject.link.trim() !== "" &&
+                  selectedProject.link.trim() !== "#" && (
+                    <a href={selectedProject.link} className="project-link primary">
+                      <span className="link-icon">↗</span>
+                      <span>Open Project</span>
+                    </a>
+                  )}
+              </div>
+            </div>
+          </div>
+        )}
 
         {filteredProjects.length === 0 && (
           <div className="no-projects">

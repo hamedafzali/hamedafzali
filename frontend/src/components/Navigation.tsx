@@ -78,22 +78,6 @@ const Navigation: React.FC = () => {
               ))}
             </div>
 
-            <div className="social-links">
-              {socialLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="social-link"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={link.name}
-                >
-                  <span className="social-icon">
-                    {link.text.slice(0, 2).toUpperCase()}
-                  </span>
-                </a>
-              ))}
-            </div>
           </div>
 
           <button
