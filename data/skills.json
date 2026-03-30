@@ -1,40 +1,64 @@
 {
   "skills": [
     {
-      "name": ".NET & C#",
-      "level": 95,
+      "name": ".NET Architecture",
+      "level": 96,
       "category": "backend",
-      "description": "Expert in .NET Framework, .NET Core, and C# programming with 15+ years of enterprise experience"
+      "description": "Deep experience across .NET Framework and .NET 8 for large regulated systems, modernization work, and long-lived enterprise platforms."
     },
     {
       "name": "Distributed Systems",
-      "level": 90,
+      "level": 93,
       "category": "architecture",
-      "description": "Experience with microservices, message queues, IBM MQ, and distributed computing patterns"
+      "description": "Strong background in high-availability systems, national transaction networks, distributed messaging, and fault-tolerant service design."
     },
     {
       "name": "React & TypeScript",
-      "level": 85,
-      "category": "frontend",
-      "description": "Modern React development with TypeScript, hooks, and ecosystem management"
-    },
-    {
-      "name": "Cloud Architecture",
       "level": 88,
-      "category": "cloud",
-      "description": "AWS, Azure, Docker, Kubernetes, and cloud-native architecture patterns"
+      "category": "frontend",
+      "description": "Built modular SaaS interfaces, reporting dashboards, and maintainable frontends with React, TypeScript, and modern web tooling."
     },
     {
-      "name": "Database Design",
-      "level": 92,
+      "name": "Azure DevOps & CI/CD",
+      "level": 90,
+      "category": "cloud",
+      "description": "Owns pipelines, release workflows, build automation, and containerized delivery across environments using Azure DevOps and Docker."
+    },
+    {
+      "name": "Cloud Operations",
+      "level": 87,
+      "category": "cloud",
+      "description": "Hands-on work with AWS CloudWatch, Docker-based operations, self-hosted SaaS deployments, and production infrastructure support."
+    },
+    {
+      "name": "SQL Server & Data Engineering",
+      "level": 94,
       "category": "database",
-      "description": "SQL Server, MongoDB, PostgreSQL, data modeling, and performance optimization"
+      "description": "Designed banking-grade schemas, ETL pipelines, stored procedures, indexing strategies, and high-concurrency persistence layers."
     },
     {
       "name": "System Integration",
-      "level": 87,
+      "level": 91,
       "category": "integration",
-      "description": "API design, RESTful services, system integration, and enterprise connectivity"
+      "description": "Strong in hardware integration, IPC, Named Pipes, socket communication, and external system connectivity for critical workflows."
+    },
+    {
+      "name": "Security & Authorization",
+      "level": 86,
+      "category": "security",
+      "description": "Architected OAuth2, JWT, and fine-grained authorization models with Authzed for secure API and application design."
+    },
+    {
+      "name": "Team Leadership",
+      "level": 89,
+      "category": "leadership",
+      "description": "Led cross-functional teams, mentored developers, aligned technical debt with product goals, and managed delivery in SAFe Agile environments."
+    },
+    {
+      "name": "Quality Engineering",
+      "level": 84,
+      "category": "quality",
+      "description": "Improved reliability with unit, integration, and Cypress test suites, observability, incident support, and disciplined delivery processes."
     }
   ]
 }

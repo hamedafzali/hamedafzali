@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import "./Contact.css";
-import ApiService from "../services/api";
+import ApiService, { ProfileData } from "../services/api";
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +11,7 @@ const Contact: React.FC = () => {
   const [terminalText, setTerminalText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [terminalCommands, setTerminalCommands] = useState<string[]>([]);
+  const [profile, setProfile] = useState<ProfileData | null>(null);
 
   // Fetch terminal commands from backend
   useEffect(() => {
@@ -26,6 +27,20 @@ const Contact: React.FC = () => {
     };
 
     fetchTerminalCommands();
+  }, []);
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const profileData = await ApiService.getProfile();
+        setProfile(profileData);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        setProfile(null);
+      }
+    };
+
+    fetchProfile();
   }, []);
 
   useEffect(() => {
@@ -83,36 +98,17 @@ const Contact: React.FC = () => {
     }
   };
 
-  const contactMethods = [
-    {
-      icon: "📧",
-      label: "Email",
-      value: "afzali.hamed@gmail.com",
-      href: "mailto:afzali.hamed@gmail.com",
-      command: "mail afzali.hamed@gmail.com",
-    },
-    {
-      icon: "📱",
-      label: "Phone",
-      value: "+49 (0) 176 3146 1176",
-      href: "tel:+4917631461176",
-      command: "call +4917631461176",
-    },
-    {
-      icon: "💼",
-      label: "LinkedIn",
-      value: "linkedin.com/in/hamed-afzali",
-      href: "https://linkedin.com/in/hamed-afzali",
-      command: "open https://linkedin.com/in/hamed-afzali",
-    },
-    {
-      icon: "📍",
-      label: "Location",
-      value: "Tübingen, Germany",
-      href: "#",
-      command: "map Tübingen, Germany",
-    },
-  ];
+  const contactMethods = (profile?.contactMethods || []).map((method) => ({
+    ...method,
+    icon:
+      method.label === "Email"
+        ? "📧"
+        : method.label === "Phone"
+          ? "📱"
+          : method.label === "LinkedIn"
+            ? "💼"
+            : "📍",
+  }));
 
   return (
     <section id="contact" className="contact">
@@ -124,7 +120,7 @@ const Contact: React.FC = () => {
             <span className="code-bracket">{"/>"}</span>
           </h2>
           <p className="contact-subtitle">
-            Let's build something durable and scalable
+            {profile?.summary || ""}
           </p>
         </div>
 
@@ -147,11 +143,13 @@ const Contact: React.FC = () => {
                 </div>
                 <div className="terminal-output-contact">
                   <div className="output-line">
-                    Hamed Afzali - Senior Full-Stack Engineer
+                    {profile ? `${profile.name} - ${profile.headline}` : ""}
                   </div>
-                  <div className="output-line">Location: Tübingen, Germany</div>
                   <div className="output-line">
-                    Status: Available for opportunities
+                    Location: {profile?.location || ""}
+                  </div>
+                  <div className="output-line">
+                    Status: {profile?.availabilityStatus || ""}
                   </div>
                 </div>
               </div>
@@ -272,7 +270,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div className="status-content">
                   <p className="status-message">
-                    Open to new opportunities and collaborations
+                    {profile?.availabilityStatus || ""}
                   </p>
                   <div className="response-time">
                     <span className="response-label">

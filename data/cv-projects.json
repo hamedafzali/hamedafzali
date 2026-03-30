@@ -1,26 +1,37 @@
 {
   "projects": [
     {
-      "title": "Core Banking System Modernization",
-      "description": "Spearheaded the transition of mission-critical software from .NET Framework to .NET 8, resolving complex legacy constraints and ensuring long-term system stability.",
-      "category": "Enterprise Modernization",
+      "title": "GMG SaaS Modernization",
+      "description": "Spearheaded modernization of mission-critical software from .NET Framework to .NET 8, including SQL CE to SQLite migration and long-term platform stabilization.",
+      "category": "Cloud Operations & Software Engineering",
       "image": "/core-banking-modernization.jpg",
       "link": "#",
       "featured": true,
-      "technologies": [".NET 8", "C#", "SQL CE to SQLite", "System Architecture", "Legacy Migration"],
-      "status": "Completed",
-      "duration": "6 months"
+      "technologies": [".NET 8", "C#", "SQLite", "Azure DevOps", "Docker", "System Modernization"],
+      "status": "Active",
+      "duration": "2022 - Present"
     },
     {
-      "title": "Hardware-Software Printer Integration",
-      "description": "Engineered high-reliability interprocess communication (IPC) using Named Pipes and socket-based networking for complex hardware-software printer integrations.",
+      "title": "Printer IPC Integration Platform",
+      "description": "Engineered high-reliability interprocess communication using Named Pipes and sockets for complex hardware-software printer integrations.",
       "category": "Systems Integration",
       "image": "/printer-integration.jpg",
       "link": "#",
       "featured": true,
-      "technologies": ["Named Pipes", "Socket Programming", "C++", "Hardware Integration", "IPC"],
+      "technologies": ["Named Pipes", "Socket Programming", "C++", ".NET", "IPC"],
+      "status": "Active",
+      "duration": "2022 - Present"
+    },
+    {
+      "title": "Enterprise Analytics and Reporting Platform",
+      "description": "Architected and delivered a React.js and Node.js reporting platform consolidating transaction data across 400+ branches for executive and regulatory reporting.",
+      "category": "FinTech & Distributed Infrastructure",
+      "image": "/analytics-dashboard.jpg",
+      "link": "#",
+      "featured": true,
+      "technologies": ["React.js", "Node.js", "SQL Server", "ETL", "Regulatory Reporting"],
       "status": "Completed",
-      "duration": "4 months"
+      "duration": "2018 - 2022"
     },
     {
       "title": "SHETAB Banking Reporting System",
@@ -29,53 +40,64 @@
       "image": "/shetab-banking.jpg",
       "link": "#",
       "featured": true,
-      "technologies": ["IBM MQ", "SQL Server", ".NET", "Distributed Systems", "High-Throughput"],
+      "technologies": ["IBM MQ", "SQL Server", ".NET", "Distributed Systems", "High Throughput"],
       "status": "Completed",
-      "duration": "8 months"
+      "duration": "2009 - 2018"
     },
     {
-      "title": "Chakavak National Cheque Clearing System",
+      "title": "Chakavak Cheque Clearing Backbone",
       "description": "Architected an IBM MQ-based messaging backbone for the national cheque clearing system, ensuring fault-tolerant, asynchronous processing across distributed nodes.",
       "category": "FinTech & Distributed Infrastructure",
       "image": "/chakavak-system.jpg",
       "link": "#",
-      "featured": false,
-      "technologies": ["IBM MQ", "Distributed Messaging", "Fault Tolerance", "Asynchronous Processing", "Banking Systems"],
+      "featured": true,
+      "technologies": ["IBM MQ", "Distributed Messaging", "Fault Tolerance", "Asynchronous Processing"],
       "status": "Completed",
-      "duration": "6 months"
+      "duration": "2009 - 2018"
     },
     {
-      "title": "Amitis Hamta Payment Panel",
-      "description": "Designed a secure, responsive payment dashboard and website using ReactJS, Node.js, and MongoDB for financial transaction management.",
-      "category": "Web & Cloud Platforms",
-      "image": "/payment-panel.jpg",
+      "title": "Core Banking Platform and Audit Trails",
+      "description": "Engineered a full-scope banking platform spanning accounting, treasury, HR, branch operations, and supervisor workflows with multi-level audit trails.",
+      "category": "Enterprise Modernization",
+      "image": "/core-banking-modernization.jpg",
       "link": "#",
       "featured": false,
-      "technologies": ["ReactJS", "Node.js", "MongoDB", "Payment Systems", "Dashboard Design"],
+      "technologies": [".NET", "SQL Server", "NHibernate", "UML", "Audit Trails"],
       "status": "Completed",
-      "duration": "3 months"
+      "duration": "2009 - 2018"
     },
     {
       "title": "POS Management Application",
-      "description": "Built a terminal management suite using VB.NET Core and WPF focused on hardware-software integration for payment terminals.",
-      "category": "Enterprise & Mobile Solutions",
+      "description": "Built a terminal management suite focused on hardware-software integration for payment terminals and low-level communication workflows.",
+      "category": "Systems Integration",
       "image": "/pos-management.jpg",
       "link": "#",
       "featured": false,
-      "technologies": ["VB.NET Core", "WPF", "POS Systems", "Hardware Integration", "Payment Terminals"],
+      "technologies": ["VB.NET", "WPF", "POS Systems", "Hardware Integration"],
       "status": "Completed",
-      "duration": "5 months"
+      "duration": "2009 - 2018"
     },
     {
-      "title": "Budget & Reporting Web Apps",
-      "description": "Orchestrated containerized reporting tools using Docker, ReactJS, Node.js, and SQL Server for enterprise financial reporting.",
+      "title": "Budget and Reporting Web Apps",
+      "description": "Orchestrated containerized reporting tools using Docker, ReactJS, Node.js, and SQL Server for enterprise financial reporting use cases.",
       "category": "Web & Cloud Platforms",
       "image": "/budget-reporting.jpg",
       "link": "#",
       "featured": false,
-      "technologies": ["Docker", "ReactJS", "Node.js", "SQL Server", "Containerization", "Financial Reporting"],
+      "technologies": ["Docker", "ReactJS", "Node.js", "SQL Server", "Containerization"],
       "status": "Completed",
-      "duration": "4 months"
+      "duration": "2018 - 2022"
+    },
+    {
+      "title": "Amitis Hamta Payment Panel",
+      "description": "Designed a secure payment dashboard and website using ReactJS, Node.js, and MongoDB for financial transaction management.",
+      "category": "Web & Cloud Platforms",
+      "image": "/payment-panel.jpg",
+      "link": "#",
+      "featured": false,
+      "technologies": ["ReactJS", "Node.js", "MongoDB", "Payment Systems"],
+      "status": "Completed",
+      "duration": "2019 - 2022"
     },
     {
       "title": "Reporting Mobile App",
@@ -84,9 +106,9 @@
       "image": "/reporting-mobile.jpg",
       "link": "#",
       "featured": false,
-      "technologies": ["React Native", "Node.js", "Data Visualization", "Cross-Platform", "Mobile Development"],
+      "technologies": ["React Native", "Node.js", "Data Visualization", "Mobile Development"],
       "status": "Completed",
-      "duration": "3 months"
+      "duration": "2018 - 2022"
     }
   ]
 }

@@ -5,17 +5,9 @@ import ApiService from "../services/api";
 const Footer: React.FC = () => {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [footerData, setFooterData] = useState({
-    copyright: "Profile. All rights reserved.",
-    navigationLinks: [
-      { name: "about", href: "#about" },
-      { name: "portfolio", href: "#portfolio" },
-      { name: "contact", href: "#contact" },
-    ],
-    socialLinks: [
-      { name: "twitter", href: "https://twitter.com", text: "Twitter" },
-      { name: "linkedin", href: "https://linkedin.com", text: "LinkedIn" },
-      { name: "github", href: "https://github.com", text: "GitHub" },
-    ],
+    copyright: "",
+    navigationLinks: [] as { name: string; href: string }[],
+    socialLinks: [] as { name: string; href: string; text: string }[],
   });
 
   // Fetch footer data from backend
@@ -26,7 +18,11 @@ const Footer: React.FC = () => {
         setFooterData(data);
       } catch (error) {
         console.error("Error fetching footer data:", error);
-        // Keep using default data on error
+        setFooterData({
+          copyright: "",
+          navigationLinks: [],
+          socialLinks: [],
+        });
       }
     };
 

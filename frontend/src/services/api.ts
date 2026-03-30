@@ -33,6 +33,29 @@ export interface CodeDisplay {
   codeLines: string[];
 }
 
+export interface ProfileData {
+  _id?: string;
+  name: string;
+  brand: string;
+  headline: string;
+  summary: string;
+  location: string;
+  availabilityStatus: string;
+  yearsExperience: string;
+  roles: string[];
+  specializations: string[];
+  contactMethods: {
+    label: string;
+    value: string;
+    href: string;
+    command: string;
+  }[];
+  careerHighlights: {
+    title: string;
+    description: string;
+  }[];
+}
+
 // API Service Class
 class ApiService {
   // Projects API
@@ -189,6 +212,19 @@ class ApiService {
       return response.json();
     } catch (error) {
       console.error("Error fetching footer:", error);
+      throw error;
+    }
+  }
+
+  static async getProfile(): Promise<ProfileData> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/profile`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    } catch (error) {
+      console.error("Error fetching profile:", error);
       throw error;
     }
   }

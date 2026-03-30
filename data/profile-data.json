@@ -1,0 +1,64 @@
+{
+  "profile": {
+    "name": "Hamed Afzali",
+    "brand": "hamed.dev",
+    "siteUrl": "https://hamed.dev",
+    "image": "https://hamed.dev/hamedafzali.png",
+    "headline": "Technical Team Lead | Cloud Operations & Software Engineering",
+    "summary": "Technical Team Lead and Software Engineer with 15+ years of experience leading cross-functional teams and architecting high-availability, mission-critical systems in regulated banking and fintech environments.",
+    "location": "Tuebingen, Germany",
+    "availabilityStatus": "Available for senior engineering, architecture, and technical leadership opportunities",
+    "yearsExperience": "15+",
+    "roles": [
+      "Technical Team Lead",
+      "Cloud Operations Engineer",
+      "Senior Full-Stack Developer",
+      "Distributed Systems Architect"
+    ],
+    "specializations": [
+      "Distributed Systems",
+      "Cloud Operations",
+      "Platform Modernization"
+    ],
+    "contactMethods": [
+      {
+        "label": "Email",
+        "value": "afzali.hamed@gmail.com",
+        "href": "mailto:afzali.hamed@gmail.com",
+        "command": "mail afzali.hamed@gmail.com"
+      },
+      {
+        "label": "Phone",
+        "value": "+49 (0) 176 3146 1176",
+        "href": "tel:+4917631461176",
+        "command": "call +4917631461176"
+      },
+      {
+        "label": "LinkedIn",
+        "value": "linkedin.com/in/hamed-afzali",
+        "href": "https://linkedin.com/in/hamed-afzali",
+        "command": "open https://linkedin.com/in/hamed-afzali"
+      },
+      {
+        "label": "Location",
+        "value": "Tuebingen, Germany",
+        "href": "#contact",
+        "command": "map Tuebingen, Germany"
+      }
+    ],
+    "careerHighlights": [
+      {
+        "title": "15+ Years Experience",
+        "description": "Leading enterprise software engineering, cloud operations, and modernization efforts in regulated environments."
+      },
+      {
+        "title": "400+ Branch Scale",
+        "description": "Delivered reporting, ETL, and support workflows used across large banking operations and regulatory reporting lines."
+      },
+      {
+        "title": "Team Leadership",
+        "description": "Managed cross-functional engineering teams, mentoring developers and aligning technical execution with business goals."
+      }
+    ]
+  }
+}

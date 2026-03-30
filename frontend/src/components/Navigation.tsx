@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import "./Navigation.css";
+import ApiService, { ProfileData } from "../services/api";
 
 const Navigation: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [navItems, setNavItems] = useState<
+    { name: string; href: string; icon: string }[]
+  >([]);
+  const [socialLinks, setSocialLinks] = useState<
+    { name: string; href: string; text: string }[]
+  >([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,21 +22,36 @@ const Navigation: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navItems = [
-    { name: "about", href: "#about", icon: "👤" },
-    { name: "portfolio", href: "#portfolio", icon: "💼" },
-    { name: "contact", href: "#contact", icon: "📧" },
-  ];
+  useEffect(() => {
+    const fetchFooterData = async () => {
+      try {
+        const [data, profileData] = await Promise.all([
+          ApiService.getFooter(),
+          ApiService.getProfile(),
+        ]);
+        setNavItems(
+          data.navigationLinks.map((link) => ({
+            ...link,
+            icon:
+              link.name === "about"
+                ? "👤"
+                : link.name === "portfolio"
+                  ? "💼"
+                  : "📧",
+          })),
+        );
+        setSocialLinks(data.socialLinks);
+        setProfile(profileData);
+      } catch (error) {
+        console.error("Error fetching navigation data:", error);
+        setNavItems([]);
+        setSocialLinks([]);
+        setProfile(null);
+      }
+    };
 
-  const socialLinks = [
-    { name: "github", href: "https://github.com", icon: "🐙" },
-    {
-      name: "linkedin",
-      href: "https://linkedin.com/in/hamed-afzali",
-      icon: "💼",
-    },
-    { name: "email", href: "mailto:afzali.hamed@gmail.com", icon: "✉️" },
-  ];
+    fetchFooterData();
+  }, []);
 
   return (
     <nav className={`navigation ${isScrolled ? "scrolled" : ""}`}>
@@ -36,7 +59,7 @@ const Navigation: React.FC = () => {
         <div className="nav-header">
           <div className="nav-brand">
             <span className="brand-icon">{"< />"}</span>
-            <span className="brand-text">hamed.dev</span>
+            <span className="brand-text">{profile?.brand || ""}</span>
           </div>
 
           <div className={`nav-menu ${isMobileMenuOpen ? "open" : ""}`}>
@@ -65,7 +88,9 @@ const Navigation: React.FC = () => {
                   rel="noopener noreferrer"
                   aria-label={link.name}
                 >
-                  <span className="social-icon">{link.icon}</span>
+                  <span className="social-icon">
+                    {link.text.slice(0, 2).toUpperCase()}
+                  </span>
                 </a>
               ))}
             </div>

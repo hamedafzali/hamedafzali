@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./Hero.css";
+import ApiService, { ProfileData, Skill } from "../services/api";
 
 const Hero: React.FC = () => {
   const [currentColor, setCurrentColor] = useState("blue");
   const [typedText, setTypedText] = useState("");
   const [currentSection, setCurrentSection] = useState(0);
+  const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [skills, setSkills] = useState<Skill[]>([]);
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const [draggingItem, setDraggingItem] = useState<string | null>(null);
   const [positions, setPositions] = useState<{
@@ -27,13 +30,7 @@ const Hero: React.FC = () => {
   });
   const photoRef = useRef<HTMLDivElement>(null);
 
-  const fullName = "Hamed Afzali";
-  const roles = [
-    "Senior Full-Stack Engineer",
-    "Distributed Systems Architect",
-    "Platform & Reliability Specialist",
-    "Enterprise Solutions Lead",
-  ];
+  const roles = profile?.roles || [];
 
   const colorSchemes = {
     blue: { primary: "#48c6b6", secondary: "#3c6df0", accent: "#8bd3ff" },
@@ -54,6 +51,30 @@ const Hero: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const [profileData, skillsData] = await Promise.all([
+          ApiService.getProfile(),
+          ApiService.getSkills(),
+        ]);
+        setProfile(profileData);
+        setSkills(skillsData);
+      } catch (error) {
+        console.error("Error fetching hero data:", error);
+        setProfile(null);
+        setSkills([]);
+      }
+    };
+
+    fetchProfileData();
+  }, []);
+
+  useEffect(() => {
+    if (roles.length === 0) {
+      setTypedText("");
+      return;
+    }
+
     let charIndex = 0;
     const currentRole = roles[currentSection];
 
@@ -71,7 +92,7 @@ const Hero: React.FC = () => {
     }, 100);
 
     return () => clearInterval(typeInterval);
-  }, [currentSection]);
+  }, [currentSection, roles]);
 
   const getZIndex = (itemId: string) => {
     return elementZIndices[itemId] || 1;
@@ -178,6 +199,8 @@ const Hero: React.FC = () => {
 
   const scheme = colorSchemes[currentColor as keyof typeof colorSchemes];
 
+  const topSkills = skills.slice(0, 5);
+
   return (
     <section
       className="hero"
@@ -209,7 +232,7 @@ const Hero: React.FC = () => {
           </div>
           <div className="editor-title">
             <span className="file-icon">👨‍💻</span>
-            <span>hamed-afzali.portfolio</span>
+            <span>{profile?.brand ? `${profile.brand}.portfolio` : ""}</span>
           </div>
           <div className="editor-actions">
             <button className="run-btn">▶ Run</button>
@@ -234,7 +257,7 @@ const Hero: React.FC = () => {
             <div className="code-line">
               <span className="property"> name</span>
               <span className="operator">:</span>
-              <span className="string"> '{fullName}'</span>
+              <span className="string"> '{profile?.name || ""}'</span>
               <span className="punctuation">,</span>
             </div>
 
@@ -248,7 +271,7 @@ const Hero: React.FC = () => {
             <div className="code-line">
               <span className="property"> experience</span>
               <span className="operator">:</span>
-              <span className="number"> 15+</span>
+              <span className="number"> {profile?.yearsExperience || ""}</span>
               <span className="punctuation">,</span>
             </div>
 
@@ -258,19 +281,14 @@ const Hero: React.FC = () => {
               <span className="punctuation">[</span>
             </div>
 
-            <div className="code-line">
-              <span className="string"> 'Distributed Systems'</span>
-              <span className="punctuation">,</span>
-            </div>
-
-            <div className="code-line">
-              <span className="string"> 'High-Performance Architecture'</span>
-              <span className="punctuation">,</span>
-            </div>
-
-            <div className="code-line">
-              <span className="string"> 'Enterprise Solutions'</span>
-            </div>
+            {(profile?.specializations || []).map((specialization, index) => (
+              <div className="code-line" key={specialization}>
+                <span className="string"> '{specialization}'</span>
+                {index < (profile?.specializations.length || 0) - 1 && (
+                  <span className="punctuation">,</span>
+                )}
+              </div>
+            ))}
 
             <div className="code-line">
               <span className="punctuation"> ]</span>
@@ -279,13 +297,13 @@ const Hero: React.FC = () => {
             <div className="code-line">
               <span className="property"> location</span>
               <span className="operator">:</span>
-              <span className="string"> 'Tübingen, Germany'</span>
+              <span className="string"> '{profile?.location || ""}'</span>
             </div>
 
             <div className="code-line">
               <span className="property"> status</span>
               <span className="operator">:</span>
-              <span className="string"> 'Available for opportunities'</span>
+              <span className="string"> '{profile?.availabilityStatus || ""}'</span>
             </div>
 
             <div className="code-line">
@@ -353,13 +371,7 @@ const Hero: React.FC = () => {
       >
         <h3 className="viz-title">Technical Expertise</h3>
         <div className="skill-bars">
-          {[
-            { name: ".NET & C#", level: 95 },
-            { name: "Distributed Systems", level: 90 },
-            { name: "React & TypeScript", level: 85 },
-            { name: "Cloud Architecture", level: 88 },
-            { name: "Database Design", level: 92 },
-          ].map((skill, index) => (
+          {topSkills.map((skill, index) => (
             <div
               key={skill.name}
               className="skill-item"
@@ -415,7 +427,7 @@ const Hero: React.FC = () => {
       >
         <img
           src="/hamedafzali.png"
-          alt="Hamed Afzali"
+          alt={profile?.name || "Profile"}
           className="sticker-photo"
           draggable={false}
         />

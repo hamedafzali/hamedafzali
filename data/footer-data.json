@@ -1,19 +1,27 @@
 {
   "footerData": {
-    "copyright": "Profile. All rights reserved.",
+    "copyright": "Hamed Afzali. All rights reserved.",
     "navigationLinks": [
       { "name": "about", "href": "#about" },
       { "name": "portfolio", "href": "#portfolio" },
       { "name": "contact", "href": "#contact" }
     ],
     "socialLinks": [
-      { "name": "twitter", "href": "https://twitter.com", "text": "Twitter" },
       {
         "name": "linkedin",
-        "href": "https://linkedin.com",
+        "href": "https://linkedin.com/in/hamed-afzali",
         "text": "LinkedIn"
       },
-      { "name": "github", "href": "https://github.com", "text": "GitHub" }
+      {
+        "name": "github",
+        "href": "https://github.com/hamedafzali",
+        "text": "GitHub"
+      },
+      {
+        "name": "email",
+        "href": "mailto:afzali.hamed@gmail.com",
+        "text": "Email"
+      }
     ]
   }
 }

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "./About.css";
-import ApiService from "../services/api";
+import ApiService, { ProfileData } from "../services/api";
 
 const About: React.FC = () => {
   const [typedCode, setTypedCode] = useState("");
   const [currentLine, setCurrentLine] = useState(0);
   const [skills, setSkills] = useState<any[]>([]); // Start with empty array
   const [codeLines, setCodeLines] = useState<string[]>([]); // Start with empty array
+  const [profile, setProfile] = useState<ProfileData | null>(null);
 
   useEffect(() => {
     if (currentLine < codeLines.length) {
@@ -37,6 +38,20 @@ const About: React.FC = () => {
   }, [currentLine, codeLines]); // Added codeLines dependency
 
   // Fetch code lines from backend
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const profileData = await ApiService.getProfile();
+        setProfile(profileData);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        setProfile(null);
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
   useEffect(() => {
     const fetchCodeLines = async () => {
       try {
@@ -96,7 +111,7 @@ const About: React.FC = () => {
             <span className="code-bracket">{"/>"}</span>
           </h2>
           <p className="about-subtitle">
-            Senior Full-Stack Engineer · Systems Architect
+            {profile?.headline || ""}
           </p>
         </div>
 
@@ -199,24 +214,15 @@ const About: React.FC = () => {
                   <span className="stat-value">{skills.length}</span>
                 </div>
                 <div className="stat-item">
-                  <span className="stat-label">Avg Proficiency:</span>
+                  <span className="stat-label">Experience:</span>
                   <span className="stat-value">
-                    {skills.length > 0
-                      ? Math.round(
-                          skills.reduce((acc, s) => acc + s.level, 0) /
-                            skills.length,
-                        ) + "%"
-                      : "0%"}
+                    {profile?.yearsExperience || "N/A"}
                   </span>
                 </div>
                 <div className="stat-item">
-                  <span className="stat-label">Top Performer:</span>
+                  <span className="stat-label">Current Focus:</span>
                   <span className="stat-value">
-                    {skills.length > 0
-                      ? skills
-                          .reduce((max, s) => (s.level > max.level ? s : max))
-                          .name.split(" ")[0]
-                      : "N/A"}
+                    {profile?.roles[0] || "N/A"}
                   </span>
                 </div>
               </div>
@@ -225,34 +231,15 @@ const About: React.FC = () => {
             <div className="experience-timeline">
               <h3 className="timeline-title">Career Highlights</h3>
               <div className="timeline-items">
-                <div className="timeline-item">
-                  <div className="timeline-marker"></div>
-                  <div className="timeline-content">
-                    <h4>15+ Years Experience</h4>
-                    <p>
-                      Enterprise software development and system architecture
-                    </p>
+                {(profile?.careerHighlights || []).map((highlight) => (
+                  <div className="timeline-item" key={highlight.title}>
+                    <div className="timeline-marker"></div>
+                    <div className="timeline-content">
+                      <h4>{highlight.title}</h4>
+                      <p>{highlight.description}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="timeline-item">
-                  <div className="timeline-marker"></div>
-                  <div className="timeline-content">
-                    <h4>50+ Enterprise Projects</h4>
-                    <p>
-                      Core banking, distributed systems, and cloud-native
-                      solutions
-                    </p>
-                  </div>
-                </div>
-                <div className="timeline-item">
-                  <div className="timeline-marker"></div>
-                  <div className="timeline-content">
-                    <h4>Team Leadership</h4>
-                    <p>
-                      10+ years leading development teams and technical strategy
-                    </p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>

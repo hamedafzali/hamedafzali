@@ -276,6 +276,170 @@ const footerSchema = new mongoose.Schema({
 
 const Footer = mongoose.model("Footer", footerSchema);
 
+const profileSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  brand: {
+    type: String,
+    required: true,
+  },
+  siteUrl: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
+  headline: {
+    type: String,
+    required: true,
+  },
+  summary: {
+    type: String,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  availabilityStatus: {
+    type: String,
+    required: true,
+  },
+  yearsExperience: {
+    type: String,
+    required: true,
+  },
+  roles: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
+  specializations: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
+  contactMethods: [
+    {
+      label: {
+        type: String,
+        required: true,
+      },
+      value: {
+        type: String,
+        required: true,
+      },
+      href: {
+        type: String,
+        required: true,
+      },
+      command: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
+  careerHighlights: [
+    {
+      title: {
+        type: String,
+        required: true,
+      },
+      description: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
+const Profile = mongoose.model("Profile", profileSchema, "profile");
+
+const escapeHtml = (value = "") =>
+  String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
+const buildStructuredData = (profile, footer) =>
+  JSON.stringify({
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Person",
+        name: profile.name,
+        url: profile.siteUrl,
+        image: profile.image,
+        jobTitle: profile.headline,
+        address: {
+          "@type": "PostalAddress",
+          addressLocality: profile.location,
+        },
+        description: profile.summary,
+        sameAs: (footer?.socialLinks || [])
+          .map((link) => link.href)
+          .filter((href) => href && href.startsWith("http")),
+      },
+      {
+        "@type": "WebSite",
+        name: profile.brand,
+        url: profile.siteUrl,
+      },
+    ],
+  });
+
+const renderIndexHtml = async () => {
+  const indexPath = path.join(frontendBuildPath, "index.html");
+  const html = await fs.promises.readFile(indexPath, "utf8");
+  const [profile, footer] = await Promise.all([
+    Profile.findOne().sort({ createdAt: -1 }).lean(),
+    Footer.findOne().sort({ createdAt: -1 }).lean(),
+  ]);
+
+  if (!profile) {
+    return html;
+  }
+
+  const title = `${profile.name} | ${profile.headline}`;
+  const description = profile.summary;
+  const canonical = profile.siteUrl;
+  const structuredData = buildStructuredData(profile, footer);
+
+  return html
+    .replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(title)}</title>`)
+    .replace(
+      /<meta\s+name="description"\s+content=".*?"\s*\/?>/i,
+      `<meta name="description" content="${escapeHtml(description)}" />`,
+    )
+    .replace(
+      /<\/head>/i,
+      `    <link rel="canonical" href="${escapeHtml(canonical)}" />
+    <meta property="og:title" content="${escapeHtml(title)}" />
+    <meta property="og:description" content="${escapeHtml(description)}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="${escapeHtml(canonical)}" />
+    <meta property="og:image" content="${escapeHtml(profile.image)}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${escapeHtml(title)}" />
+    <meta name="twitter:description" content="${escapeHtml(description)}" />
+    <meta name="twitter:image" content="${escapeHtml(profile.image)}" />
+    <script type="application/ld+json">${structuredData}</script>
+  </head>`,
+    );
+};
+
 // Routes
 // Get all projects
 app.get("/api/projects", async (req, res) => {
@@ -384,15 +548,7 @@ app.get("/api/terminal-commands", async (req, res) => {
           terminalCommands.fallbackCommands || terminalCommands.commands,
       });
     } else {
-      res.json({
-        commands: [],
-        fallbackCommands: [
-          "$ whoami",
-          "$ grep -r 'experience' /career/ --include='*.md'",
-          "$ curl -X POST https://api.hamed.dev/contact",
-          "$ echo 'Ready for new challenges'",
-        ],
-      });
+      res.status(404).json({ message: "Terminal commands not found" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -407,22 +563,59 @@ app.get("/api/footer", async (req, res) => {
     if (footer) {
       res.json(footer);
     } else {
-      res.json({
-        copyright: "Profile. All rights reserved.",
-        navigationLinks: [
-          { name: "about", href: "#about" },
-          { name: "portfolio", href: "#portfolio" },
-          { name: "contact", href: "#contact" },
-        ],
-        socialLinks: [
-          { name: "twitter", href: "https://twitter.com", text: "Twitter" },
-          { name: "linkedin", href: "https://linkedin.com", text: "LinkedIn" },
-          { name: "github", href: "https://github.com", text: "GitHub" },
-        ],
-      });
+      res.status(404).json({ message: "Footer data not found" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/api/profile", async (req, res) => {
+  try {
+    const profile = await Profile.findOne().sort({ createdAt: -1 });
+    if (profile) {
+      res.json(profile);
+    } else {
+      res.status(404).json({ message: "Profile data not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+app.get("/robots.txt", async (req, res) => {
+  try {
+    const profile = await Profile.findOne().sort({ createdAt: -1 }).lean();
+    const siteUrl = profile?.siteUrl || "";
+    res.type("text/plain");
+    res.send(`User-agent: *
+Allow: /
+Sitemap: ${siteUrl ? `${siteUrl}/sitemap.xml` : "/sitemap.xml"}
+`);
+  } catch (error) {
+    res.status(500).type("text/plain").send("User-agent: *\nAllow: /\n");
+  }
+});
+
+app.get("/sitemap.xml", async (req, res) => {
+  try {
+    const profile = await Profile.findOne().sort({ createdAt: -1 }).lean();
+    const siteUrl = profile?.siteUrl || "";
+    if (!siteUrl) {
+      return res.status(404).type("application/xml").send("");
+    }
+
+    res.type("application/xml");
+    res.send(`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>${escapeHtml(siteUrl)}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>`);
+  } catch (error) {
+    res.status(500).type("application/xml").send("");
   }
 });
 
@@ -431,9 +624,15 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "OK", timestamp: new Date().toISOString() });
 });
 
-// Serve React app for non-API routes
-app.get("*", (req, res) => {
-  res.sendFile(path.join(frontendBuildPath, "index.html"));
+// Serve React app for non-API routes with DB-backed SEO metadata.
+app.get("*", async (req, res) => {
+  try {
+    const html = await renderIndexHtml();
+    res.send(html);
+  } catch (error) {
+    console.error("Error rendering index.html:", error);
+    res.sendFile(path.join(frontendBuildPath, "index.html"));
+  }
 });
 
 // Error handling middleware

@@ -22,6 +22,9 @@ db.terminalcommands.createIndex({ command: 1 });
 db.createCollection('footer');
 db.footer.createIndex({ createdAt: 1 });
 
+db.createCollection('profile');
+db.profile.createIndex({ createdAt: 1 });
+
 // Create a user for the application
 db.createUser({
   user: 'portfolio_user',

@@ -15,6 +15,9 @@ services:
       - ./logs:/app/logs
     networks:
       - profile-network
+    depends_on:
+      mongo-seed:
+        condition: service_completed_successfully
     healthcheck:
       test: ["CMD", "node", "healthcheck.js"]
       interval: 30s
@@ -38,6 +41,42 @@ services:
     restart: unless-stopped
     networks:
       - profile-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "-u", "admin", "-p", "password123", "--authenticationDatabase", "admin", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  mongo-seed:
+    image: mongo:6.0
+    container_name: profile-mongo-seed
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      - MONGO_USER=admin
+      - MONGO_PASS=password123
+    command:
+      [
+        "mongosh",
+        "--host",
+        "mongodb",
+        "--quiet",
+        "-u",
+        "admin",
+        "-p",
+        "password123",
+        "--authenticationDatabase",
+        "admin",
+        "/seed/mongo-seed.js"
+      ]
+    volumes:
+      - ./data:/seed/data:ro
+      - ./mongo-seed.js:/seed/mongo-seed.js:ro
+    networks:
+      - profile-network
+    restart: "no"
 
 volumes:
   mongodb_data:

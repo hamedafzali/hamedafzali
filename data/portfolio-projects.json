@@ -1,121 +1,136 @@
 {
   "projects": [
     {
-      "title": "Core Banking System Modernization",
-      "description": "Led the complete modernization of legacy core banking systems using .NET microservices architecture, improving transaction processing by 40% and reducing system downtime by 60%.",
+      "title": "GMG SaaS Modernization",
+      "description": "Led modernization of mission-critical software from .NET Framework to .NET 8, including local data migration from SQL CE to SQLite and architectural cleanup for long-term maintainability.",
       "category": "enterprise",
       "image": "/core-banking-modernization.jpg",
       "link": "#",
       "featured": true,
-      "technologies": [".NET", "C#", "IBM MQ", "SQL Server", "Docker"]
+      "technologies": [".NET 8", "C#", "SQLite", "System Modernization", "Azure DevOps", "Docker"],
+      "status": "Active",
+      "duration": "2022 - Present"
     },
     {
-      "title": "Distributed Payment Gateway",
-      "description": "Architected and implemented a high-availability payment processing system handling 10,000+ transactions per second with 99.99% uptime using distributed systems patterns.",
-      "category": "fintech",
-      "image": "/payment-gateway.jpg",
+      "title": "Printer IPC Integration Platform",
+      "description": "Engineered high-reliability interprocess communication with Named Pipes and socket-based networking for complex hardware-software printer integrations in production environments.",
+      "category": "integration",
+      "image": "/printer-integration.jpg",
       "link": "#",
-      "featured": false,
-      "technologies": ["Node.js", "MongoDB", "Redis", "Docker", "Kubernetes"]
+      "featured": true,
+      "technologies": ["Named Pipes", "Sockets", "C++", ".NET", "IPC", "Hardware Integration"],
+      "status": "Completed",
+      "duration": "2022 - Present"
     },
     {
-      "title": "Cloud Migration Platform",
-      "description": "Developed an automated cloud migration platform that successfully migrated 50+ enterprise applications to AWS with zero downtime and 99.8% data integrity.",
+      "title": "Secure API and Authorization Layer",
+      "description": "Architected REST APIs with OAuth2, JWT, and fine-grained authorization using Authzed to strengthen security boundaries for a SaaS platform.",
+      "category": "cloud",
+      "image": "/api-gateway.jpg",
+      "link": "#",
+      "featured": true,
+      "technologies": ["REST", "OAuth2", "JWT", "Authzed", "Node.js", "Security Architecture"],
+      "status": "Active",
+      "duration": "2022 - Present"
+    },
+    {
+      "title": "OSS Compliance Automation",
+      "description": "Built automated license detection and dependency visibility workflows to improve open-source governance and legal compliance in application delivery.",
       "category": "cloud",
       "image": "/cloud-migration.jpg",
       "link": "#",
       "featured": false,
-      "technologies": ["AWS", "Azure", "Terraform", "Ansible", "Docker"]
+      "technologies": ["Node.js", "Automation", "Dependency Analysis", "Compliance", "CI/CD"],
+      "status": "Completed",
+      "duration": "2023"
     },
     {
-      "title": "Real-time Analytics Dashboard",
-      "description": "Built a comprehensive real-time analytics dashboard processing 1M+ events per second using Apache Kafka and React for financial trading platforms.",
-      "category": "data",
+      "title": "Enterprise Analytics and Reporting Platform",
+      "description": "Architected a reporting and dashboard platform with React.js and Node.js that consolidated transaction data from 400+ branches for executive and regulatory reporting.",
+      "category": "fintech",
       "image": "/analytics-dashboard.jpg",
       "link": "#",
-      "featured": false,
-      "technologies": ["React", "Node.js", "Apache Kafka", "PostgreSQL", "WebSocket"]
-    },
-    {
-      "title": "Mobile Banking Application",
-      "description": "Led the development of a cross-platform mobile banking application serving 500K+ users with React Native and Flutter for iOS and Android platforms.",
-      "category": "mobile",
-      "image": "/mobile-banking.jpg",
-      "link": "#",
-      "featured": false,
-      "technologies": ["React Native", "Flutter", "Node.js", "Firebase", "TypeScript"]
-    },
-    {
-      "title": "API Gateway Architecture",
-      "description": "Designed and implemented a centralized API gateway handling 100M+ daily API calls with rate limiting, authentication, and comprehensive monitoring.",
-      "category": "architecture",
-      "image": "/api-gateway.jpg",
-      "link": "#",
-      "featured": false,
-      "technologies": ["Kong", "Express.js", "Redis", "Prometheus", "Grafana"]
-    },
-    {
-      "title": "Hardware-Software Printer Integration",
-      "description": "Engineered high-reliability interprocess communication (IPC) using Named Pipes and socket-based networking for complex hardware-software printer integrations.",
-      "category": "Systems Integration",
-      "image": "/printer-integration.jpg",
-      "link": "#",
       "featured": true,
-      "technologies": ["Named Pipes", "Socket Programming", "C++", "Hardware Integration", "IPC"]
+      "technologies": ["React", "Node.js", "SQL Server", "ETL", "Analytics", "Reporting"],
+      "status": "Completed",
+      "duration": "2018 - 2022"
     },
     {
-      "title": "Chakavak National Cheque Clearing System",
-      "description": "Architected an IBM MQ-based messaging backbone for the national cheque clearing system, ensuring fault-tolerant, asynchronous processing across distributed nodes.",
-      "category": "FinTech & Distributed Infrastructure",
-      "image": "/chakavak-system.jpg",
-      "link": "#",
-      "featured": false,
-      "technologies": ["IBM MQ", "Distributed Messaging", "Fault Tolerance", "Asynchronous Processing", "Banking Systems"]
-    },
-    {
-      "title": "Amitis Hamta Payment Panel",
-      "description": "Designed a secure, responsive payment dashboard and website using ReactJS, Node.js, and MongoDB for financial transaction management.",
-      "category": "Web & Cloud Platforms",
-      "image": "/payment-panel.jpg",
-      "link": "#",
-      "featured": false,
-      "technologies": ["ReactJS", "Node.js", "MongoDB", "Payment Systems", "Dashboard Design"]
-    },
-    {
-      "title": "POS Management Application",
-      "description": "Built a terminal management suite using VB.NET Core and WPF focused on hardware-software integration for payment terminals.",
-      "category": "Enterprise & Mobile Solutions",
-      "image": "/pos-management.jpg",
-      "link": "#",
-      "featured": false,
-      "technologies": ["VB.NET Core", "WPF", "POS Systems", "Hardware Integration", "Payment Terminals"]
-    },
-    {
-      "title": "Budget & Reporting Web Apps",
-      "description": "Orchestrated containerized reporting tools using Docker, ReactJS, Node.js, and SQL Server for enterprise financial reporting.",
-      "category": "Web & Cloud Platforms",
+      "title": "Banking ETL and Regulatory Data Pipelines",
+      "description": "Designed custom ETL pipelines in Node.js and SQL Server to transform high-volume banking data for Central Bank compliance and downstream business intelligence systems.",
+      "category": "fintech",
       "image": "/budget-reporting.jpg",
       "link": "#",
       "featured": false,
-      "technologies": ["Docker", "ReactJS", "Node.js", "SQL Server", "Containerization", "Financial Reporting"]
+      "technologies": ["Node.js", "SQL Server", "ETL", "Data Validation", "BI Integration"],
+      "status": "Completed",
+      "duration": "2018 - 2022"
     },
     {
-      "title": "Reporting Mobile App",
-      "description": "Developed a cross-platform data visualization tool for banking metrics using React Native and Node.js.",
-      "category": "Enterprise & Mobile Solutions",
-      "image": "/reporting-mobile.jpg",
+      "title": "Self-Hosted Banking SaaS Deployment",
+      "description": "Deployed and operated a self-hosted analytics platform on local bank infrastructure using Docker and a microservices architecture, including ongoing operational ownership.",
+      "category": "cloud",
+      "image": "/payment-panel.jpg",
       "link": "#",
       "featured": false,
-      "technologies": ["React Native", "Node.js", "Data Visualization", "Cross-Platform", "Mobile Development"]
+      "technologies": ["Docker", "Microservices", "Node.js", "React", "Operations"],
+      "status": "Completed",
+      "duration": "2018 - 2022"
     },
     {
       "title": "SHETAB Banking Reporting System",
       "description": "Engineered a high-throughput reporting engine using IBM MQ and SQL Server to reconcile national-scale card transactions for Iran's national banking network.",
-      "category": "FinTech & Distributed Infrastructure",
+      "category": "fintech",
       "image": "/shetab-banking.jpg",
       "link": "#",
       "featured": true,
-      "technologies": ["IBM MQ", "SQL Server", ".NET", "Distributed Systems", "High-Throughput"]
+      "technologies": ["IBM MQ", "SQL Server", ".NET", "Distributed Systems", "High Throughput"],
+      "status": "Completed",
+      "duration": "2009 - 2018"
+    },
+    {
+      "title": "Chakavak Cheque Clearing Backbone",
+      "description": "Architected an IBM MQ-based messaging backbone for the national cheque clearing system, enabling fault-tolerant asynchronous processing across distributed nodes.",
+      "category": "fintech",
+      "image": "/chakavak-system.jpg",
+      "link": "#",
+      "featured": true,
+      "technologies": ["IBM MQ", "Distributed Messaging", "Fault Tolerance", "Asynchronous Processing"],
+      "status": "Completed",
+      "duration": "2009 - 2018"
+    },
+    {
+      "title": "Core Banking Platform and Audit Trails",
+      "description": "Engineered core banking modules spanning accounting, treasury, HR, branch operations, and supervisor workflows with multi-level audit trails for regulated financial operations.",
+      "category": "enterprise",
+      "image": "/core-banking-modernization.jpg",
+      "link": "#",
+      "featured": false,
+      "technologies": [".NET", "SQL Server", "NHibernate", "UML", "Audit Trails", "Banking Systems"],
+      "status": "Completed",
+      "duration": "2009 - 2018"
+    },
+    {
+      "title": "POS Management Application",
+      "description": "Built a terminal management suite focused on hardware-software integration and low-level communication for payment terminal environments.",
+      "category": "integration",
+      "image": "/pos-management.jpg",
+      "link": "#",
+      "featured": false,
+      "technologies": ["VB.NET", "WPF", "POS Systems", "Hardware Integration", "Payment Terminals"],
+      "status": "Completed",
+      "duration": "2009 - 2018"
+    },
+    {
+      "title": "Human Resource and Payroll Systems",
+      "description": "Architected large-scale enterprise management systems for HR and payroll workflows using UML-driven design and VB.NET implementation.",
+      "category": "enterprise",
+      "image": "/reporting-mobile.jpg",
+      "link": "#",
+      "featured": false,
+      "technologies": ["VB.NET", "UML", "Enterprise Systems", "Payroll", "HR Workflows"],
+      "status": "Completed",
+      "duration": "2008 - 2018"
     }
   ]
 }

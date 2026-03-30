@@ -328,6 +328,8 @@
 .code-editor {
   position: relative;
   background: #1e1e1e;
+  width: min(720px, calc(100vw - 48px));
+  max-width: 100%;
   border-radius: 12px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
   overflow: hidden;
@@ -444,6 +446,7 @@
   display: flex;
   background: #1e1e1e;
   min-height: 400px;
+  min-width: 0;
 }
 
 .line-numbers {
@@ -463,14 +466,18 @@
   padding: 16px 20px;
   font-size: 14px;
   line-height: 1.6;
-  overflow-x: auto;
+  min-width: 0;
+  overflow-x: hidden;
 }
 
 .code-line {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
   min-height: 22px;
-  white-space: pre;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .keyword {
@@ -487,6 +494,8 @@
 }
 .string {
   color: #ce9178;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 .number {
   color: #b5cea8;
