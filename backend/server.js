@@ -1,5 +1,3 @@
-console.log("=== SERVER.JS STARTING ===");
-
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -7,40 +5,31 @@ const path = require("path");
 const fs = require("fs");
 require("dotenv").config();
 
-console.log("Dependencies loaded");
-
 const app = express();
 const PORT = process.env.PORT || 5001;
 
-console.log("App created, PORT:", PORT);
-
-// Disable Express security headers that cause CSP issues
 app.disable("x-powered-by");
 app.set("trust proxy", 1);
 
-// Remove security headers middleware
 app.use((req, res, next) => {
-  // Remove all security headers that Express sets
-  res.removeHeader("Content-Security-Policy");
-  res.removeHeader("X-Content-Type-Options");
-  res.removeHeader("X-Frame-Options");
-  res.removeHeader("X-XSS-Protection");
-  res.removeHeader("Strict-Transport-Security");
-  res.removeHeader("Referrer-Policy");
-  res.removeHeader("Cross-Origin-Opener-Policy");
-  res.removeHeader("Cross-Origin-Resource-Policy");
-  res.removeHeader("Origin-Agent-Cluster");
-  res.removeHeader("X-DNS-Prefetch-Control");
-  res.removeHeader("X-Download-Options");
-  res.removeHeader("X-Permitted-Cross-Domain-Policies");
-
-  // Set permissive headers
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https: http: ws: wss: chrome-extension://*; script-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https: http: chrome-extension://*; style-src 'self' 'unsafe-inline' data: blob: https: http:; img-src 'self' data: blob: https: http:; font-src 'self' data: blob: https: http:; connect-src 'self' ws: wss: data: blob: https: http: chrome-extension://*; object-src 'none';",
+    [
+      "default-src 'self'",
+      "script-src 'self'",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: https:",
+      "font-src 'self' data: https:",
+      "connect-src 'self'",
+      "object-src 'none'",
+      "frame-ancestors 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+    ].join("; "),
   );
   res.setHeader("X-Content-Type-Options", "nosniff");
-
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
   next();
 });
 
@@ -48,39 +37,28 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(express.json());
 
-// Set less restrictive CSP for development
-app.use((req, res, next) => {
-  console.log("CSP middleware executing for:", req.url);
-  // Remove any existing CSP headers first
-  res.removeHeader("Content-Security-Policy");
-  res.removeHeader("content-security-policy");
+// Simple in-memory rate limiter for the contact form
+const contactSubmissions = new Map();
 
-  // Set new CSP header
-  const cspHeader =
-    "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https: http: ws: wss: chrome-extension://*; script-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https: http: chrome-extension://*; style-src 'self' 'unsafe-inline' data: blob: https: http:; img-src 'self' data: blob: https: http:; font-src 'self' data: blob: https: http:; connect-src 'self' ws: wss: data: blob: https: http: chrome-extension://*; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';";
-  res.setHeader("Content-Security-Policy", cspHeader);
-  console.log("CSP header set to:", cspHeader.substring(0, 100) + "...");
+function contactRateLimiter(req, res, next) {
+  const ip = req.ip || req.connection.remoteAddress || "unknown";
+  const now = Date.now();
+  const windowMs = 15 * 60 * 1000;
+  const max = 3;
+
+  const record = contactSubmissions.get(ip);
+  if (!record || now - record.windowStart > windowMs) {
+    contactSubmissions.set(ip, { count: 1, windowStart: now });
+    return next();
+  }
+  if (record.count >= max) {
+    return res
+      .status(429)
+      .json({ message: "Too many submissions. Please try again later." });
+  }
+  record.count++;
   next();
-});
-
-// Response interceptor to ensure CSP is set
-app.use((req, res, next) => {
-  const originalSend = res.send;
-  res.send = function (data) {
-    // Remove any CSP headers that might have been set later
-    res.removeHeader("Content-Security-Policy");
-    res.removeHeader("content-security-policy");
-
-    // Set our CSP header
-    const cspHeader =
-      "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https: http: ws: wss: chrome-extension://*; script-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https: http: chrome-extension://*; style-src 'self' 'unsafe-inline' data: blob: https: http:; img-src 'self' data: blob: https: http:; font-src 'self' data: blob: https: http:; connect-src 'self' ws: wss: data: blob: https: http: chrome-extension://*; object-src 'none';";
-    res.setHeader("Content-Security-Policy", cspHeader);
-    console.log("Response CSP header set");
-
-    originalSend.call(this, data);
-  };
-  next();
-});
+}
 
 // Serve static files from the React app build directory
 const frontendBuildPath = (() => {
@@ -488,18 +466,40 @@ app.post("/api/projects", async (req, res) => {
 });
 
 // Submit contact form
-app.post("/api/contact", async (req, res) => {
+app.post("/api/contact", contactRateLimiter, async (req, res) => {
+  const { name, email, message } = req.body;
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!name || typeof name !== "string" || name.trim().length < 2 || name.trim().length > 100) {
+    return res.status(400).json({ message: "Name must be between 2 and 100 characters." });
+  }
+  if (!email || !emailRegex.test(email) || email.length > 254) {
+    return res.status(400).json({ message: "Invalid email address." });
+  }
+  if (!message || typeof message !== "string" || message.trim().length < 10 || message.trim().length > 2000) {
+    return res.status(400).json({ message: "Message must be between 10 and 2000 characters." });
+  }
+
   try {
-    const contact = new Contact(req.body);
-    const savedContact = await contact.save();
+    const contact = new Contact({
+      name: name.trim(),
+      email: email.trim().toLowerCase(),
+      message: message.trim(),
+    });
+    await contact.save();
     res.status(201).json({ message: "Contact form submitted successfully" });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 });
 
-// Get all contacts (admin functionality)
+// Get all contacts (admin only — requires ADMIN_TOKEN header or query param)
 app.get("/api/contacts", async (req, res) => {
+  const adminToken = process.env.ADMIN_TOKEN;
+  const provided = req.headers["x-admin-token"] || req.query.token;
+  if (!adminToken || provided !== adminToken) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
   try {
     const contacts = await Contact.find().sort({ createdAt: -1 });
     res.json(contacts);

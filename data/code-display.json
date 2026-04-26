@@ -1,0 +1,35 @@
+{
+  "codeDisplay": {
+    "codeLines": [
+      "const developer = {",
+      "  name: 'Hamed Afzali',",
+      "  title: 'Senior Full-Stack Engineer',",
+      "  experience: '15+ years',",
+      "  location: 'Tübingen, Germany',",
+      "  current: 'GMG GmbH & Co. KG',",
+      "  expertise: [",
+      "    'Distributed Systems Architecture',",
+      "    'Platform Modernization (.NET → .NET 8)',",
+      "    'Event-Driven Architecture & IBM MQ',",
+      "    'Multi-Tenant SaaS Platforms',",
+      "    'National Payment Infrastructure',",
+      "    'Technical Team Leadership'",
+      "  ],",
+      "  stack: {",
+      "    backend: ['.NET 8', 'C#', 'Node.js', 'Java', 'IBM MQ'],",
+      "    frontend: ['React', 'TypeScript'],",
+      "    database: ['SQL Server', 'SQLite', 'MongoDB'],",
+      "    cloud: ['AWS', 'Azure DevOps', 'Docker', 'CI/CD'],",
+      "    auth: ['OAuth2', 'JWT', 'Authzed']",
+      "  },",
+      "  scale: {",
+      "    concurrentUsers: '15000+',",
+      "    branches: '400+',",
+      "    teamSize: '8 engineers',",
+      "    yearsLeading: '9'",
+      "  },",
+      "  status: 'Open to senior engineering & architecture roles'",
+      "};"
+    ]
+  }
+}

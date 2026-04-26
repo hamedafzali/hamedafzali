@@ -1,14 +1,18 @@
 {
   "terminalCommands": [
-    "$ whoami",
-    "$ grep -r 'experience' /career/ --include='*.md'",
-    "$ curl -X POST https://api.hamed.dev/contact",
-    "$ echo 'Ready for new challenges'"
+    "$ whoami → hamed.afzali @ senior-engineer",
+    "$ cat /career/current.txt → GMG GmbH | Senior Full-Stack Engineer | Tübingen, DE",
+    "$ ls /skills/ → .net8  react  typescript  distributed-systems  node.js  azure-devops",
+    "$ git log --oneline | wc -l → 15 years of commits",
+    "$ curl -X POST https://hamed.dev/api/contact",
+    "$ echo 'Open to senior engineering & architecture roles'"
   ],
   "fallbackCommands": [
-    "$ whoami",
-    "$ grep -r 'experience' /career/ --include='*.md'",
-    "$ curl -X POST https://api.hamed.dev/contact",
-    "$ echo 'Ready for new challenges'"
+    "$ whoami → hamed.afzali @ senior-engineer",
+    "$ cat /career/current.txt → GMG GmbH | Senior Full-Stack Engineer | Tübingen, DE",
+    "$ ls /skills/ → .net8  react  typescript  distributed-systems  node.js  azure-devops",
+    "$ git log --oneline | wc -l → 15 years of commits",
+    "$ curl -X POST https://hamed.dev/api/contact",
+    "$ echo 'Open to senior engineering & architecture roles'"
   ]
 }

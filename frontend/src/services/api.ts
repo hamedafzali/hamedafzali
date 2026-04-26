@@ -29,6 +29,14 @@ export interface Skill {
   createdAt?: string;
 }
 
+export interface Contact {
+  _id?: string;
+  name: string;
+  email: string;
+  message: string;
+  createdAt?: string;
+}
+
 export interface CodeDisplay {
   codeLines: string[];
 }
@@ -185,11 +193,13 @@ class ApiService {
     }
   }
 
-  static async getContacts(): Promise<any[]> {
+  static async getContacts(adminToken: string): Promise<Contact[]> {
     try {
-      const response = await fetch(`${API_BASE_URL}/contacts`);
+      const response = await fetch(`${API_BASE_URL}/contacts`, {
+        headers: { "x-admin-token": adminToken },
+      });
       if (!response.ok) {
-        new Error(`HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
       return response.json();
     } catch (error) {

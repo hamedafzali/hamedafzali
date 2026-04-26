@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Contact.css";
 import ApiService, { ProfileData } from "../services/api";
+import { useTypingAnimation } from "../hooks/useTypingAnimation";
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -8,10 +9,10 @@ const Contact: React.FC = () => {
     email: "",
     message: "",
   });
-  const [terminalText, setTerminalText] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
+  const [formError, setFormError] = useState("");
   const [terminalCommands, setTerminalCommands] = useState<string[]>([]);
   const [profile, setProfile] = useState<ProfileData | null>(null);
+  const { text: terminalText, isTyping } = useTypingAnimation(terminalCommands);
 
   // Fetch terminal commands from backend
   useEffect(() => {
@@ -43,37 +44,6 @@ const Contact: React.FC = () => {
     fetchProfile();
   }, []);
 
-  useEffect(() => {
-    let commandIndex = 0;
-    let charIndex = 0;
-
-    const typeCommand = () => {
-      if (commandIndex < terminalCommands.length) {
-        const currentCommand = terminalCommands[commandIndex];
-        setIsTyping(true);
-
-        if (charIndex <= currentCommand.length) {
-          setTerminalText(currentCommand.slice(0, charIndex));
-          charIndex++;
-          setTimeout(typeCommand, 100);
-        } else {
-          setIsTyping(false);
-          setTimeout(() => {
-            setTerminalText("");
-            charIndex = 0;
-            commandIndex++;
-            if (commandIndex < terminalCommands.length) {
-              setTimeout(typeCommand, 500);
-            }
-          }, 2000);
-        }
-      }
-    };
-
-    const interval = setTimeout(typeCommand, 1000);
-    return () => clearTimeout(interval);
-  }, [terminalCommands]);
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -85,16 +55,30 @@ const Contact: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFormError("");
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (formData.name.trim().length < 2) {
+      setFormError("Name must be at least 2 characters.");
+      return;
+    }
+    if (!emailRegex.test(formData.email)) {
+      setFormError("Please enter a valid email address.");
+      return;
+    }
+    if (formData.message.trim().length < 10) {
+      setFormError("Message must be at least 10 characters.");
+      return;
+    }
 
     try {
       await ApiService.submitContact(formData);
       alert("Thank you for your message! I will get back to you soon.");
       setFormData({ name: "", email: "", message: "" });
-    } catch (error) {
-      console.error("Error submitting contact form:", error);
-      alert(
-        "Sorry, there was an error sending your message. Please try again.",
-      );
+    } catch (error: unknown) {
+      const message =
+        error instanceof Error ? error.message : "Unknown error";
+      setFormError(`Failed to send message: ${message}. Please try again.`);
     }
   };
 
@@ -241,6 +225,12 @@ const Contact: React.FC = () => {
                     placeholder="Tell me about your project..."
                   ></textarea>
                 </div>
+
+                {formError && (
+                  <p className="form-error" role="alert">
+                    {formError}
+                  </p>
+                )}
 
                 <div className="form-actions">
                   <button type="submit" className="submit-btn">

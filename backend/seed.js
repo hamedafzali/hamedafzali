@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-// Define Project schema inline for seeding
 const projectSchema = new mongoose.Schema({
   title: { type: String, required: true },
   description: { type: String, required: true },
@@ -9,10 +8,11 @@ const projectSchema = new mongoose.Schema({
   link: { type: String, required: true },
   featured: { type: Boolean, default: false },
   technologies: [{ type: String }],
+  status: { type: String },
+  duration: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 
-// Define Skills schema inline for seeding
 const skillSchema = new mongoose.Schema({
   name: { type: String, required: true },
   level: { type: Number, required: true, min: 0, max: 100 },
@@ -21,36 +21,21 @@ const skillSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const Project = mongoose.model("Project", projectSchema);
-const Skill = mongoose.model("Skill", skillSchema);
-
-// Define Code Display schema inline for seeding
 const codeDisplaySchema = new mongoose.Schema({
   codeLines: [{ type: String, required: true }],
   createdAt: { type: Date, default: Date.now },
 });
 
-const CodeDisplay = mongoose.model("CodeDisplay", codeDisplaySchema);
-
-// Define Terminal Commands schema inline for seeding
 const terminalCommandsSchema = new mongoose.Schema({
   commands: [{ type: String, required: true }],
+  fallbackCommands: [{ type: String }],
   createdAt: { type: Date, default: Date.now },
 });
 
-const TerminalCommands = mongoose.model(
-  "TerminalCommands",
-  terminalCommandsSchema,
-);
-
-// Define Footer schema inline for seeding
 const footerSchema = new mongoose.Schema({
   copyright: { type: String, required: true },
   navigationLinks: [
-    {
-      name: { type: String, required: true },
-      href: { type: String, required: true },
-    },
+    { name: { type: String, required: true }, href: { type: String, required: true } },
   ],
   socialLinks: [
     {
@@ -62,257 +47,282 @@ const footerSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const Footer = mongoose.model("Footer", footerSchema);
+const profileSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  brand: { type: String, required: true },
+  siteUrl: { type: String, required: true },
+  image: { type: String, required: true },
+  headline: { type: String, required: true },
+  summary: { type: String, required: true },
+  location: { type: String, required: true },
+  availabilityStatus: { type: String, required: true },
+  yearsExperience: { type: String, required: true },
+  roles: [{ type: String }],
+  specializations: [{ type: String }],
+  contactMethods: [
+    {
+      label: { type: String, required: true },
+      value: { type: String, required: true },
+      href: { type: String, required: true },
+      command: { type: String, required: true },
+    },
+  ],
+  careerHighlights: [
+    {
+      title: { type: String, required: true },
+      description: { type: String, required: true },
+    },
+  ],
+  createdAt: { type: Date, default: Date.now },
+});
 
-// Hamed Afzali's CV Projects Data
+const Project = mongoose.model("Project", projectSchema);
+const Skill = mongoose.model("Skill", skillSchema);
+const CodeDisplay = mongoose.model("CodeDisplay", codeDisplaySchema);
+const TerminalCommands = mongoose.model("TerminalCommands", terminalCommandsSchema);
+const Footer = mongoose.model("Footer", footerSchema);
+const Profile = mongoose.model("Profile", profileSchema, "profile");
+
+// ─── Projects ────────────────────────────────────────────────────────────────
+
 const sampleProjects = [
   {
-    title: "Core Banking System Modernization",
+    title: "GMG SaaS Platform Modernization",
     description:
-      "Led the complete modernization of legacy core banking systems using .NET microservices architecture, improving transaction processing by 40% and reducing system downtime by 60%.",
+      "Led migration of mission-critical multi-tenant SaaS software from .NET Framework to .NET 8, including SQL CE to SQLite data storage migration and architectural cleanup. Kept the production platform stable throughout the transition.",
     category: "enterprise",
     image: "/core-banking-modernization.jpg",
-    link: "https://github.com/hamed-afzali/core-banking-modernization",
-    github: "https://github.com/hamed-afzali/core-banking-modernization",
+    link: "#",
     featured: true,
-    technologies: [".NET", "C#", "IBM MQ", "SQL Server", "Docker"],
+    technologies: [".NET 8", "C#", "SQLite", "Azure DevOps", "Docker", "SAFe Agile"],
+    status: "Active",
+    duration: "2022 – Present",
   },
   {
-    title: "Distributed Payment Gateway",
+    title: "Printer Hardware IPC Integration",
     description:
-      "Architected and implemented a high-availability payment processing system handling 10,000+ transactions per second with 99.99% uptime using distributed systems patterns.",
-    category: "fintech",
-    image: "/payment-gateway.jpg",
-    link: "https://github.com/hamed-afzali/payment-gateway",
-    github: "https://github.com/hamed-afzali/payment-gateway",
-    featured: false,
-    technologies: ["Node.js", "MongoDB", "Redis", "Docker", "Kubernetes"],
+      "Engineered the full IPC layer between SaaS software and professional printer hardware using Named Pipes and socket networking at GMG — enabling reliable real-time hardware-software communication and eliminating race conditions.",
+    category: "integration",
+    image: "/printer-integration.jpg",
+    link: "#",
+    featured: true,
+    technologies: ["Named Pipes", "Socket Networking", "C#", ".NET 8", "IPC", "Hardware Integration"],
+    status: "Active",
+    duration: "2022 – Present",
   },
   {
-    title: "Cloud Migration Platform",
+    title: "Multi-Tenant Authorization Platform",
     description:
-      "Developed an automated cloud migration platform that successfully migrated 50+ enterprise applications to AWS with zero downtime and 99.8% data integrity.",
+      "Architected RESTful APIs with OAuth2 and JWT authentication, and implemented fine-grained multi-tenant authorization using Authzed (Google Zanzibar-inspired) at GMG — supporting complex cross-tenant permission models.",
+    category: "cloud",
+    image: "/api-gateway.jpg",
+    link: "#",
+    featured: true,
+    technologies: ["REST", "OAuth2", "JWT", "Authzed", "Google Zanzibar", ".NET 8", "Multi-Tenant"],
+    status: "Active",
+    duration: "2022 – Present",
+  },
+  {
+    title: "MCP Server with RAG-Indexed Codebase",
+    description:
+      "Built an MCP (Model Context Protocol) server with RAG-indexed codebase routes for AI-assisted development at GMG — making it easier for engineers to navigate complex legacy code and accelerating team onboarding.",
+    category: "enterprise",
+    image: "/mcp-server.jpg",
+    link: "#",
+    featured: true,
+    technologies: ["MCP", "RAG", "AI Integration", "Node.js", "Codebase Indexing", "Developer Tooling"],
+    status: "Active",
+    duration: "2024 – Present",
+  },
+  {
+    title: "OSS Licence Detection & Compliance Automation",
+    description:
+      "Built an automated tool for open-source licence detection and dependency management at GMG — providing real-time visibility into third-party dependencies and eliminating manual legal review in the delivery pipeline.",
     category: "cloud",
     image: "/cloud-migration.jpg",
-    link: "https://github.com/hamed-afzali/cloud-migration-platform",
-    github: "https://github.com/hamed-afzali/cloud-migration-platform",
+    link: "#",
     featured: false,
-    technologies: ["AWS", "Azure", "Terraform", "Ansible", "Docker"],
+    technologies: ["Node.js", "Automation", "Dependency Analysis", "Compliance", "CI/CD", "Azure DevOps"],
+    status: "Completed",
+    duration: "2023",
   },
   {
-    title: "Real-time Analytics Dashboard",
+    title: "Enterprise Analytics & Regulatory Reporting Platform",
     description:
-      "Built a comprehensive real-time analytics dashboard processing 1M+ events per second using Apache Kafka and React for financial trading platforms.",
-    category: "data",
+      "Sole architect and technical lead of a regulatory-grade BI platform (React.js, Node.js, Docker, microservices) aggregating real-time transaction data from 400+ branches, ATM, POS, and core banking at Postbank of Iran — used by senior management and submitted to Central Bank regulators.",
+    category: "fintech",
     image: "/analytics-dashboard.jpg",
-    link: "https://github.com/hamed-afzali/analytics-dashboard",
-    github: "https://github.com/hamed-afzali/analytics-dashboard",
-    featured: false,
-    technologies: [
-      "React",
-      "Node.js",
-      "Apache Kafka",
-      "PostgreSQL",
-      "WebSocket",
-    ],
-  },
-  {
-    title: "Mobile Banking Application",
-    description:
-      "Led the development of a cross-platform mobile banking application serving 500K+ users with React Native and Flutter for iOS and Android platforms.",
-    category: "mobile",
-    image: "/mobile-banking.jpg",
-    link: "https://github.com/hamed-afzali/mobile-banking-app",
-    github: "https://github.com/hamed-afzali/mobile-banking-app",
-    featured: false,
-    technologies: [
-      "React Native",
-      "Flutter",
-      "Node.js",
-      "Firebase",
-      "TypeScript",
-    ],
-  },
-  {
-    title: "API Gateway Architecture",
-    description:
-      "Designed and implemented a centralized API gateway handling 100M+ daily API calls with rate limiting, authentication, and comprehensive monitoring.",
-    category: "architecture",
-    image: "/api-gateway.jpg",
-    link: "https://github.com/hamed-afzali/api-gateway",
-    github: "https://github.com/hamed-afzali/api-gateway",
-    featured: false,
-    technologies: ["Kong", "Express.js", "Redis", "Prometheus", "Grafana"],
-  },
-  {
-    title: "Hardware-Software Printer Integration",
-    description:
-      "Engineered high-reliability interprocess communication (IPC) using Named Pipes and socket-based networking for complex hardware-software printer integrations.",
-    category: "Systems Integration",
-    image: "/printer-integration.jpg",
-    link: "https://github.com/hamed-afzali/printer-integration",
-    github: "https://github.com/hamed-afzali/printer-integration",
+    link: "#",
     featured: true,
-    technologies: [
-      "Named Pipes",
-      "Socket Programming",
-      "C++",
-      "Hardware Integration",
-      "IPC",
-    ],
+    technologies: ["React.js", "Node.js", "SQL Server", "ETL", "Docker", "Microservices", "Regulatory Reporting"],
+    status: "Completed",
+    duration: "2018 – 2022",
   },
   {
-    title: "Chakavak National Cheque Clearing System",
+    title: "Banking ETL & Regulatory Data Pipelines",
     description:
-      "Architected an IBM MQ-based messaging backbone for the national cheque clearing system, ensuring fault-tolerant, asynchronous processing across distributed nodes.",
-    category: "FinTech & Distributed Infrastructure",
-    image: "/chakavak-system.jpg",
-    link: "https://github.com/hamed-afzali/chakavak-cheque-clearing",
-    github: "https://github.com/hamed-afzali/chakavak-cheque-clearing",
-    featured: false,
-    technologies: [
-      "IBM MQ",
-      "Distributed Messaging",
-      "Fault Tolerance",
-      "Asynchronous Processing",
-      "Banking Systems",
-    ],
-  },
-  {
-    title: "Amitis Hamta Payment Panel",
-    description:
-      "Designed a secure, responsive payment dashboard and website using ReactJS, Node.js, and MongoDB for financial transaction management.",
-    category: "Web & Cloud Platforms",
-    image: "/payment-panel.jpg",
-    link: "https://github.com/hamed-afzali/amitis-payment-panel",
-    github: "https://github.com/hamed-afzali/amitis-payment-panel",
-    featured: false,
-    technologies: [
-      "ReactJS",
-      "Node.js",
-      "MongoDB",
-      "Payment Systems",
-      "Dashboard Design",
-    ],
-  },
-  {
-    title: "POS Management Application",
-    description:
-      "Built a terminal management suite using VB.NET Core and WPF focused on hardware-software integration for payment terminals.",
-    category: "Enterprise & Mobile Solutions",
-    image: "/pos-management.jpg",
-    link: "https://github.com/hamed-afzali/pos-management",
-    github: "https://github.com/hamed-afzali/pos-management",
-    featured: false,
-    technologies: [
-      "VB.NET Core",
-      "WPF",
-      "POS Systems",
-      "Hardware Integration",
-      "Payment Terminals",
-    ],
-  },
-  {
-    title: "Budget & Reporting Web Apps",
-    description:
-      "Orchestrated containerized reporting tools using Docker, ReactJS, Node.js, and SQL Server for enterprise financial reporting.",
-    category: "Web & Cloud Platforms",
+      "Designed custom Node.js and SQL Server ETL pipelines processing high-volume transactional data from multiple banking sources at Postbank of Iran. Enforced strict data validation where inaccuracies carried direct legal and financial consequences.",
+    category: "fintech",
     image: "/budget-reporting.jpg",
-    link: "https://github.com/hamed-afzali/budget-reporting-apps",
-    github: "https://github.com/hamed-afzali/budget-reporting-apps",
+    link: "#",
     featured: false,
-    technologies: [
-      "Docker",
-      "ReactJS",
-      "Node.js",
-      "SQL Server",
-      "Containerization",
-      "Financial Reporting",
-    ],
+    technologies: ["Node.js", "SQL Server", "ETL", "Data Validation", "BI Integration", "Regulatory Compliance"],
+    status: "Completed",
+    duration: "2018 – 2022",
   },
   {
-    title: "Reporting Mobile App",
+    title: "Amitis Hamta FinTech Platform",
     description:
-      "Developed a cross-platform data visualization tool for banking metrics using React Native and Node.js.",
-    category: "Enterprise & Mobile Solutions",
-    image: "/reporting-mobile.jpg",
-    link: "https://github.com/hamed-afzali/reporting-mobile-app",
-    github: "https://github.com/hamed-afzali/reporting-mobile-app",
+      "Software architecture consultant for Amitis Hamta Co. — strategic guidance on full-stack architecture and building a secure payment panel integration for their fintech platform.",
+    category: "fintech",
+    image: "/payment-panel.jpg",
+    link: "#",
     featured: false,
-    technologies: [
-      "React Native",
-      "Node.js",
-      "Data Visualization",
-      "Cross-Platform",
-      "Mobile Development",
-    ],
+    technologies: ["ReactJS", "Node.js", "MongoDB", "Payment Systems", "Architecture Consulting"],
+    status: "Completed",
+    duration: "2019 – 2022",
   },
   {
-    title: "SHETAB Banking Reporting System",
+    title: "Shetab National Card Network Integration",
     description:
-      "Engineered a high-throughput reporting engine using IBM MQ and SQL Server to reconcile national-scale card transactions for Iran's national banking network.",
-    category: "FinTech & Distributed Infrastructure",
+      "Spearheaded R&D and architecture for Iran's Shetab national card network integration at Postbank of Iran — Java-based high-availability services for real-time national payment transaction processing at scale.",
+    category: "fintech",
     image: "/shetab-banking.jpg",
-    link: "https://github.com/hamed-afzali/shetab-banking-reporting",
-    github: "https://github.com/hamed-afzali/shetab-banking-reporting",
+    link: "#",
     featured: true,
-    technologies: [
-      "IBM MQ",
-      "SQL Server",
-      ".NET",
-      "Distributed Systems",
-      "High-Throughput",
-    ],
+    technologies: ["Java", "Distributed Systems", "High Availability", "Real-Time Processing", "National Payments"],
+    status: "Completed",
+    duration: "2009 – 2018",
+  },
+  {
+    title: "Chakavak National Cheque-Clearing Backbone",
+    description:
+      "Architected the IBM MQ messaging backbone for Iran's Chakavak national cheque-clearing system — fault-tolerant asynchronous processing across distributed nodes under strict Central Bank regulatory SLAs.",
+    category: "fintech",
+    image: "/chakavak-system.jpg",
+    link: "#",
+    featured: true,
+    technologies: ["IBM MQ", "Event-Driven Architecture", "Distributed Messaging", "Fault Tolerance", "Async Processing"],
+    status: "Completed",
+    duration: "2009 – 2018",
+  },
+  {
+    title: "Core Banking Platform — 15,000 Concurrent Users",
+    description:
+      "Architected and delivered a full-scope core banking platform (.NET, C#) spanning Accounting, Treasury, HR, Branch Operations, and Supervisor workflows — 15-node distributed SQL Server cluster serving 15,000 concurrent users with ACID-compliant transactional isolation.",
+    category: "enterprise",
+    image: "/core-banking-modernization.jpg",
+    link: "#",
+    featured: true,
+    technologies: [".NET", "C#", "SQL Server", "NHibernate", "Distributed Database", "ACID Transactions", "15-Node Cluster"],
+    status: "Completed",
+    duration: "2009 – 2018",
+  },
+  {
+    title: "POS Terminal & ATM Integration Software",
+    description:
+      "Developed C++ POS terminal software with hardware-level protocol integration, and ATM/card processing modules with real-time authorisation and settlement flows at Postbank of Iran.",
+    category: "integration",
+    image: "/pos-management.jpg",
+    link: "#",
+    featured: false,
+    technologies: ["C++", "C#", "POS Systems", "ATM Integration", "Hardware Protocols", "Real-Time Settlement"],
+    status: "Completed",
+    duration: "2009 – 2018",
   },
 ];
 
-// Hamed Afzali's Skills Data
+// ─── Skills ──────────────────────────────────────────────────────────────────
+
 const sampleSkills = [
   {
-    name: ".NET & C#",
-    level: 95,
+    name: ".NET Architecture",
+    level: 96,
     category: "backend",
     description:
-      "Expert in .NET Framework, .NET Core, and C# programming with 15+ years of enterprise experience",
+      "Deep experience across .NET Framework and .NET 8 for large regulated systems. Led migration from .NET Framework to .NET 8 at GMG, resolving complex legacy constraints while keeping production stable.",
   },
   {
     name: "Distributed Systems",
-    level: 90,
+    level: 94,
     category: "architecture",
     description:
-      "Experience with microservices, message queues, IBM MQ, and distributed computing patterns",
+      "Architected mission-critical platforms at national scale: 15-node SQL Server cluster for 15,000 concurrent users, Shetab card network services, and Chakavak cheque-clearing backbone.",
+  },
+  {
+    name: "SQL Server & Data Engineering",
+    level: 94,
+    category: "database",
+    description:
+      "Designed banking-grade schemas, high-volume ETL pipelines, NHibernate ORM layers, advanced indexing, and ACID-compliant persistence for financial systems under strict regulatory SLAs.",
+  },
+  {
+    name: "Azure DevOps & CI/CD",
+    level: 91,
+    category: "cloud",
+    description:
+      "Owns CI/CD pipelines, release workflows, build automation, and containerized delivery using Azure DevOps and Docker across multi-environment deployments at GMG.",
+  },
+  {
+    name: "System Integration & IPC",
+    level: 91,
+    category: "integration",
+    description:
+      "Built the IPC layer between software and printer hardware using Named Pipes and socket networking. Extensive integration across banking hardware (POS, ATM), IBM MQ, and external BI systems.",
   },
   {
     name: "React & TypeScript",
-    level: 85,
+    level: 89,
     category: "frontend",
     description:
-      "Modern React development with TypeScript, hooks, and ecosystem management",
+      "Builds modular SaaS frontend features at GMG, and delivered the full React.js reporting dashboard for Postbank of Iran's 400+ branch analytics platform.",
   },
   {
-    name: "Cloud Architecture",
+    name: "Team Leadership",
+    level: 89,
+    category: "leadership",
+    description:
+      "Led an 8-person cross-functional engineering team for 9 years at Postbank of Iran. Owns sprint planning, code quality, mentoring, and hiring in SAFe Agile at GMG.",
+  },
+  {
+    name: "Event-Driven Architecture",
     level: 88,
+    category: "architecture",
+    description:
+      "Owned IBM MQ architecture for the Chakavak national cheque-clearing system achieving fault-tolerant async processing under regulatory SLAs. Deep background in event-driven design patterns.",
+  },
+  {
+    name: "Node.js & Microservices",
+    level: 87,
+    category: "backend",
+    description:
+      "Designed and operated microservices-based analytics platforms and ETL services at Postbank of Iran. Built MCP servers, automation tools, and API layers with Node.js at GMG.",
+  },
+  {
+    name: "Security & Authorization",
+    level: 86,
+    category: "security",
+    description:
+      "Architected OAuth2, JWT, and fine-grained multi-tenant authorization with Authzed (Google Zanzibar-inspired) at GMG. Extensive background in regulated financial security requirements.",
+  },
+  {
+    name: "Cloud Operations",
+    level: 86,
     category: "cloud",
     description:
-      "AWS, Azure, Docker, Kubernetes, and cloud-native architecture patterns",
+      "Hands-on with AWS CloudWatch, Docker-based production operations, and self-hosted SaaS deployments on-premises. Owned full infrastructure and production operations at Postbank of Iran.",
   },
   {
-    name: "Database Design",
-    level: 92,
-    category: "database",
+    name: "Quality Engineering",
+    level: 84,
+    category: "quality",
     description:
-      "SQL Server, MongoDB, PostgreSQL, data modeling, and performance optimization",
-  },
-  {
-    name: "System Integration",
-    level: 87,
-    category: "integration",
-    description:
-      "API design, RESTful services, system integration, and enterprise connectivity",
+      "Built and maintained unit, integration, and Cypress E2E test suites at GMG. Set up AWS CloudWatch monitoring. Experience with disciplined delivery in both regulated banking and commercial SaaS contexts.",
   },
 ];
 
-// Hamed Afzali's Code Display Data
+// ─── Code Display ─────────────────────────────────────────────────────────────
+
 const codeDisplayData = {
   codeLines: [
     "const developer = {",
@@ -320,127 +330,186 @@ const codeDisplayData = {
     "  title: 'Senior Full-Stack Engineer',",
     "  experience: '15+ years',",
     "  location: 'Tübingen, Germany',",
+    "  current: 'GMG GmbH & Co. KG',",
     "  expertise: [",
     "    'Distributed Systems Architecture',",
-    "    'High-Performance Computing',",
-    "    'Enterprise Software Development',",
-    "    'Cloud-Native Solutions',",
-    "    'Core Banking Systems',",
-    "    'Microservices & APIs'",
+    "    'Platform Modernization (.NET → .NET 8)',",
+    "    'Event-Driven Architecture & IBM MQ',",
+    "    'Multi-Tenant SaaS Platforms',",
+    "    'National Payment Infrastructure',",
+    "    'Technical Team Leadership'",
     "  ],",
-    "  technologies: {",
-    "    backend: ['.NET', 'C#', 'Node.js', 'IBM MQ'],",
-    "    frontend: ['React', 'TypeScript', 'Angular'],",
-    "    database: ['SQL Server', 'MongoDB', 'PostgreSQL'],",
-    "    cloud: ['AWS', 'Azure', 'Docker', 'Kubernetes'],",
-    "    methodologies: ['SAFe Agile', 'TDD', 'CI/CD']",
+    "  stack: {",
+    "    backend: ['.NET 8', 'C#', 'Node.js', 'Java', 'IBM MQ'],",
+    "    frontend: ['React', 'TypeScript'],",
+    "    database: ['SQL Server', 'SQLite', 'MongoDB'],",
+    "    cloud: ['AWS', 'Azure DevOps', 'Docker', 'CI/CD'],",
+    "    auth: ['OAuth2', 'JWT', 'Authzed']",
     "  },",
-    "  achievements: {",
-    "    enterpriseProjects: '50+',",
-    "    teamLeadership: '10+ years',",
-    "    systemModernizations: '15+ successful migrations',",
-    "    performanceOptimizations: '40% avg improvement'",
+    "  scale: {",
+    "    concurrentUsers: '15000+',",
+    "    branches: '400+',",
+    "    teamSize: '8 engineers',",
+    "    yearsLeading: '9'",
     "  },",
-    "  status: 'Open to new challenges'",
+    "  status: 'Open to senior engineering & architecture roles'",
     "};",
   ],
 };
 
-// Hamed Afzali's Terminal Commands Data
+// ─── Terminal Commands ────────────────────────────────────────────────────────
+
 const terminalCommandsData = {
   commands: [
-    "$ whoami",
-    "$ grep -r 'experience' /career/ --include='*.md'",
-    "$ curl -X POST https://api.hamed.dev/contact",
-    "$ echo 'Ready for new challenges'",
+    "$ whoami → hamed.afzali @ senior-engineer",
+    "$ cat /career/current.txt → GMG GmbH | Senior Full-Stack Engineer | Tübingen, DE",
+    "$ ls /skills/ → .net8  react  typescript  distributed-systems  node.js  azure-devops",
+    "$ git log --oneline | wc -l → 15 years of commits",
+    "$ curl -X POST https://hamed.dev/api/contact",
+    "$ echo 'Open to senior engineering & architecture roles'",
   ],
   fallbackCommands: [
-    "$ whoami",
-    "$ grep -r 'experience' /career/ --include='*.md'",
-    "$ curl -X POST https://api.hamed.dev/contact",
-    "$ echo 'Ready for new challenges'",
+    "$ whoami → hamed.afzali @ senior-engineer",
+    "$ cat /career/current.txt → GMG GmbH | Senior Full-Stack Engineer | Tübingen, DE",
+    "$ ls /skills/ → .net8  react  typescript  distributed-systems  node.js  azure-devops",
+    "$ git log --oneline | wc -l → 15 years of commits",
+    "$ curl -X POST https://hamed.dev/api/contact",
+    "$ echo 'Open to senior engineering & architecture roles'",
   ],
 };
 
-// Hamed Afzali's Footer Data
+// ─── Footer ───────────────────────────────────────────────────────────────────
+
 const footerData = {
-  copyright: "Profile. All rights reserved.",
+  copyright: "Hamed Afzali. All rights reserved.",
   navigationLinks: [
     { name: "about", href: "#about" },
     { name: "portfolio", href: "#portfolio" },
     { name: "contact", href: "#contact" },
   ],
   socialLinks: [
-    { name: "twitter", href: "https://twitter.com", text: "Twitter" },
-    { name: "linkedin", href: "https://linkedin.com", text: "LinkedIn" },
-    { name: "github", href: "https://github.com", text: "GitHub" },
+    { name: "linkedin", href: "https://linkedin.com/in/hamed-afzali", text: "LinkedIn" },
+    { name: "github", href: "https://github.com/hamedafzali", text: "GitHub" },
+    { name: "email", href: "mailto:afzali.hamed@gmail.com", text: "Email" },
   ],
 };
 
-// Seed function
+// ─── Profile ──────────────────────────────────────────────────────────────────
+
+const profileData = {
+  name: "Hamed Afzali",
+  brand: "hamed.dev",
+  siteUrl: "https://hamed.dev",
+  image: "https://hamed.dev/hamedafzali.png",
+  headline: "Senior Full-Stack Engineer & Technical Lead",
+  summary:
+    "Senior engineer and technical lead with 15+ years designing and operating mission-critical distributed systems in regulated banking and fintech environments. Track record of owning full system lifecycles — from architecture decisions and team leadership to production operations — at scale (15,000+ concurrent users, 400+ branch networks, national payment infrastructure). Specializes in platform modernization, high-availability distributed architecture, and leading cross-functional engineering teams toward measurable business outcomes.",
+  location: "Tübingen, Germany",
+  availabilityStatus: "Open to senior engineering, architecture, and technical leadership roles",
+  yearsExperience: "15+",
+  roles: [
+    "Senior Full-Stack Engineer",
+    "Distributed Systems Architect",
+    "Technical Team Lead",
+    "Platform Modernization Lead",
+  ],
+  specializations: [
+    "Distributed Systems",
+    "Platform Modernization",
+    "FinTech & Banking Systems",
+    "Technical Leadership",
+  ],
+  contactMethods: [
+    {
+      label: "Email",
+      value: "afzali.hamed@gmail.com",
+      href: "mailto:afzali.hamed@gmail.com",
+      command: "mail afzali.hamed@gmail.com",
+    },
+    {
+      label: "Phone",
+      value: "+49 176 3146 1176",
+      href: "tel:+4917631461176",
+      command: "call +4917631461176",
+    },
+    {
+      label: "LinkedIn",
+      value: "linkedin.com/in/hamed-afzali",
+      href: "https://linkedin.com/in/hamed-afzali",
+      command: "open https://linkedin.com/in/hamed-afzali",
+    },
+    {
+      label: "Location",
+      value: "Tübingen, Germany",
+      href: "#contact",
+      command: "map Tübingen, Germany",
+    },
+  ],
+  careerHighlights: [
+    {
+      title: "15,000+ Concurrent Users",
+      description:
+        "Architected a 15-node distributed SQL Server core banking platform serving 15,000 concurrent users with ACID-compliant transactional isolation at Postbank of Iran.",
+    },
+    {
+      title: "National Payment Infrastructure",
+      description:
+        "Designed and delivered high-availability Java services for Iran's Shetab national card network and the IBM MQ backbone for the Chakavak national cheque-clearing system.",
+    },
+    {
+      title: "400+ Branch Analytics Platform",
+      description:
+        "Sole architect and technical lead of a regulatory-grade BI and reporting platform consolidating real-time transaction data from 400+ branches, submitted to the Central Bank.",
+    },
+    {
+      title: "Team Lead — 8 Engineers",
+      description:
+        "Led a cross-functional engineering team of 8 for 9 years at Postbank of Iran, owning delivery, sprint planning, code quality, and technical mentorship across mission-critical projects.",
+    },
+  ],
+};
+
+// ─── Seed ─────────────────────────────────────────────────────────────────────
+
 async function seedDatabase() {
   try {
-    // Connect to MongoDB
     await mongoose.connect(
       process.env.MONGODB_URI || "mongodb://localhost:27017/portfolio",
-      {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-      },
+      { useNewUrlParser: true, useUnifiedTopology: true },
     );
 
-    // Clear existing projects
-    await Project.deleteMany({});
-    console.log("Cleared existing projects");
-
-    // Clear existing skills
-    await Skill.deleteMany({});
-    console.log("Cleared existing skills");
-
-    // Clear existing code display
-    await CodeDisplay.deleteMany({});
-    console.log("Cleared existing code display");
-
-    // Clear existing terminal commands
-    await TerminalCommands.deleteMany({});
-    console.log("Cleared existing terminal commands");
-
-    // Clear existing footer
-    await Footer.deleteMany({});
-    console.log("Cleared existing footer");
-
-    // Insert sample projects
-    const insertedProjects = await Project.insertMany(sampleProjects);
-    console.log(`Inserted ${insertedProjects.length} projects`);
-
-    // Insert sample skills
-    const insertedSkills = await Skill.insertMany(sampleSkills);
-    console.log(`Inserted ${insertedSkills.length} skills`);
-
-    // Insert code display data
-    const insertedCodeDisplay = await CodeDisplay.insertMany([codeDisplayData]);
-    console.log(`Inserted ${insertedCodeDisplay.length} code display entries`);
-
-    // Insert terminal commands data
-    const insertedTerminalCommands = await TerminalCommands.insertMany([
-      terminalCommandsData,
+    await Promise.all([
+      Project.deleteMany({}),
+      Skill.deleteMany({}),
+      CodeDisplay.deleteMany({}),
+      TerminalCommands.deleteMany({}),
+      Footer.deleteMany({}),
+      Profile.deleteMany({}),
     ]);
-    console.log(
-      `Inserted ${insertedTerminalCommands.length} terminal commands entries`,
-    );
 
-    // Insert footer data
-    const insertedFooter = await Footer.insertMany([footerData]);
-    console.log(`Inserted ${insertedFooter.length} footer entries`);
+    const [projects, skills, codeDisplay, terminal, footer, profile] =
+      await Promise.all([
+        Project.insertMany(sampleProjects),
+        Skill.insertMany(sampleSkills),
+        CodeDisplay.insertMany([codeDisplayData]),
+        TerminalCommands.insertMany([terminalCommandsData]),
+        Footer.insertMany([footerData]),
+        Profile.insertMany([profileData]),
+      ]);
 
-    // Disconnect from database
+    console.log(`Projects:          ${projects.length}`);
+    console.log(`Skills:            ${skills.length}`);
+    console.log(`Code display:      ${codeDisplay.length}`);
+    console.log(`Terminal commands: ${terminal.length}`);
+    console.log(`Footer:            ${footer.length}`);
+    console.log(`Profile:           ${profile.length}`);
+    console.log("Database seeded successfully.");
+
     await mongoose.disconnect();
-    console.log("Database seeded successfully!");
   } catch (error) {
     console.error("Error seeding database:", error);
     process.exit(1);
   }
 }
 
-// Run seed function
 seedDatabase();

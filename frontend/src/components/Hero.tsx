@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import "./Hero.css";
 import ApiService, { ProfileData, Skill } from "../services/api";
+import { useTypingAnimation } from "../hooks/useTypingAnimation";
 
 const Hero: React.FC = () => {
   const [currentColor, setCurrentColor] = useState("blue");
-  const [typedText, setTypedText] = useState("");
-  const [currentSection, setCurrentSection] = useState(0);
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [skills, setSkills] = useState<Skill[]>([]);
   const [activeItem, setActiveItem] = useState<string | null>(null);
@@ -30,7 +29,8 @@ const Hero: React.FC = () => {
   });
   const photoRef = useRef<HTMLDivElement>(null);
 
-  const roles = profile?.roles || [];
+  const roles = useMemo(() => profile?.roles ?? [], [profile]);
+  const { text: typedText } = useTypingAnimation(roles);
 
   const colorSchemes = {
     blue: { primary: "#48c6b6", secondary: "#3c6df0", accent: "#8bd3ff" },
@@ -68,31 +68,6 @@ const Hero: React.FC = () => {
 
     fetchProfileData();
   }, []);
-
-  useEffect(() => {
-    if (roles.length === 0) {
-      setTypedText("");
-      return;
-    }
-
-    let charIndex = 0;
-    const currentRole = roles[currentSection];
-
-    const typeInterval = setInterval(() => {
-      if (charIndex <= currentRole.length) {
-        setTypedText(currentRole.slice(0, charIndex));
-        charIndex++;
-      } else {
-        clearInterval(typeInterval);
-        setTimeout(() => {
-          setTypedText("");
-          setCurrentSection((prev) => (prev + 1) % roles.length);
-        }, 2000);
-      }
-    }, 100);
-
-    return () => clearInterval(typeInterval);
-  }, [currentSection, roles]);
 
   const getZIndex = (itemId: string) => {
     return elementZIndices[itemId] || 1;

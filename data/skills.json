@@ -4,61 +4,73 @@
       "name": ".NET Architecture",
       "level": 96,
       "category": "backend",
-      "description": "Deep experience across .NET Framework and .NET 8 for large regulated systems, modernization work, and long-lived enterprise platforms."
+      "description": "Deep experience across .NET Framework and .NET 8 for large regulated systems. Led migration from .NET Framework to .NET 8 at GMG, resolving complex legacy constraints while keeping production systems stable."
     },
     {
       "name": "Distributed Systems",
-      "level": 93,
+      "level": 94,
       "category": "architecture",
-      "description": "Strong background in high-availability systems, national transaction networks, distributed messaging, and fault-tolerant service design."
-    },
-    {
-      "name": "React & TypeScript",
-      "level": 88,
-      "category": "frontend",
-      "description": "Built modular SaaS interfaces, reporting dashboards, and maintainable frontends with React, TypeScript, and modern web tooling."
-    },
-    {
-      "name": "Azure DevOps & CI/CD",
-      "level": 90,
-      "category": "cloud",
-      "description": "Owns pipelines, release workflows, build automation, and containerized delivery across environments using Azure DevOps and Docker."
-    },
-    {
-      "name": "Cloud Operations",
-      "level": 87,
-      "category": "cloud",
-      "description": "Hands-on work with AWS CloudWatch, Docker-based operations, self-hosted SaaS deployments, and production infrastructure support."
+      "description": "Architected mission-critical distributed platforms at national scale: 15-node SQL Server cluster for 15,000 concurrent users, Shetab card network services, and Chakavak cheque-clearing backbone."
     },
     {
       "name": "SQL Server & Data Engineering",
       "level": 94,
       "category": "database",
-      "description": "Designed banking-grade schemas, ETL pipelines, stored procedures, indexing strategies, and high-concurrency persistence layers."
+      "description": "Designed banking-grade schemas, high-volume ETL pipelines, NHibernate ORM layers, advanced indexing, and ACID-compliant persistence for financial systems under strict regulatory SLAs."
     },
     {
-      "name": "System Integration",
+      "name": "Azure DevOps & CI/CD",
+      "level": 91,
+      "category": "cloud",
+      "description": "Owns CI/CD pipelines, release workflows, build automation, and containerized delivery using Azure DevOps and Docker. Manages multi-environment deployment strategy at GMG."
+    },
+    {
+      "name": "System Integration & IPC",
       "level": 91,
       "category": "integration",
-      "description": "Strong in hardware integration, IPC, Named Pipes, socket communication, and external system connectivity for critical workflows."
+      "description": "Built the IPC layer between software and printer hardware at GMG using Named Pipes and socket networking. Extensive integration work across banking hardware (POS, ATM), IBM MQ, and external BI systems."
     },
     {
-      "name": "Security & Authorization",
-      "level": 86,
-      "category": "security",
-      "description": "Architected OAuth2, JWT, and fine-grained authorization models with Authzed for secure API and application design."
+      "name": "React & TypeScript",
+      "level": 89,
+      "category": "frontend",
+      "description": "Builds modular SaaS frontend features at GMG, and delivered the full React.js reporting dashboard for Postbank of Iran's 400+ branch analytics platform. 10+ years across React and modern TypeScript."
     },
     {
       "name": "Team Leadership",
       "level": 89,
       "category": "leadership",
-      "description": "Led cross-functional teams, mentored developers, aligned technical debt with product goals, and managed delivery in SAFe Agile environments."
+      "description": "Led an 8-person cross-functional engineering team for 9 years at Postbank of Iran. Owns sprint planning, code quality, mentoring, and hiring. Currently working in SAFe Agile at GMG."
+    },
+    {
+      "name": "Event-Driven Architecture",
+      "level": 88,
+      "category": "architecture",
+      "description": "Owned IBM MQ architecture for the Chakavak national cheque-clearing system achieving fault-tolerant async processing under regulatory SLAs. Extensive background in event-driven, message-broker design patterns."
+    },
+    {
+      "name": "Node.js & Microservices",
+      "level": 87,
+      "category": "backend",
+      "description": "Designed and operated microservices-based analytics platforms and ETL services at Postbank of Iran. Built MCP servers, automation tools, and API layers with Node.js at GMG."
+    },
+    {
+      "name": "Security & Authorization",
+      "level": 86,
+      "category": "security",
+      "description": "Architected OAuth2, JWT, and fine-grained multi-tenant authorization with Authzed (Google Zanzibar-inspired) at GMG. Extensive background in regulated financial security requirements."
+    },
+    {
+      "name": "Cloud Operations",
+      "level": 86,
+      "category": "cloud",
+      "description": "Hands-on with AWS CloudWatch, Docker-based production operations, and self-hosted SaaS deployments on-premises. Owned full infrastructure setup and production operations at Postbank of Iran."
     },
     {
       "name": "Quality Engineering",
       "level": 84,
       "category": "quality",
-      "description": "Improved reliability with unit, integration, and Cypress test suites, observability, incident support, and disciplined delivery processes."
+      "description": "Built and maintained unit, integration, and Cypress E2E test suites at GMG. Set up AWS CloudWatch monitoring. Experience with disciplined delivery in both regulated banking and commercial SaaS contexts."
     }
   ]
 }

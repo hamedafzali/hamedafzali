@@ -9,12 +9,15 @@ const skills = readJson("/seed/data/skills.json").skills || [];
 const terminal = readJson("/seed/data/terminal-commands.json");
 const footer = readJson("/seed/data/footer-data.json").footerData || {};
 const profile = readJson("/seed/data/profile-data.json").profile || {};
+const codeDisplay =
+  readJson("/seed/data/code-display.json").codeDisplay || {};
 
 db.projects.deleteMany({});
 db.skills.deleteMany({});
 db.terminalcommands.deleteMany({});
 db.footer.deleteMany({});
 db.profile.deleteMany({});
+db.codedisplays.deleteMany({});
 
 if (projects.length) {
   db.projects.insertMany(projects);
@@ -43,10 +46,18 @@ db.profile.insertOne({
   createdAt: new Date(),
 });
 
+if (codeDisplay.codeLines && codeDisplay.codeLines.length) {
+  db.codedisplays.insertOne({
+    codeLines: codeDisplay.codeLines,
+    createdAt: new Date(),
+  });
+}
+
 printjson({
   projects: db.projects.countDocuments(),
   skills: db.skills.countDocuments(),
   terminalcommands: db.terminalcommands.countDocuments(),
   footer: db.footer.countDocuments(),
   profile: db.profile.countDocuments(),
+  codedisplays: db.codedisplays.countDocuments(),
 });

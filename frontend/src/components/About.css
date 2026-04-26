@@ -767,4 +767,27 @@
   .expertise-panel {
     padding: 1.5rem;
   }
+
+  /* Make the stock table scroll horizontally rather than overflow */
+  .stock-table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table-header,
+  .table-row {
+    min-width: 520px;
+  }
+
+  /* Reduce market header stacking */
+  .market-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  /* Tighten timeline on small screens */
+  .timeline-items {
+    padding-left: 0.5rem;
+  }
 }

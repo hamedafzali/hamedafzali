@@ -2,10 +2,19 @@ import React, { useState, useEffect } from "react";
 import "./About.css";
 import ApiService, { ProfileData } from "../services/api";
 
+interface DisplaySkill {
+  name: string;
+  level: number;
+  category: string;
+  change: number;
+  volume: string;
+  trend: string;
+}
+
 const About: React.FC = () => {
   const [typedCode, setTypedCode] = useState("");
   const [currentLine, setCurrentLine] = useState(0);
-  const [skills, setSkills] = useState<any[]>([]); // Start with empty array
+  const [skills, setSkills] = useState<DisplaySkill[]>([]);
   const [codeLines, setCodeLines] = useState<string[]>([]); // Start with empty array
   const [profile, setProfile] = useState<ProfileData | null>(null);
 
@@ -77,8 +86,8 @@ const About: React.FC = () => {
         const backendSkills = await ApiService.getSkills();
 
         // Transform backend data to match our format
-        const transformedSkills = backendSkills.map(
-          (skill: any, index: number) => ({
+        const transformedSkills: DisplaySkill[] = backendSkills.map(
+          (skill, index) => ({
             name: skill.name || `Skill ${index + 1}`,
             level: skill.level || 85,
             category: skill.category || "general",

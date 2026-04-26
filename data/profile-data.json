@@ -4,21 +4,22 @@
     "brand": "hamed.dev",
     "siteUrl": "https://hamed.dev",
     "image": "https://hamed.dev/hamedafzali.png",
-    "headline": "Technical Team Lead | Cloud Operations & Software Engineering",
-    "summary": "Technical Team Lead and Software Engineer with 15+ years of experience leading cross-functional teams and architecting high-availability, mission-critical systems in regulated banking and fintech environments.",
-    "location": "Tuebingen, Germany",
-    "availabilityStatus": "Available for senior engineering, architecture, and technical leadership opportunities",
+    "headline": "Senior Full-Stack Engineer & Technical Lead",
+    "summary": "Senior engineer and technical lead with 15+ years designing and operating mission-critical distributed systems in regulated banking and fintech environments. Track record of owning full system lifecycles — from architecture decisions and team leadership to production operations — at scale (15,000+ concurrent users, 400+ branch networks, national payment infrastructure). Specializes in platform modernization, high-availability distributed architecture, and leading cross-functional engineering teams toward measurable business outcomes.",
+    "location": "Tübingen, Germany",
+    "availabilityStatus": "Open to senior engineering, architecture, and technical leadership roles",
     "yearsExperience": "15+",
     "roles": [
+      "Senior Full-Stack Engineer",
+      "Distributed Systems Architect",
       "Technical Team Lead",
-      "Cloud Operations Engineer",
-      "Senior Full-Stack Developer",
-      "Distributed Systems Architect"
+      "Platform Modernization Lead"
     ],
     "specializations": [
       "Distributed Systems",
-      "Cloud Operations",
-      "Platform Modernization"
+      "Platform Modernization",
+      "FinTech & Banking Systems",
+      "Technical Leadership"
     ],
     "contactMethods": [
       {
@@ -29,7 +30,7 @@
       },
       {
         "label": "Phone",
-        "value": "+49 (0) 176 3146 1176",
+        "value": "+49 176 3146 1176",
         "href": "tel:+4917631461176",
         "command": "call +4917631461176"
       },
@@ -41,23 +42,27 @@
       },
       {
         "label": "Location",
-        "value": "Tuebingen, Germany",
+        "value": "Tübingen, Germany",
         "href": "#contact",
-        "command": "map Tuebingen, Germany"
+        "command": "map Tübingen, Germany"
       }
     ],
     "careerHighlights": [
       {
-        "title": "15+ Years Experience",
-        "description": "Leading enterprise software engineering, cloud operations, and modernization efforts in regulated environments."
+        "title": "15,000+ Concurrent Users",
+        "description": "Architected a 15-node distributed SQL Server core banking platform serving 15,000 concurrent users with ACID-compliant transactional isolation at Postbank of Iran."
       },
       {
-        "title": "400+ Branch Scale",
-        "description": "Delivered reporting, ETL, and support workflows used across large banking operations and regulatory reporting lines."
+        "title": "National Payment Infrastructure",
+        "description": "Designed and delivered high-availability Java services for Iran's Shetab national card network and the IBM MQ backbone for the Chakavak national cheque-clearing system."
       },
       {
-        "title": "Team Leadership",
-        "description": "Managed cross-functional engineering teams, mentoring developers and aligning technical execution with business goals."
+        "title": "400+ Branch Analytics Platform",
+        "description": "Sole architect and technical lead of a regulatory-grade BI and reporting platform consolidating real-time transaction data from 400+ branches, submitted to the Central Bank."
+      },
+      {
+        "title": "Team Lead — 8 Engineers",
+        "description": "Led a cross-functional engineering team of 8 for 9 years at Postbank of Iran, owning delivery, sprint planning, code quality, and technical mentorship across mission-critical projects."
       }
     ]
   }

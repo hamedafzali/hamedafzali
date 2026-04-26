@@ -1,5 +1,15 @@
 /* Premium Contact Section Styles - Dark Theme */
 
+.form-error {
+  color: #f87171;
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-left: 2px solid #f87171;
+  background: rgba(248, 113, 113, 0.08);
+  border-radius: 4px;
+}
+
 .contact {
   min-height: 100vh;
   background: var(--bg-alt);
@@ -587,5 +597,31 @@
   .reset-btn {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-content {
+    gap: 1.5rem;
+  }
+
+  .terminal-contact {
+    font-size: 0.8rem;
+  }
+
+  .form-terminal {
+    padding: 1rem;
+  }
+
+  .method-cards {
+    gap: 0.75rem;
+  }
+
+  .method-card {
+    padding: 0.75rem 1rem;
+  }
+
+  .availability-status {
+    padding: 0;
   }
 }

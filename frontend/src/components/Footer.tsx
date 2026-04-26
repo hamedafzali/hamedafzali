@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./Footer.css";
 import ApiService from "../services/api";
 
 const Footer: React.FC = () => {
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const currentYear = new Date().getFullYear();
   const [footerData, setFooterData] = useState({
     copyright: "",
     navigationLinks: [] as { name: string; href: string }[],
@@ -27,15 +27,6 @@ const Footer: React.FC = () => {
     };
 
     fetchFooterData();
-  }, []);
-
-  // Update current year every minute
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentYear(new Date().getFullYear());
-    }, 60000); // Update every minute
-
-    return () => clearInterval(interval);
   }, []);
 
   const scrollToTop = () => {
