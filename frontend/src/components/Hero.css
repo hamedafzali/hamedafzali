@@ -37,17 +37,30 @@
   font-family: var(--font-sans);
 }
 
+/* Status label rather than a pill: the availability text is long and a
+   rounded pill wraps into a broken-looking block on narrow screens. */
 .hero-eyebrow {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   margin-bottom: var(--space-3);
-  padding: 6px 14px;
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  background: var(--surface);
   color: var(--primary-color);
   font-family: var(--font-mono);
-  font-size: 0.8rem;
-  letter-spacing: 0.02em;
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  text-align: left;
+}
+
+.hero-eyebrow::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--primary-color);
+  box-shadow: 0 0 10px var(--primary-color);
 }
 
 .hero-headline {
@@ -956,6 +969,29 @@
 
   .scroll-indicator {
     display: none;
+  }
+
+  /* Tighten the hero on mobile: left-align and show the summary as a short
+     teaser (the full summary lives in the About/Contact sections). */
+  .hero-intro {
+    text-align: left;
+  }
+
+  .hero-lede {
+    margin-left: 0;
+    margin-right: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .hero-cta {
+    justify-content: flex-start;
+  }
+
+  .photo-sticker {
+    align-self: center;
   }
 }
 
