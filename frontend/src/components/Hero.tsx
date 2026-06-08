@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import "./Hero.css";
-import ApiService, { ProfileData, Skill } from "../services/api";
+import { usePortfolioData } from "../context/PortfolioData";
 import { useTypingAnimation } from "../hooks/useTypingAnimation";
 
 const Hero: React.FC = () => {
-  const [profile, setProfile] = useState<ProfileData | null>(null);
-  const [skills, setSkills] = useState<Skill[]>([]);
+  const { profile, skills } = usePortfolioData();
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const [draggingItem, setDraggingItem] = useState<string | null>(null);
   const [positions, setPositions] = useState<{
@@ -34,25 +33,6 @@ const Hero: React.FC = () => {
   const colorSchemes = {
     blue: { primary: "#48c6b6", secondary: "#3c6df0", accent: "#8bd3ff" },
   };
-
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const [profileData, skillsData] = await Promise.all([
-          ApiService.getProfile(),
-          ApiService.getSkills(),
-        ]);
-        setProfile(profileData);
-        setSkills(skillsData);
-      } catch (error) {
-        console.error("Error fetching hero data:", error);
-        setProfile(null);
-        setSkills([]);
-      }
-    };
-
-    fetchProfileData();
-  }, []);
 
   const getZIndex = (itemId: string) => {
     return elementZIndices[itemId] || 1;

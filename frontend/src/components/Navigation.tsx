@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./Navigation.css";
-import ApiService, { ProfileData } from "../services/api";
+import { usePortfolioData } from "../context/PortfolioData";
 
 const Navigation: React.FC = () => {
+  const { profile, footer } = usePortfolioData();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [profile, setProfile] = useState<ProfileData | null>(null);
-  const [navItems, setNavItems] = useState<
-    { name: string; href: string; icon: string }[]
-  >([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,34 +16,19 @@ const Navigation: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    const fetchFooterData = async () => {
-      try {
-        const [data, profileData] = await Promise.all([
-          ApiService.getFooter(),
-          ApiService.getProfile(),
-        ]);
-        setNavItems(
-          data.navigationLinks.map((link) => ({
-            ...link,
-            icon:
-              link.name === "about"
-                ? "👤"
-                : link.name === "portfolio"
-                  ? "💼"
-                  : "📧",
-          })),
-        );
-        setProfile(profileData);
-      } catch (error) {
-        console.error("Error fetching navigation data:", error);
-        setNavItems([]);
-        setProfile(null);
-      }
-    };
-
-    fetchFooterData();
-  }, []);
+  const navItems = useMemo(
+    () =>
+      (footer?.navigationLinks || []).map((link) => ({
+        ...link,
+        icon:
+          link.name === "about"
+            ? "👤"
+            : link.name === "portfolio"
+              ? "💼"
+              : "📧",
+      })),
+    [footer],
+  );
 
   return (
     <nav className={`navigation ${isScrolled ? "scrolled" : ""}`}>

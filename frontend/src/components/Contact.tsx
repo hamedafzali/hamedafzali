@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from "react";
 import "./Contact.css";
-import ApiService, { ProfileData } from "../services/api";
+import ApiService from "../services/api";
+import { usePortfolioData } from "../context/PortfolioData";
 import { useTypingAnimation } from "../hooks/useTypingAnimation";
 
 const Contact: React.FC = () => {
+  const { profile } = usePortfolioData();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
   const [formError, setFormError] = useState("");
+  const [formSuccess, setFormSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [terminalCommands, setTerminalCommands] = useState<string[]>([]);
-  const [profile, setProfile] = useState<ProfileData | null>(null);
   const { text: terminalText, isTyping } = useTypingAnimation(terminalCommands);
 
   // Fetch terminal commands from backend
@@ -30,20 +33,6 @@ const Contact: React.FC = () => {
     fetchTerminalCommands();
   }, []);
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const profileData = await ApiService.getProfile();
-        setProfile(profileData);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-        setProfile(null);
-      }
-    };
-
-    fetchProfile();
-  }, []);
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
@@ -51,11 +40,14 @@ const Contact: React.FC = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+    if (formSuccess) setFormSuccess(false);
+    if (formError) setFormError("");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError("");
+    setFormSuccess(false);
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (formData.name.trim().length < 2) {
@@ -71,14 +63,17 @@ const Contact: React.FC = () => {
       return;
     }
 
+    setIsSubmitting(true);
     try {
       await ApiService.submitContact(formData);
-      alert("Thank you for your message! I will get back to you soon.");
+      setFormSuccess(true);
       setFormData({ name: "", email: "", message: "" });
     } catch (error: unknown) {
       const message =
         error instanceof Error ? error.message : "Unknown error";
       setFormError(`Failed to send message: ${message}. Please try again.`);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -184,6 +179,8 @@ const Contact: React.FC = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
+                    aria-invalid={!!formError}
+                    aria-describedby={formError ? "form-error" : undefined}
                     required
                     className="form-input"
                     placeholder="Enter your name..."
@@ -226,16 +223,30 @@ const Contact: React.FC = () => {
                   ></textarea>
                 </div>
 
-                {formError && (
-                  <p className="form-error" role="alert">
-                    {formError}
-                  </p>
-                )}
+                <div aria-live="polite" className="form-feedback">
+                  {formError && (
+                    <p className="form-error" id="form-error" role="alert">
+                      {formError}
+                    </p>
+                  )}
+                  {formSuccess && (
+                    <p className="form-success" role="status">
+                      ✓ Thanks for reaching out — your message was sent. I'll
+                      get back to you within 24 hours.
+                    </p>
+                  )}
+                </div>
 
                 <div className="form-actions">
-                  <button type="submit" className="submit-btn">
+                  <button
+                    type="submit"
+                    className="submit-btn"
+                    disabled={isSubmitting}
+                  >
                     <span className="btn-icon">🚀</span>
-                    <span className="btn-text">Send Message</span>
+                    <span className="btn-text">
+                      {isSubmitting ? "Sending..." : "Send Message"}
+                    </span>
                     <span className="btn-command">npm run send:message</span>
                   </button>
                   <button

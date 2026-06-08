@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./About.css";
-import ApiService, { ProfileData, Skill } from "../services/api";
+import ApiService, { Skill } from "../services/api";
+import { usePortfolioData } from "../context/PortfolioData";
 
 const CATEGORY_LABELS: Record<string, string> = {
   backend: "Backend & Platforms",
@@ -16,11 +17,10 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 const About: React.FC = () => {
+  const { profile, skills } = usePortfolioData();
   const [typedCode, setTypedCode] = useState("");
   const [currentLine, setCurrentLine] = useState(0);
-  const [skills, setSkills] = useState<Skill[]>([]);
   const [codeLines, setCodeLines] = useState<string[]>([]);
-  const [profile, setProfile] = useState<ProfileData | null>(null);
 
   useEffect(() => {
     if (currentLine < codeLines.length) {
@@ -51,18 +51,6 @@ const About: React.FC = () => {
   }, [currentLine, codeLines]);
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        setProfile(await ApiService.getProfile());
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-        setProfile(null);
-      }
-    };
-    fetchProfile();
-  }, []);
-
-  useEffect(() => {
     const fetchCodeLines = async () => {
       try {
         const codeData = await ApiService.getCodeDisplay();
@@ -75,18 +63,6 @@ const About: React.FC = () => {
       }
     };
     fetchCodeLines();
-  }, []);
-
-  useEffect(() => {
-    const fetchSkills = async () => {
-      try {
-        setSkills(await ApiService.getSkills());
-      } catch (error) {
-        console.error("Error fetching skills:", error);
-        setSkills([]);
-      }
-    };
-    fetchSkills();
   }, []);
 
   // Group skills by category, strongest first within each group.
