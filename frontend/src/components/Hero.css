@@ -4,8 +4,11 @@
   min-height: 100vh;
   position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: clamp(2rem, 5vw, 3.5rem);
+  padding: clamp(96px, 12vh, 140px) clamp(20px, 5vw, 48px) clamp(64px, 8vh, 96px);
   background:
     radial-gradient(
       circle at 20% 20%,
@@ -22,6 +25,67 @@
   overflow: visible;
   font-family: var(--font-mono);
   z-index: 1;
+}
+
+/* Semantic hero intro — the real, accessible headline */
+.hero-intro {
+  position: relative;
+  z-index: 6;
+  max-width: 780px;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-sans);
+}
+
+.hero-eyebrow {
+  display: inline-block;
+  margin-bottom: var(--space-3);
+  padding: 6px 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--primary-color);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+}
+
+.hero-headline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+  font-size: clamp(2.6rem, 6vw, 4.4rem);
+  line-height: 1.05;
+  color: var(--text);
+}
+
+.hero-role {
+  font-size: clamp(1.1rem, 2.6vw, 1.7rem);
+  font-weight: 500;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--accent-color)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-lede {
+  max-width: 60ch;
+  margin: 0 auto var(--space-5);
+  color: var(--muted);
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  line-height: 1.7;
+}
+
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  justify-content: center;
 }
 
 .photo-sticker {

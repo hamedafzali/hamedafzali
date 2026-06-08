@@ -9,9 +9,6 @@ const Navigation: React.FC = () => {
   const [navItems, setNavItems] = useState<
     { name: string; href: string; icon: string }[]
   >([]);
-  const [socialLinks, setSocialLinks] = useState<
-    { name: string; href: string; text: string }[]
-  >([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,12 +37,10 @@ const Navigation: React.FC = () => {
                   : "📧",
           })),
         );
-        setSocialLinks(data.socialLinks);
         setProfile(profileData);
       } catch (error) {
         console.error("Error fetching navigation data:", error);
         setNavItems([]);
-        setSocialLinks([]);
         setProfile(null);
       }
     };
@@ -62,7 +57,10 @@ const Navigation: React.FC = () => {
             <span className="brand-text">{profile?.brand || ""}</span>
           </div>
 
-          <div className={`nav-menu ${isMobileMenuOpen ? "open" : ""}`}>
+          <div
+            id="nav-menu"
+            className={`nav-menu ${isMobileMenuOpen ? "open" : ""}`}
+          >
             <div className="nav-links">
               {navItems.map((item) => (
                 <a
@@ -84,6 +82,8 @@ const Navigation: React.FC = () => {
             className="mobile-menu-toggle"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="nav-menu"
           >
             <span className="hamburger-line"></span>
             <span className="hamburger-line"></span>

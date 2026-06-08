@@ -1,5 +1,4 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import Hero from "./components/Hero";
 import About from "./components/About";
@@ -10,18 +9,19 @@ import "./App.css";
 
 function App() {
   return (
-    <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <div className="App">
-        <Navigation />
-        <main>
-          <Hero />
-          <About />
-          <Portfolio />
-          <Contact />
-        </main>
-        <Footer />
-      </div>
-    </Router>
+    <div className="App">
+      <a href="#main-content" className="skip-link">
+        Skip to content
+      </a>
+      <Navigation />
+      <main id="main-content">
+        <Hero />
+        <About />
+        <Portfolio />
+        <Contact />
+      </main>
+      <Footer />
+    </div>
   );
 }
 

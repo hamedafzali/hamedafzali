@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Portfolio.css";
 import ApiService, { Project } from "../services/api";
 
@@ -7,6 +7,8 @@ const Portfolio: React.FC = () => {
   const [filter, setFilter] = useState("all");
   const [hoveredProject, setHoveredProject] = useState<string | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const lastFocusedRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     const fetchProjects = async () => {
@@ -22,6 +24,25 @@ const Portfolio: React.FC = () => {
 
     fetchProjects();
   }, []);
+
+  // Modal: lock scroll, close on Escape, move focus in, restore focus out.
+  useEffect(() => {
+    if (!selectedProject) return;
+    lastFocusedRef.current = document.activeElement as HTMLElement;
+    document.body.style.overflow = "hidden";
+    closeButtonRef.current?.focus();
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedProject(null);
+    };
+    document.addEventListener("keydown", onKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.style.overflow = "";
+      lastFocusedRef.current?.focus();
+    };
+  }, [selectedProject]);
 
   const categories = ["all", "enterprise", "fintech", "cloud", "integration"];
   const filteredProjects =
@@ -124,11 +145,16 @@ const Portfolio: React.FC = () => {
           >
             <div
               className="project-modal"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="project-modal-title"
               onClick={(event) => event.stopPropagation()}
             >
               <div className="project-modal-header">
                 <div>
-                  <h3 className="project-modal-title">{selectedProject.title}</h3>
+                  <h3 className="project-modal-title" id="project-modal-title">
+                    {selectedProject.title}
+                  </h3>
                   <div className="project-meta">
                     {selectedProject.featured && (
                       <span className="featured-badge">
@@ -148,6 +174,7 @@ const Portfolio: React.FC = () => {
                 </div>
                 <button
                   type="button"
+                  ref={closeButtonRef}
                   className="project-modal-close"
                   onClick={() => setSelectedProject(null)}
                   aria-label="Close project details"

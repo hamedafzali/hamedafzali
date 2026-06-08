@@ -418,6 +418,16 @@ const renderIndexHtml = async () => {
     );
 };
 
+// Require a valid admin token (header or query param) for privileged routes.
+const requireAdmin = (req, res, next) => {
+  const adminToken = process.env.ADMIN_TOKEN;
+  const provided = req.headers["x-admin-token"] || req.query.token;
+  if (!adminToken || provided !== adminToken) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  next();
+};
+
 // Routes
 // Get all projects
 app.get("/api/projects", async (req, res) => {
@@ -454,8 +464,8 @@ app.get("/api/projects/:id", async (req, res) => {
   }
 });
 
-// Create new project
-app.post("/api/projects", async (req, res) => {
+// Create new project (admin only)
+app.post("/api/projects", requireAdmin, async (req, res) => {
   try {
     const project = new Project(req.body);
     const savedProject = await project.save();
@@ -494,12 +504,7 @@ app.post("/api/contact", contactRateLimiter, async (req, res) => {
 });
 
 // Get all contacts (admin only — requires ADMIN_TOKEN header or query param)
-app.get("/api/contacts", async (req, res) => {
-  const adminToken = process.env.ADMIN_TOKEN;
-  const provided = req.headers["x-admin-token"] || req.query.token;
-  if (!adminToken || provided !== adminToken) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
+app.get("/api/contacts", requireAdmin, async (req, res) => {
   try {
     const contacts = await Contact.find().sort({ createdAt: -1 });
     res.json(contacts);

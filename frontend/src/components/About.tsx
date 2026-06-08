@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./About.css";
-import ApiService, { ProfileData } from "../services/api";
+import ApiService, { ProfileData, Skill } from "../services/api";
 
-interface DisplaySkill {
-  name: string;
-  level: number;
-  category: string;
-  change: number;
-  volume: string;
-  trend: string;
-}
+const CATEGORY_LABELS: Record<string, string> = {
+  backend: "Backend & Platforms",
+  frontend: "Frontend",
+  architecture: "Architecture",
+  database: "Data & Databases",
+  cloud: "Cloud & DevOps",
+  integration: "Systems Integration",
+  security: "Security",
+  leadership: "Leadership",
+  quality: "Quality Engineering",
+  general: "Core Skills",
+};
 
 const About: React.FC = () => {
   const [typedCode, setTypedCode] = useState("");
   const [currentLine, setCurrentLine] = useState(0);
-  const [skills, setSkills] = useState<DisplaySkill[]>([]);
-  const [codeLines, setCodeLines] = useState<string[]>([]); // Start with empty array
+  const [skills, setSkills] = useState<Skill[]>([]);
+  const [codeLines, setCodeLines] = useState<string[]>([]);
   const [profile, setProfile] = useState<ProfileData | null>(null);
 
   useEffect(() => {
@@ -44,20 +48,17 @@ const About: React.FC = () => {
 
       return () => clearInterval(typeInterval);
     }
-  }, [currentLine, codeLines]); // Added codeLines dependency
+  }, [currentLine, codeLines]);
 
-  // Fetch code lines from backend
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const profileData = await ApiService.getProfile();
-        setProfile(profileData);
+        setProfile(await ApiService.getProfile());
       } catch (error) {
         console.error("Error fetching profile:", error);
         setProfile(null);
       }
     };
-
     fetchProfile();
   }, []);
 
@@ -66,49 +67,44 @@ const About: React.FC = () => {
       try {
         const codeData = await ApiService.getCodeDisplay();
         setCodeLines(codeData);
-        // Reset typing animation when new code lines are loaded
         setCurrentLine(0);
         setTypedCode("");
       } catch (error) {
         console.error("Error fetching code lines:", error);
-        // Set empty array on error
         setCodeLines([]);
       }
     };
-
     fetchCodeLines();
   }, []);
 
-  // Fetch skills from backend
   useEffect(() => {
     const fetchSkills = async () => {
       try {
-        const backendSkills = await ApiService.getSkills();
-
-        // Transform backend data to match our format
-        const transformedSkills: DisplaySkill[] = backendSkills.map(
-          (skill, index) => ({
-            name: skill.name || `Skill ${index + 1}`,
-            level: skill.level || 85,
-            category: skill.category || "general",
-            change: parseFloat((Math.random() * 10 - 5).toFixed(1)),
-            volume: ["Low", "Medium", "High"][
-              Math.floor(Math.random() * 3)
-            ] as string,
-            trend: Math.random() > 0.5 ? ("up" as string) : ("down" as string),
-          }),
-        );
-
-        setSkills(transformedSkills);
+        setSkills(await ApiService.getSkills());
       } catch (error) {
         console.error("Error fetching skills:", error);
-        // Set empty array on error - no hardcoded fallback
         setSkills([]);
       }
     };
-
     fetchSkills();
   }, []);
+
+  // Group skills by category, strongest first within each group.
+  const skillGroups = useMemo(() => {
+    const groups = new Map<string, Skill[]>();
+    skills.forEach((skill) => {
+      const key = skill.category || "general";
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key)!.push(skill);
+    });
+    return Array.from(groups.entries())
+      .map(([category, items]) => ({
+        category,
+        label: CATEGORY_LABELS[category] || category,
+        items: [...items].sort((a, b) => b.level - a.level),
+      }))
+      .sort((a, b) => b.items[0].level - a.items[0].level);
+  }, [skills]);
 
   return (
     <section id="about" className="about">
@@ -119,13 +115,11 @@ const About: React.FC = () => {
             <span className="code-tag">about</span>
             <span className="code-bracket">{"/>"}</span>
           </h2>
-          <p className="about-subtitle">
-            {profile?.headline || ""}
-          </p>
+          <p className="about-subtitle">{profile?.headline || ""}</p>
         </div>
 
         <div className="about-content">
-          <div className="code-showcase">
+          <div className="code-showcase" aria-hidden="true">
             <div className="code-editor-about">
               <div className="editor-header-about">
                 <div className="editor-controls-about">
@@ -145,112 +139,61 @@ const About: React.FC = () => {
           </div>
 
           <div className="expertise-panel">
-            <h3 className="panel-title">Technical Expertise Market</h3>
-            <div className="market-header">
-              <div className="market-time">
-                <span className="live-indicator">● LIVE</span>
-                <span className="timestamp">
-                  Last Updated: {new Date().toLocaleTimeString()}
-                </span>
-              </div>
-              <div className="market-summary">
-                <span className="summary-item">
-                  <span className="summary-label">Portfolio:</span>
-                  <span className="summary-value positive">+2.8%</span>
-                </span>
-              </div>
-            </div>
+            <h3 className="panel-title">Technical Expertise</h3>
+            <p className="panel-subtitle">
+              {skills.length} core competencies across{" "}
+              {skillGroups.length} disciplines · {profile?.yearsExperience || ""}{" "}
+              years
+            </p>
 
-            <div className="stock-table">
-              <div className="table-header">
-                <div className="header-cell symbol">SYMBOL</div>
-                <div className="header-cell price">PRICE</div>
-                <div className="header-cell change">CHANGE</div>
-                <div className="header-cell volume">VOLUME</div>
-                <div className="header-cell category">SECTOR</div>
-              </div>
-
-              <div className="table-body">
-                {skills.map((skill, index) => (
-                  <div
-                    key={skill.name}
-                    className="table-row"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    <div className="cell symbol">
-                      <div className="ticker">{skill.name.split(" ")[0]}</div>
-                      <div className="full-name">{skill.name}</div>
-                    </div>
-                    <div className="cell price">
-                      <span className="price-value">${skill.level}</span>
-                    </div>
-                    <div className={`cell change ${skill.trend}`}>
-                      <span className="change-indicator">
-                        {skill.trend === "up" ? "▲" : "▼"}
-                      </span>
-                      <span className="change-value">
-                        {Math.abs(skill.change)}%
-                      </span>
-                    </div>
-                    <div className="cell volume">
-                      <div className="volume-bar">
+            <div className="skill-groups">
+              {skillGroups.map((group) => (
+                <div className="skill-group" key={group.category}>
+                  <h4 className="skill-group-title">{group.label}</h4>
+                  <ul className="skill-list">
+                    {group.items.map((skill) => (
+                      <li className="skill-row" key={skill.name}>
+                        <div className="skill-row-head">
+                          <span className="skill-row-name">{skill.name}</span>
+                          <span className="skill-row-level">{skill.level}%</span>
+                        </div>
                         <div
-                          className="volume-fill"
-                          style={{
-                            width:
-                              skill.volume === "High"
-                                ? "80%"
-                                : skill.volume === "Medium"
-                                  ? "50%"
-                                  : "20%",
-                          }}
-                        ></div>
-                      </div>
-                      <span className="volume-text">{skill.volume}</span>
-                    </div>
-                    <div className="cell category">
-                      <span className="category-badge">{skill.category}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                          className="skill-meter"
+                          role="meter"
+                          aria-valuenow={skill.level}
+                          aria-valuemin={0}
+                          aria-valuemax={100}
+                          aria-label={`${skill.name} proficiency`}
+                        >
+                          <div
+                            className="skill-meter-fill"
+                            style={{ width: `${skill.level}%` }}
+                          />
+                        </div>
+                        {skill.description && (
+                          <p className="skill-row-desc">{skill.description}</p>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
+          </div>
+        </div>
 
-            <div className="market-footer">
-              <div className="market-stats">
-                <div className="stat-item">
-                  <span className="stat-label">Total Skills:</span>
-                  <span className="stat-value">{skills.length}</span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-label">Experience:</span>
-                  <span className="stat-value">
-                    {profile?.yearsExperience || "N/A"}
-                  </span>
-                </div>
-                <div className="stat-item">
-                  <span className="stat-label">Current Focus:</span>
-                  <span className="stat-value">
-                    {profile?.roles[0] || "N/A"}
-                  </span>
+        <div className="experience-timeline">
+          <h3 className="timeline-title">Career Highlights</h3>
+          <div className="timeline-items">
+            {(profile?.careerHighlights || []).map((highlight) => (
+              <div className="timeline-item" key={highlight.title}>
+                <div className="timeline-marker"></div>
+                <div className="timeline-content">
+                  <h4>{highlight.title}</h4>
+                  <p>{highlight.description}</p>
                 </div>
               </div>
-            </div>
-
-            <div className="experience-timeline">
-              <h3 className="timeline-title">Career Highlights</h3>
-              <div className="timeline-items">
-                {(profile?.careerHighlights || []).map((highlight) => (
-                  <div className="timeline-item" key={highlight.title}>
-                    <div className="timeline-marker"></div>
-                    <div className="timeline-content">
-                      <h4>{highlight.title}</h4>
-                      <p>{highlight.description}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
