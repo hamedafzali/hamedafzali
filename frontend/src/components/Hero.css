@@ -944,39 +944,14 @@
     display: none;
   }
 
-  .code-editor {
-    position: relative;
-    top: auto;
-    left: auto;
-    width: calc(100vw - 40px);
-    max-width: 100%;
-    min-width: unset;
-    transform: none;
-    margin: 1rem auto 0;
-  }
-
-  .floating-terminal {
-    position: relative;
-    top: auto;
-    right: auto;
-    width: 100%;
-    margin-top: 20px;
-  }
-
+  /* The floating IDE/terminal/skills panels are decorative (aria-hidden) and
+     mouse-drag only. On mobile they stacked into a multi-screen-tall hero
+     (the code editor alone was ~7000px), so hide them and keep a tight,
+     recruiter-focused hero: intro + photo. */
+  .code-editor,
+  .floating-terminal,
   .skill-visualization {
-    position: relative;
-    bottom: auto;
-    left: auto;
-    width: 100%;
-    margin-top: 20px;
-  }
-
-  .hero-actions {
-    position: relative;
-    bottom: auto;
-    right: auto;
-    justify-content: center;
-    margin-top: 30px;
+    display: none;
   }
 
   .scroll-indicator {
