@@ -32,7 +32,13 @@
     linear-gradient(180deg, #0a0f16 0%, #0b111c 45%, #0d1423 100%);
 }
 
-/* Light theme — applied explicitly or via system preference */
+/*
+ * Light theme — opt-in via [data-theme="light"] only.
+ * NOT auto-applied via prefers-color-scheme yet: several components still
+ * have hardcoded dark backgrounds (editors, expertise panel, nav), so a
+ * full auto-light render is not readable until those are tokenized.
+ * Re-enable the prefers-color-scheme block once that migration lands.
+ */
 [data-theme="light"] {
   --bg: #f7f9fc;
   --bg-alt: #eef2f8;
@@ -50,27 +56,6 @@
     radial-gradient(circle at top left, rgba(15, 157, 143, 0.08), transparent 45%),
     radial-gradient(circle at 20% 80%, rgba(44, 84, 201, 0.08), transparent 50%),
     linear-gradient(180deg, #f7f9fc 0%, #eef2f8 100%);
-}
-
-@media (prefers-color-scheme: light) {
-  :root:not([data-theme="dark"]) {
-    --bg: #f7f9fc;
-    --bg-alt: #eef2f8;
-    --surface: rgba(255, 255, 255, 0.92);
-    --surface-strong: #ffffff;
-    --text: #0d1423;
-    --muted: #4a5568;
-    --border: rgba(20, 30, 50, 0.12);
-    --primary-color: #0f9d8f;
-    --secondary-color: #2c54c9;
-    --accent-color: #2b8bd6;
-    --shadow-lg: 0 30px 60px rgba(20, 30, 50, 0.12);
-    --shadow-md: 0 18px 40px rgba(20, 30, 50, 0.1);
-    --page-bg:
-      radial-gradient(circle at top left, rgba(15, 157, 143, 0.08), transparent 45%),
-      radial-gradient(circle at 20% 80%, rgba(44, 84, 201, 0.08), transparent 50%),
-      linear-gradient(180deg, #f7f9fc 0%, #eef2f8 100%);
-  }
 }
 
 * {
