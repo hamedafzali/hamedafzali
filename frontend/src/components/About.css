@@ -746,6 +746,13 @@
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
+  /* Match the code panel's capped height (see .editor-content-about) so the
+     two columns read as a balanced pair on desktop instead of the expertise
+     list running 3-4x longer than developer.js and leaving a tall empty
+     gap under the code panel. */
+  max-height: 500px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
 }
 
 .skill-group-title {
@@ -826,6 +833,15 @@
 
   .code-editor-about {
     margin-bottom: 2rem;
+  }
+
+  /* Columns stack on tablet/mobile, so there's no adjacent panel height to
+     match anymore — let the expertise list flow naturally instead of
+     forcing an extra scroll region inside an already-scrolling page. */
+  .skill-groups {
+    max-height: none;
+    overflow-y: visible;
+    padding-right: 0;
   }
 }
 

@@ -45,6 +45,8 @@ const Portfolio: React.FC = () => {
   }, [selectedProject]);
 
   const categories = ["all", "enterprise", "fintech", "cloud", "integration"];
+  const capitalize = (value: string) =>
+    value.charAt(0).toUpperCase() + value.slice(1);
   const filteredProjects =
     filter === "all"
       ? projects
@@ -190,7 +192,7 @@ const Portfolio: React.FC = () => {
               <div className="project-modal-section">
                 <span className="project-modal-label">Category</span>
                 <span className="project-modal-value">
-                  {selectedProject.category}
+                  {capitalize(selectedProject.category)}
                 </span>
               </div>
 

@@ -99,7 +99,7 @@ const Contact: React.FC = () => {
             <span className="code-bracket">{"/>"}</span>
           </h2>
           <p className="contact-subtitle">
-            {profile?.summary || ""}
+            {profile?.contactIntro || ""}
           </p>
         </div>
 

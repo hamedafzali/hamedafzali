@@ -275,18 +275,3 @@
     height: 44px;
   }
 }
-
-/* Adjust terminal position to avoid overlap */
-.floating-terminal {
-  top: 80px !important;
-}
-
-@media (max-width: 768px) {
-  .floating-terminal {
-    position: relative !important;
-    top: auto !important;
-    right: auto !important;
-    width: 100% !important;
-    margin-top: 80px;
-  }
-}

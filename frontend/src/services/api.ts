@@ -49,6 +49,7 @@ export interface ProfileData {
   summary: string;
   location: string;
   availabilityStatus: string;
+  contactIntro: string;
   yearsExperience: string;
   roles: string[];
   specializations: string[];

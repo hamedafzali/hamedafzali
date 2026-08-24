@@ -56,6 +56,7 @@ const profileSchema = new mongoose.Schema({
   summary: { type: String, required: true },
   location: { type: String, required: true },
   availabilityStatus: { type: String, required: true },
+  contactIntro: { type: String, required: true },
   yearsExperience: { type: String, required: true },
   roles: [{ type: String }],
   specializations: [{ type: String }],
@@ -406,6 +407,8 @@ const profileData = {
     "Senior engineer and technical lead with 20+ years designing and operating mission-critical distributed systems in regulated banking and fintech environments. Track record of owning full system lifecycles — from architecture decisions and team leadership to production operations — at scale (15,000+ concurrent users, 400+ branch networks, national payment infrastructure). Specializes in platform modernization, high-availability distributed architecture, and leading cross-functional engineering teams toward measurable business outcomes.",
   location: "Tübingen, Germany",
   availabilityStatus: "Open to senior engineering, architecture, and technical leadership roles",
+  contactIntro:
+    "Have a role, project, or technical problem you think I'd be a good fit for? I'd like to hear about it — send a message below, or reach out directly through any of the channels here.",
   yearsExperience: "20+",
   roles: [
     "Senior Full-Stack Engineer",
