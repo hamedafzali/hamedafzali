@@ -89,7 +89,7 @@ const sampleProjects = [
   {
     title: "GMG SaaS Platform Modernization",
     description:
-      "Led migration of mission-critical multi-tenant SaaS software from .NET Framework to .NET 8, including SQL CE to SQLite data storage migration and architectural cleanup. Kept the production platform stable throughout the transition.",
+      "Contributed to the architecture decision and led execution of the migration of mission-critical multi-tenant SaaS software from .NET Framework to .NET 8, including SQL CE to SQLite data storage migration. Kept the production platform stable throughout the transition.",
     category: "enterprise",
     image: "/core-banking-modernization.jpg",
     link: "#",
@@ -101,7 +101,7 @@ const sampleProjects = [
   {
     title: "Printer Hardware IPC Integration",
     description:
-      "Engineered the full IPC layer between SaaS software and professional printer hardware using Named Pipes and socket networking at GMG — enabling reliable real-time hardware-software communication and eliminating race conditions.",
+      "Designed and built the full IPC layer between SaaS software and professional printer hardware, choosing Named Pipes and socket networking as the communication approach at GMG — enabling reliable real-time hardware-software communication and eliminating race conditions.",
     category: "integration",
     image: "/printer-integration.jpg",
     link: "#",
@@ -137,7 +137,7 @@ const sampleProjects = [
   {
     title: "OSS Licence Detection & Compliance Automation",
     description:
-      "Built an automated tool for open-source licence detection and dependency management at GMG — providing real-time visibility into third-party dependencies and eliminating manual legal review in the delivery pipeline.",
+      "Solely designed and built an automated OSS licence-compliance tool at GMG covering 3 applications and their transitive dependencies (57+ NuGet packages in the main app alone). Validates every package against approved licence policy, auto-generates copyright notices, an acknowledgement file, and an SBOM, and is wired into the CI pipeline to block any unreviewed package from shipping — eliminating manual legal review.",
     category: "cloud",
     image: "/cloud-migration.jpg",
     link: "#",
@@ -149,7 +149,7 @@ const sampleProjects = [
   {
     title: "Enterprise Analytics & Regulatory Reporting Platform",
     description:
-      "Sole architect and technical lead of a regulatory-grade BI platform (React.js, Node.js, Docker, microservices) aggregating real-time transaction data from 400+ branches, ATM, POS, and core banking at Postbank of Iran — used by senior management and submitted to Central Bank regulators.",
+      "Sole architect and technical lead of a regulatory-grade BI platform (React.js, Node.js, Docker, microservices) aggregating real-time transaction data from 400+ branches, ATM, POS, and core banking at Postbank of Iran (PBI). Extended the platform with a structured API layer for external BI tools and a React Native companion app for on-the-go branch-level reporting. Used by senior management and submitted to Central Bank regulators.",
     category: "fintech",
     image: "/analytics-dashboard.jpg",
     link: "#",
@@ -161,7 +161,7 @@ const sampleProjects = [
   {
     title: "Banking ETL & Regulatory Data Pipelines",
     description:
-      "Designed custom Node.js and SQL Server ETL pipelines processing high-volume transactional data from multiple banking sources at Postbank of Iran. Enforced strict data validation where inaccuracies carried direct legal and financial consequences.",
+      "Designed custom Node.js and SQL Server ETL pipelines processing high-volume transactional data from multiple banking sources at PBI. Enforced strict data validation where inaccuracies carried direct legal and financial consequences.",
     category: "fintech",
     image: "/budget-reporting.jpg",
     link: "#",
@@ -185,7 +185,7 @@ const sampleProjects = [
   {
     title: "Shetab National Card Network Integration",
     description:
-      "Spearheaded R&D and architecture for Iran's Shetab national card network integration at Postbank of Iran — Java-based high-availability services for real-time national payment transaction processing at scale.",
+      "Spearheaded R&D and architecture for the Shetab national card network integration at PBI — Java-based high-availability services for real-time national payment transaction processing at scale.",
     category: "fintech",
     image: "/shetab-banking.jpg",
     link: "#",
@@ -197,7 +197,7 @@ const sampleProjects = [
   {
     title: "Chakavak National Cheque-Clearing Backbone",
     description:
-      "Architected the IBM MQ messaging backbone for Iran's Chakavak national cheque-clearing system — fault-tolerant asynchronous processing across distributed nodes under strict Central Bank regulatory SLAs.",
+      "Architected the IBM MQ messaging backbone for PBI's Chakavak national cheque-clearing system — fault-tolerant asynchronous processing across distributed nodes under strict Central Bank regulatory SLAs.",
     category: "fintech",
     image: "/chakavak-system.jpg",
     link: "#",
@@ -221,7 +221,7 @@ const sampleProjects = [
   {
     title: "POS Terminal & ATM Integration Software",
     description:
-      "Developed C++ POS terminal software with hardware-level protocol integration, and ATM/card processing modules with real-time authorisation and settlement flows at Postbank of Iran.",
+      "Developed C++ POS terminal software with hardware-level protocol integration, and ATM/card processing modules with real-time authorisation and settlement flows at PBI.",
     category: "integration",
     image: "/pos-management.jpg",
     link: "#",
@@ -240,7 +240,7 @@ const sampleSkills = [
     level: 96,
     category: "backend",
     description:
-      "Deep experience across .NET Framework and .NET 8 for large regulated systems. Led migration from .NET Framework to .NET 8 at GMG, resolving complex legacy constraints while keeping production stable.",
+      "Deep experience across .NET Framework and .NET 8 for large regulated systems. Led migration from .NET Framework to .NET 8 at GMG, resolving complex legacy constraints while keeping production stable. Applies SOLID principles, object-oriented analysis and design (OOA/OOD), and test-driven development (TDD) throughout.",
   },
   {
     name: "Distributed Systems",
@@ -250,18 +250,18 @@ const sampleSkills = [
       "Architected mission-critical platforms at national scale: 15-node SQL Server cluster for 15,000 concurrent users, Shetab card network services, and Chakavak cheque-clearing backbone.",
   },
   {
-    name: "SQL Server & Data Engineering",
+    name: "SQL Server, MongoDB & Data Engineering",
     level: 94,
     category: "database",
     description:
-      "Designed banking-grade schemas, high-volume ETL pipelines, NHibernate ORM layers, advanced indexing, and ACID-compliant persistence for financial systems under strict regulatory SLAs.",
+      "Designed banking-grade SQL Server schemas and MongoDB data models, high-volume ETL pipelines, NHibernate ORM layers, advanced indexing, and ACID-compliant persistence for financial systems under strict regulatory SLAs.",
   },
   {
     name: "Azure DevOps & CI/CD",
     level: 91,
     category: "cloud",
     description:
-      "Owns CI/CD pipelines, release workflows, build automation, and containerized delivery using Azure DevOps and Docker across multi-environment deployments at GMG.",
+      "Contributes to CI/CD strategy and owns pipeline setup, release workflows, build automation, and containerized delivery using Azure DevOps and Docker across multi-environment deployments at GMG.",
   },
   {
     name: "System Integration & IPC",
@@ -271,18 +271,18 @@ const sampleSkills = [
       "Built the IPC layer between software and printer hardware using Named Pipes and socket networking. Extensive integration across banking hardware (POS, ATM), IBM MQ, and external BI systems.",
   },
   {
-    name: "React & TypeScript",
+    name: "React, Redux & TypeScript",
     level: 89,
     category: "frontend",
     description:
-      "Builds modular SaaS frontend features at GMG, and delivered the full React.js reporting dashboard for Postbank of Iran's 400+ branch analytics platform.",
+      "Builds modular SaaS frontend features at GMG using React, Redux, and TypeScript, and delivered the full React.js reporting dashboard for PBI's 400+ branch analytics platform.",
   },
   {
     name: "Team Leadership",
     level: 89,
     category: "leadership",
     description:
-      "Led an 8-person cross-functional engineering team for 9 years at Postbank of Iran. Owns sprint planning, code quality, mentoring, and hiring in SAFe Agile at GMG.",
+      "Led an 8-person cross-functional engineering team for 9 years at PBI. Owns sprint planning, code quality, mentoring, and hiring in SAFe Agile at GMG.",
   },
   {
     name: "Event-Driven Architecture",
@@ -296,7 +296,7 @@ const sampleSkills = [
     level: 87,
     category: "backend",
     description:
-      "Designed and operated microservices-based analytics platforms and ETL services at Postbank of Iran. Built MCP servers, automation tools, and API layers with Node.js at GMG.",
+      "Designed and operated microservices-based analytics platforms and ETL services at PBI. Built MCP servers, automation tools, and API layers with Node.js at GMG.",
   },
   {
     name: "Security & Authorization",
@@ -310,14 +310,14 @@ const sampleSkills = [
     level: 86,
     category: "cloud",
     description:
-      "Hands-on with AWS CloudWatch, Docker-based production operations, and self-hosted SaaS deployments on-premises. Owned full infrastructure and production operations at Postbank of Iran.",
+      "Hands-on with AWS CloudWatch, Docker-based production operations, and self-hosted SaaS deployments on-premises. Owned full infrastructure and production operations at PBI.",
   },
   {
     name: "Quality Engineering",
     level: 84,
     category: "quality",
     description:
-      "Built and maintained unit, integration, and Cypress E2E test suites at GMG. Set up AWS CloudWatch monitoring. Experience with disciplined delivery in both regulated banking and commercial SaaS contexts.",
+      "Built and maintained unit, integration, and Cypress E2E test suites at GMG. Contributed to early AWS CloudWatch monitoring setup to establish baseline observability. Experience with disciplined delivery in both regulated banking and commercial SaaS contexts.",
   },
 ];
 
@@ -328,7 +328,7 @@ const codeDisplayData = {
     "const developer = {",
     "  name: 'Hamed Afzali',",
     "  title: 'Senior Full-Stack Engineer',",
-    "  experience: '15+ years',",
+    "  experience: '20+ years',",
     "  location: 'Tübingen, Germany',",
     "  current: 'GMG GmbH & Co. KG',",
     "  expertise: [",
@@ -341,7 +341,7 @@ const codeDisplayData = {
     "  ],",
     "  stack: {",
     "    backend: ['.NET 8', 'C#', 'Node.js', 'Java', 'IBM MQ'],",
-    "    frontend: ['React', 'TypeScript'],",
+    "    frontend: ['React', 'Redux', 'TypeScript'],",
     "    database: ['SQL Server', 'SQLite', 'MongoDB'],",
     "    cloud: ['AWS', 'Azure DevOps', 'Docker', 'CI/CD'],",
     "    auth: ['OAuth2', 'JWT', 'Authzed']",
@@ -364,7 +364,7 @@ const terminalCommandsData = {
     "$ whoami → hamed.afzali @ senior-engineer",
     "$ cat /career/current.txt → GMG GmbH | Senior Full-Stack Engineer | Tübingen, DE",
     "$ ls /skills/ → .net8  react  typescript  distributed-systems  node.js  azure-devops",
-    "$ git log --oneline | wc -l → 15 years of commits",
+    "$ git log --oneline | wc -l → 20 years of commits",
     "$ curl -X POST https://hamed.dev/api/contact",
     "$ echo 'Open to senior engineering & architecture roles'",
   ],
@@ -372,7 +372,7 @@ const terminalCommandsData = {
     "$ whoami → hamed.afzali @ senior-engineer",
     "$ cat /career/current.txt → GMG GmbH | Senior Full-Stack Engineer | Tübingen, DE",
     "$ ls /skills/ → .net8  react  typescript  distributed-systems  node.js  azure-devops",
-    "$ git log --oneline | wc -l → 15 years of commits",
+    "$ git log --oneline | wc -l → 20 years of commits",
     "$ curl -X POST https://hamed.dev/api/contact",
     "$ echo 'Open to senior engineering & architecture roles'",
   ],
@@ -403,10 +403,10 @@ const profileData = {
   image: "https://hamed.dev/hamedafzali.png",
   headline: "Senior Full-Stack Engineer & Technical Lead",
   summary:
-    "Senior engineer and technical lead with 15+ years designing and operating mission-critical distributed systems in regulated banking and fintech environments. Track record of owning full system lifecycles — from architecture decisions and team leadership to production operations — at scale (15,000+ concurrent users, 400+ branch networks, national payment infrastructure). Specializes in platform modernization, high-availability distributed architecture, and leading cross-functional engineering teams toward measurable business outcomes.",
+    "Senior engineer and technical lead with 20+ years designing and operating mission-critical distributed systems in regulated banking and fintech environments. Track record of owning full system lifecycles — from architecture decisions and team leadership to production operations — at scale (15,000+ concurrent users, 400+ branch networks, national payment infrastructure). Specializes in platform modernization, high-availability distributed architecture, and leading cross-functional engineering teams toward measurable business outcomes.",
   location: "Tübingen, Germany",
   availabilityStatus: "Open to senior engineering, architecture, and technical leadership roles",
-  yearsExperience: "15+",
+  yearsExperience: "20+",
   roles: [
     "Senior Full-Stack Engineer",
     "Distributed Systems Architect",
@@ -449,12 +449,12 @@ const profileData = {
     {
       title: "15,000+ Concurrent Users",
       description:
-        "Architected a 15-node distributed SQL Server core banking platform serving 15,000 concurrent users with ACID-compliant transactional isolation at Postbank of Iran.",
+        "Architected a 15-node distributed SQL Server core banking platform serving 15,000 concurrent users with ACID-compliant transactional isolation at Postbank of Iran (PBI).",
     },
     {
       title: "National Payment Infrastructure",
       description:
-        "Designed and delivered high-availability Java services for Iran's Shetab national card network and the IBM MQ backbone for the Chakavak national cheque-clearing system.",
+        "Designed and delivered high-availability Java services for the Shetab national card network and the IBM MQ backbone for the Chakavak national cheque-clearing system.",
     },
     {
       title: "400+ Branch Analytics Platform",
@@ -464,7 +464,7 @@ const profileData = {
     {
       title: "Team Lead — 8 Engineers",
       description:
-        "Led a cross-functional engineering team of 8 for 9 years at Postbank of Iran, owning delivery, sprint planning, code quality, and technical mentorship across mission-critical projects.",
+        "Led a cross-functional engineering team of 8 for 9 years at PBI, owning delivery, sprint planning, code quality, and technical mentorship across mission-critical projects.",
     },
   ],
 };

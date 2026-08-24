@@ -4,7 +4,7 @@
       "name": ".NET Architecture",
       "level": 96,
       "category": "backend",
-      "description": "Deep experience across .NET Framework and .NET 8 for large regulated systems. Led migration from .NET Framework to .NET 8 at GMG, resolving complex legacy constraints while keeping production systems stable."
+      "description": "Deep experience across .NET Framework and .NET 8 for large regulated systems. Led migration from .NET Framework to .NET 8 at GMG, resolving complex legacy constraints while keeping production systems stable. Applies SOLID principles, object-oriented analysis and design (OOA/OOD), and test-driven development (TDD) throughout."
     },
     {
       "name": "Distributed Systems",
@@ -13,16 +13,16 @@
       "description": "Architected mission-critical distributed platforms at national scale: 15-node SQL Server cluster for 15,000 concurrent users, Shetab card network services, and Chakavak cheque-clearing backbone."
     },
     {
-      "name": "SQL Server & Data Engineering",
+      "name": "SQL Server, MongoDB & Data Engineering",
       "level": 94,
       "category": "database",
-      "description": "Designed banking-grade schemas, high-volume ETL pipelines, NHibernate ORM layers, advanced indexing, and ACID-compliant persistence for financial systems under strict regulatory SLAs."
+      "description": "Designed banking-grade SQL Server schemas and MongoDB data models, high-volume ETL pipelines, NHibernate ORM layers, advanced indexing, and ACID-compliant persistence for financial systems under strict regulatory SLAs."
     },
     {
       "name": "Azure DevOps & CI/CD",
       "level": 91,
       "category": "cloud",
-      "description": "Owns CI/CD pipelines, release workflows, build automation, and containerized delivery using Azure DevOps and Docker. Manages multi-environment deployment strategy at GMG."
+      "description": "Contributes to CI/CD strategy and owns pipeline setup, release workflows, build automation, and containerized delivery using Azure DevOps and Docker. Manages multi-environment deployment strategy at GMG."
     },
     {
       "name": "System Integration & IPC",
@@ -31,16 +31,16 @@
       "description": "Built the IPC layer between software and printer hardware at GMG using Named Pipes and socket networking. Extensive integration work across banking hardware (POS, ATM), IBM MQ, and external BI systems."
     },
     {
-      "name": "React & TypeScript",
+      "name": "React, Redux & TypeScript",
       "level": 89,
       "category": "frontend",
-      "description": "Builds modular SaaS frontend features at GMG, and delivered the full React.js reporting dashboard for Postbank of Iran's 400+ branch analytics platform. 10+ years across React and modern TypeScript."
+      "description": "Builds modular SaaS frontend features at GMG using React, Redux, and TypeScript, and delivered the full React.js reporting dashboard for PBI's 400+ branch analytics platform. 10+ years across React and modern TypeScript."
     },
     {
       "name": "Team Leadership",
       "level": 89,
       "category": "leadership",
-      "description": "Led an 8-person cross-functional engineering team for 9 years at Postbank of Iran. Owns sprint planning, code quality, mentoring, and hiring. Currently working in SAFe Agile at GMG."
+      "description": "Led an 8-person cross-functional engineering team for 9 years at PBI. Owns sprint planning, code quality, mentoring, and hiring. Currently working in SAFe Agile at GMG."
     },
     {
       "name": "Event-Driven Architecture",
@@ -52,7 +52,7 @@
       "name": "Node.js & Microservices",
       "level": 87,
       "category": "backend",
-      "description": "Designed and operated microservices-based analytics platforms and ETL services at Postbank of Iran. Built MCP servers, automation tools, and API layers with Node.js at GMG."
+      "description": "Designed and operated microservices-based analytics platforms and ETL services at PBI. Built MCP servers, automation tools, and API layers with Node.js at GMG."
     },
     {
       "name": "Security & Authorization",
@@ -64,13 +64,13 @@
       "name": "Cloud Operations",
       "level": 86,
       "category": "cloud",
-      "description": "Hands-on with AWS CloudWatch, Docker-based production operations, and self-hosted SaaS deployments on-premises. Owned full infrastructure setup and production operations at Postbank of Iran."
+      "description": "Hands-on with AWS CloudWatch, Docker-based production operations, and self-hosted SaaS deployments on-premises. Owned full infrastructure setup and production operations at PBI."
     },
     {
       "name": "Quality Engineering",
       "level": 84,
       "category": "quality",
-      "description": "Built and maintained unit, integration, and Cypress E2E test suites at GMG. Set up AWS CloudWatch monitoring. Experience with disciplined delivery in both regulated banking and commercial SaaS contexts."
+      "description": "Built and maintained unit, integration, and Cypress E2E test suites at GMG. Contributed to early AWS CloudWatch monitoring setup to establish baseline observability. Experience with disciplined delivery in both regulated banking and commercial SaaS contexts."
     }
   ]
 }

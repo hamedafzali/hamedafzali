@@ -5,10 +5,10 @@
     "siteUrl": "https://hamed.dev",
     "image": "https://hamed.dev/hamedafzali.png",
     "headline": "Senior Full-Stack Engineer & Technical Lead",
-    "summary": "Senior engineer and technical lead with 15+ years designing and operating mission-critical distributed systems in regulated banking and fintech environments. Track record of owning full system lifecycles — from architecture decisions and team leadership to production operations — at scale (15,000+ concurrent users, 400+ branch networks, national payment infrastructure). Specializes in platform modernization, high-availability distributed architecture, and leading cross-functional engineering teams toward measurable business outcomes.",
+    "summary": "Senior engineer and technical lead with 20+ years designing and operating mission-critical distributed systems in regulated banking and fintech environments. Track record of owning full system lifecycles — from architecture decisions and team leadership to production operations — at scale (15,000+ concurrent users, 400+ branch networks, national payment infrastructure). Specializes in platform modernization, high-availability distributed architecture, and leading cross-functional engineering teams toward measurable business outcomes.",
     "location": "Tübingen, Germany",
     "availabilityStatus": "Open to senior engineering, architecture, and technical leadership roles",
-    "yearsExperience": "15+",
+    "yearsExperience": "20+",
     "roles": [
       "Senior Full-Stack Engineer",
       "Distributed Systems Architect",
@@ -50,11 +50,11 @@
     "careerHighlights": [
       {
         "title": "15,000+ Concurrent Users",
-        "description": "Architected a 15-node distributed SQL Server core banking platform serving 15,000 concurrent users with ACID-compliant transactional isolation at Postbank of Iran."
+        "description": "Architected a 15-node distributed SQL Server core banking platform serving 15,000 concurrent users with ACID-compliant transactional isolation at Postbank of Iran (PBI)."
       },
       {
         "title": "National Payment Infrastructure",
-        "description": "Designed and delivered high-availability Java services for Iran's Shetab national card network and the IBM MQ backbone for the Chakavak national cheque-clearing system."
+        "description": "Designed and delivered high-availability Java services for the Shetab national card network and the IBM MQ backbone for the Chakavak national cheque-clearing system."
       },
       {
         "title": "400+ Branch Analytics Platform",
@@ -62,7 +62,7 @@
       },
       {
         "title": "Team Lead — 8 Engineers",
-        "description": "Led a cross-functional engineering team of 8 for 9 years at Postbank of Iran, owning delivery, sprint planning, code quality, and technical mentorship across mission-critical projects."
+        "description": "Led a cross-functional engineering team of 8 for 9 years at PBI, owning delivery, sprint planning, code quality, and technical mentorship across mission-critical projects."
       }
     ]
   }

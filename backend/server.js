@@ -263,7 +263,7 @@ const footerSchema = new mongoose.Schema({
   },
 });
 
-const Footer = mongoose.model("Footer", footerSchema);
+const Footer = mongoose.model("Footer", footerSchema, "footer");
 
 const profileSchema = new mongoose.Schema({
   name: {
