@@ -212,24 +212,33 @@
   .nav-menu {
     position: fixed;
     top: 0;
-    right: -100%;
-    width: 85%;
+    right: 0;
+    /* Collapse to zero width when closed so this fixed panel never extends
+       the page's scroll width (prevents horizontal scroll on mobile). */
+    width: 0;
     max-width: 320px;
     height: 100vh;
+    overflow: hidden;
+    visibility: hidden;
     background: rgba(30, 30, 30, 0.98);
     backdrop-filter: blur(20px);
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    padding: 80px 30px 30px;
+    padding: 80px 0 0;
     gap: 3rem;
-    transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition:
+      width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      padding 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0.35s;
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
     border-left: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .nav-menu.open {
-    right: 0;
+    width: 85%;
+    visibility: visible;
+    padding: 80px 30px 30px;
   }
 
   .nav-links {

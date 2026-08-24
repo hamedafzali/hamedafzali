@@ -1,17 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./Navigation.css";
-import ApiService, { ProfileData } from "../services/api";
+import { usePortfolioData } from "../context/PortfolioData";
 
 const Navigation: React.FC = () => {
+  const { profile, footer } = usePortfolioData();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [profile, setProfile] = useState<ProfileData | null>(null);
-  const [navItems, setNavItems] = useState<
-    { name: string; href: string; icon: string }[]
-  >([]);
-  const [socialLinks, setSocialLinks] = useState<
-    { name: string; href: string; text: string }[]
-  >([]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,36 +16,19 @@ const Navigation: React.FC = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  useEffect(() => {
-    const fetchFooterData = async () => {
-      try {
-        const [data, profileData] = await Promise.all([
-          ApiService.getFooter(),
-          ApiService.getProfile(),
-        ]);
-        setNavItems(
-          data.navigationLinks.map((link) => ({
-            ...link,
-            icon:
-              link.name === "about"
-                ? "👤"
-                : link.name === "portfolio"
-                  ? "💼"
-                  : "📧",
-          })),
-        );
-        setSocialLinks(data.socialLinks);
-        setProfile(profileData);
-      } catch (error) {
-        console.error("Error fetching navigation data:", error);
-        setNavItems([]);
-        setSocialLinks([]);
-        setProfile(null);
-      }
-    };
-
-    fetchFooterData();
-  }, []);
+  const navItems = useMemo(
+    () =>
+      (footer?.navigationLinks || []).map((link) => ({
+        ...link,
+        icon:
+          link.name === "about"
+            ? "👤"
+            : link.name === "portfolio"
+              ? "💼"
+              : "📧",
+      })),
+    [footer],
+  );
 
   return (
     <nav className={`navigation ${isScrolled ? "scrolled" : ""}`}>
@@ -62,7 +39,10 @@ const Navigation: React.FC = () => {
             <span className="brand-text">{profile?.brand || ""}</span>
           </div>
 
-          <div className={`nav-menu ${isMobileMenuOpen ? "open" : ""}`}>
+          <div
+            id="nav-menu"
+            className={`nav-menu ${isMobileMenuOpen ? "open" : ""}`}
+          >
             <div className="nav-links">
               {navItems.map((item) => (
                 <a
@@ -84,6 +64,8 @@ const Navigation: React.FC = () => {
             className="mobile-menu-toggle"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="nav-menu"
           >
             <span className="hamburger-line"></span>
             <span className="hamburger-line"></span>

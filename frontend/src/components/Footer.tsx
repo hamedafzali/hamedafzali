@@ -1,33 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./Footer.css";
-import ApiService from "../services/api";
+import { usePortfolioData } from "../context/PortfolioData";
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  const [footerData, setFooterData] = useState({
+  const { footer } = usePortfolioData();
+  const footerData = footer || {
     copyright: "",
     navigationLinks: [] as { name: string; href: string }[],
     socialLinks: [] as { name: string; href: string; text: string }[],
-  });
-
-  // Fetch footer data from backend
-  useEffect(() => {
-    const fetchFooterData = async () => {
-      try {
-        const data = await ApiService.getFooter();
-        setFooterData(data);
-      } catch (error) {
-        console.error("Error fetching footer data:", error);
-        setFooterData({
-          copyright: "",
-          navigationLinks: [],
-          socialLinks: [],
-        });
-      }
-    };
-
-    fetchFooterData();
-  }, []);
+  };
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });

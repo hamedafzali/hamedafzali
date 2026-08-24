@@ -1,117 +1,81 @@
-# 👋 Hamed Afzali - Senior Full-Stack Engineer
+# 👋 Hamed Afzali - Senior Software Architect / Technical Lead
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://linkedin.com/in/hamedafzali)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://linkedin.com/in/hamed-afzali)
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-black)](https://github.com/hamedafzali)
 [![Location](https://img.shields.io/badge/Location-Tübingen%2C%20Germany-green)](https://maps.google.com/?q=Tübingen,Germany)
 
 ## 🚀 About Me
 
-**Senior Full-Stack Engineer** with **15+ years** of experience in enterprise software development, specializing in distributed systems architecture, high-performance computing, and mission-critical applications. Proven track record of leading large-scale digital transformations and modernizing legacy banking systems.
+**Senior Software Architect / Technical Lead** with **20+ years** of experience designing, modernizing, and operating mission-critical enterprise software platforms. Specialized in distributed systems, microservices architecture, API design, cloud-native engineering, and digital transformation initiatives across regulated banking, fintech, and SaaS environments.
 
 ### 🎯 Expertise Areas
-- **Distributed Systems & Architecture** - Microservices, Message Queues (IBM MQ), Fault-Tolerant Systems
+
+- **Distributed Systems & Architecture** - Microservices, Event-Driven Architecture, Domain-Driven Design, Message Queues (IBM MQ)
 - **Enterprise Software Development** - .NET Core/C#, Node.js, Enterprise Banking Systems
-- **Cloud-Native Solutions** - AWS, Azure, Docker, Kubernetes
-- **Performance Optimization** - System Architecture, Database Design, Scalability
-- **Team Leadership** - 10+ years leading development teams, SAFe Agile, CI/CD
+- **Cloud-Native Solutions** - AWS, Azure DevOps, Docker, Kubernetes
+- **Technical Leadership** - Technical Lead experience (8+ engineers), architecture reviews, mentoring, SAFe Agile
+- **AI Engineering** - RAG, AI agents & agentic workflows, MCP, LangChain/LangGraph
 
 ## 💼 Professional Highlights
 
 ### 🏦 Enterprise Banking & FinTech
-- **Core Banking System Modernization** - Led complete migration of legacy systems using .NET microservices, achieving 40% performance improvement and 60% reduction in downtime
-- **Distributed Payment Gateway** - Architected high-availability payment system handling 10,000+ TPS with 99.99% uptime
-- **National Banking Reporting** - Engineered high-throughput reporting systems for Iran's national banking network
+
+- **Core Banking Platform** - Architected a full-scope core banking platform (.NET, C#) on a 15-node distributed SQL Server cluster serving 15,000 concurrent users with ACID-compliant transactional isolation, at Postbank (PBI)
+- **National Payment Infrastructure** - Designed high-availability Java services for the Shetab national card network and the IBM MQ backbone for the Chakavak national cheque-clearing system
+- **Regulatory Analytics Platform** - Sole architect of a BI and reporting platform consolidating data from 400+ branches for Central Bank submission
 
 ### 🏗️ Systems Integration & Architecture
-- **API Gateway Architecture** - Centralized API management handling 100M+ daily calls with comprehensive monitoring
-- **Hardware-Software Integration** - Complex printer integrations using IPC, Named Pipes, and socket programming
-- **Cloud Migration Platform** - Automated migration of 50+ enterprise applications to AWS with zero downtime
+
+- **SaaS Platform Modernization** - Contributed to the architecture decision for and led execution of a .NET Framework to .NET 8 migration at GMG
+- **Hardware-Software Integration** - Designed and built the IPC layer for printer hardware integration using Named Pipes and socket programming
+- **OSS Licence Compliance Automation** - Solely designed and built an automated tool covering 3 applications and their transitive dependencies (57+ NuGet packages in the main app alone), with CI-integrated SBOM generation
 
 ### 🛠️ Technology Stack
 
 #### Backend & Systems
+
 ```text
-Languages: C#, .NET Core, Node.js, TypeScript, VB.NET
-Databases: SQL Server, MongoDB, PostgreSQL, Redis
-Messaging: IBM MQ, Apache Kafka, RabbitMQ
-Cloud: AWS, Azure, Docker, Kubernetes
+Languages: C#, .NET Core/.NET 8, .NET Framework, Node.js, Python, VB.NET
+Databases: SQL Server, MongoDB
+Messaging: IBM MQ
+Cloud: AWS, Azure DevOps, Docker
 ```
 
-#### Frontend & Mobile
+#### Frontend
+
 ```text
-Frameworks: React, Angular, Vue.js
-Mobile: React Native, Flutter, Xamarin
-UI/UX: Tailwind CSS, Material-UI, Bootstrap
+Frameworks: React, Redux, TypeScript
 ```
 
-#### DevOps & Tools
+#### DevOps & AI Engineering
+
 ```text
-CI/CD: Jenkins, GitLab CI, Azure DevOps
-Infrastructure: Terraform, Ansible, Helm
-Monitoring: Prometheus, Grafana, ELK Stack
+CI/CD: Azure DevOps, Docker
+AI: RAG, LangChain, LangGraph, MCP, Vector Databases
 ```
-
-## 📊 Key Achievements
-
-- ✅ **50+ Enterprise Projects** delivered successfully
-- ✅ **15+ System Modernizations** completed
-- ✅ **40% Average Performance Improvement** across projects
-- ✅ **99.99% Uptime** achieved for critical systems
-- ✅ **10M+ Transactions** processed daily
-- ✅ **Zero-Downtime Deployments** for major migrations
 
 ## 🎓 Education & Certifications
 
-- **Computer Engineering** - Bachelor's Degree
-- **SAFe Agile** - Certified Program Consultant
-- **AWS Solutions Architect** - Associate Level
-- **Microsoft Certified** - Azure Solutions Architect Expert
+- **B.Sc. Software Engineering** - Azad University, Parand Branch (2008–2013, part-time while employed)
+- **Architecting Solutions on AWS** - AWS Training & Certification, via Coursera
+- **IBM RAG and Agentic AI Professional Certificate** - Coursera (10-course program covering RAG, vector databases, and agentic AI frameworks including LangChain, LangGraph, CrewAI, AutoGen, and MCP)
+- **Linux Foundation** - Open Source Licensing (Compliance Management & Basics for Developers)
 
 ## 📈 Current Focus
 
 🔍 **Open to New Challenges** - Seeking opportunities in:
-- Large-scale distributed systems architecture
+
+- Senior software architecture / solution architecture roles
 - Enterprise digital transformation projects
-- High-performance computing solutions
-- Team leadership and technical mentoring
-
-## 💻 Featured Projects
-
-### Core Banking System Modernization
-*Led the complete modernization of legacy core banking systems using .NET microservices architecture*
-- **Technologies**: .NET Core, C#, IBM MQ, SQL Server, Docker
-- **Impact**: 40% improvement in transaction processing, 60% reduction in system downtime
-- **Scale**: 1M+ daily transactions
-
-### Distributed Payment Gateway
-*Architected and implemented a high-availability payment processing system*
-- **Technologies**: Node.js, MongoDB, Redis, Docker, Kubernetes
-- **Performance**: 10,000+ transactions/second, 99.99% uptime
-- **Architecture**: Distributed systems with fault tolerance
-
-### Hardware-Software Printer Integration
-*Engineered high-reliability interprocess communication for hardware-software printer integrations*
-- **Technologies**: Named Pipes, Socket Programming, C++, IPC
-- **Challenge**: Real-time communication between hardware and software systems
-- **Solution**: Fault-tolerant communication protocols
-
-## 🌟 Skills Overview
-
-| Category | Skills | Proficiency |
-|----------|--------|-------------|
-| **Backend** | .NET Core, C#, Node.js, Express | ⭐⭐⭐⭐⭐ |
-| **Frontend** | React, TypeScript, Angular | ⭐⭐⭐⭐⭐ |
-| **Databases** | SQL Server, MongoDB, PostgreSQL | ⭐⭐⭐⭐⭐ |
-| **Cloud** | AWS, Azure, Docker, Kubernetes | ⭐⭐⭐⭐⭐ |
-| **Architecture** | Microservices, API Design | ⭐⭐⭐⭐⭐ |
-| **DevOps** | CI/CD, Infrastructure as Code | ⭐⭐⭐⭐⭐ |
+- Distributed systems and platform modernization
+- Technical leadership and mentoring
 
 ## 📞 Contact
 
 I'm always interested in discussing innovative projects and new opportunities. Feel free to reach out!
 
-- **Email**: [hamed.afzali@email.com](mailto:hamed.afzali@email.com)
-- **LinkedIn**: [linkedin.com/in/hamedafzali](https://linkedin.com/in/hamedafzali)
+- **Email**: [afzali.hamed@gmail.com](mailto:afzali.hamed@gmail.com)
+- **LinkedIn**: [linkedin.com/in/hamed-afzali](https://linkedin.com/in/hamed-afzali)
 - **Location**: Tübingen, Germany
 
 ---

@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const crypto = require("crypto");
 const path = require("path");
 const fs = require("fs");
 require("dotenv").config();
@@ -11,30 +12,37 @@ const PORT = process.env.PORT || 5001;
 app.disable("x-powered-by");
 app.set("trust proxy", 1);
 
+// Build the CSP. `scriptNonce` lets the HTML route allow its single inline
+// JSON-LD block without opening up script-src to 'unsafe-inline'.
+const buildCsp = (scriptNonce) =>
+  [
+    "default-src 'self'",
+    `script-src 'self'${scriptNonce ? ` 'nonce-${scriptNonce}'` : ""}`,
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+    "img-src 'self' data: https:",
+    "font-src 'self' data: https: https://fonts.gstatic.com",
+    "connect-src 'self'",
+    "object-src 'none'",
+    "frame-ancestors 'none'",
+    "base-uri 'self'",
+    "form-action 'self'",
+  ].join("; ");
+
 app.use((req, res, next) => {
-  res.setHeader(
-    "Content-Security-Policy",
-    [
-      "default-src 'self'",
-      "script-src 'self'",
-      "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https:",
-      "font-src 'self' data: https:",
-      "connect-src 'self'",
-      "object-src 'none'",
-      "frame-ancestors 'none'",
-      "base-uri 'self'",
-      "form-action 'self'",
-    ].join("; "),
-  );
+  res.setHeader("Content-Security-Policy", buildCsp());
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("X-Frame-Options", "DENY");
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
   next();
 });
 
-// Middleware
-app.use(cors());
+// CORS: the SPA is served same-origin, so cross-origin is disabled by default.
+// Set ALLOWED_ORIGINS (comma-separated) only if an external client needs it.
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
+app.use(cors({ origin: allowedOrigins.length ? allowedOrigins : false }));
 app.use(express.json());
 
 // Simple in-memory rate limiter for the contact form
@@ -68,7 +76,10 @@ const frontendBuildPath = (() => {
   if (fs.existsSync(dockerPath)) return dockerPath;
   return localPath;
 })();
-app.use(express.static(frontendBuildPath));
+// index:false so "/" falls through to the catch-all route below, which
+// renders index.html WITH the DB-backed SEO meta + JSON-LD injected.
+// (Otherwise express.static would serve a bare index.html for the homepage.)
+app.use(express.static(frontendBuildPath, { index: false }));
 
 // MongoDB Connection
 mongoose
@@ -252,7 +263,7 @@ const footerSchema = new mongoose.Schema({
   },
 });
 
-const Footer = mongoose.model("Footer", footerSchema);
+const Footer = mongoose.model("Footer", footerSchema, "footer");
 
 const profileSchema = new mongoose.Schema({
   name: {
@@ -351,7 +362,7 @@ const escapeHtml = (value = "") =>
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#39;");
 
-const buildStructuredData = (profile, footer) =>
+const buildStructuredData = (profile, footer, skills) =>
   JSON.stringify({
     "@context": "https://schema.org",
     "@graph": [
@@ -366,6 +377,7 @@ const buildStructuredData = (profile, footer) =>
           addressLocality: profile.location,
         },
         description: profile.summary,
+        knowsAbout: (skills || []).map((s) => s.name).filter(Boolean),
         sameAs: (footer?.socialLinks || [])
           .map((link) => link.href)
           .filter((href) => href && href.startsWith("http")),
@@ -378,12 +390,13 @@ const buildStructuredData = (profile, footer) =>
     ],
   });
 
-const renderIndexHtml = async () => {
+const renderIndexHtml = async (nonce) => {
   const indexPath = path.join(frontendBuildPath, "index.html");
   const html = await fs.promises.readFile(indexPath, "utf8");
-  const [profile, footer] = await Promise.all([
+  const [profile, footer, skills] = await Promise.all([
     Profile.findOne().sort({ createdAt: -1 }).lean(),
     Footer.findOne().sort({ createdAt: -1 }).lean(),
+    Skill.find().select("name").lean(),
   ]);
 
   if (!profile) {
@@ -393,7 +406,8 @@ const renderIndexHtml = async () => {
   const title = `${profile.name} | ${profile.headline}`;
   const description = profile.summary;
   const canonical = profile.siteUrl;
-  const structuredData = buildStructuredData(profile, footer);
+  const structuredData = buildStructuredData(profile, footer, skills);
+  const nonceAttr = nonce ? ` nonce="${nonce}"` : "";
 
   return html
     .replace(/<title>.*?<\/title>/i, `<title>${escapeHtml(title)}</title>`)
@@ -409,13 +423,25 @@ const renderIndexHtml = async () => {
     <meta property="og:type" content="website" />
     <meta property="og:url" content="${escapeHtml(canonical)}" />
     <meta property="og:image" content="${escapeHtml(profile.image)}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${escapeHtml(title)}" />
     <meta name="twitter:description" content="${escapeHtml(description)}" />
     <meta name="twitter:image" content="${escapeHtml(profile.image)}" />
-    <script type="application/ld+json">${structuredData}</script>
+    <script type="application/ld+json"${nonceAttr}>${structuredData}</script>
   </head>`,
     );
+};
+
+// Require a valid admin token (header or query param) for privileged routes.
+const requireAdmin = (req, res, next) => {
+  const adminToken = process.env.ADMIN_TOKEN;
+  const provided = req.headers["x-admin-token"] || req.query.token;
+  if (!adminToken || provided !== adminToken) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+  next();
 };
 
 // Routes
@@ -454,8 +480,8 @@ app.get("/api/projects/:id", async (req, res) => {
   }
 });
 
-// Create new project
-app.post("/api/projects", async (req, res) => {
+// Create new project (admin only)
+app.post("/api/projects", requireAdmin, async (req, res) => {
   try {
     const project = new Project(req.body);
     const savedProject = await project.save();
@@ -494,12 +520,7 @@ app.post("/api/contact", contactRateLimiter, async (req, res) => {
 });
 
 // Get all contacts (admin only — requires ADMIN_TOKEN header or query param)
-app.get("/api/contacts", async (req, res) => {
-  const adminToken = process.env.ADMIN_TOKEN;
-  const provided = req.headers["x-admin-token"] || req.query.token;
-  if (!adminToken || provided !== adminToken) {
-    return res.status(401).json({ message: "Unauthorized" });
-  }
+app.get("/api/contacts", requireAdmin, async (req, res) => {
   try {
     const contacts = await Contact.find().sort({ createdAt: -1 });
     res.json(contacts);
@@ -627,7 +648,9 @@ app.get("/api/health", (req, res) => {
 // Serve React app for non-API routes with DB-backed SEO metadata.
 app.get("*", async (req, res) => {
   try {
-    const html = await renderIndexHtml();
+    const nonce = crypto.randomBytes(16).toString("base64");
+    res.setHeader("Content-Security-Policy", buildCsp(nonce));
+    const html = await renderIndexHtml(nonce);
     res.send(html);
   } catch (error) {
     console.error("Error rendering index.html:", error);

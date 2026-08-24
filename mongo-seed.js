@@ -1,16 +1,25 @@
 db = db.getSiblingDB("portfolio");
 
 const fs = require("fs");
-const readJson = (filePath) => JSON.parse(fs.readFileSync(filePath, "utf8"));
+// Fail-safe read: a missing/unreadable file must not abort the whole seed
+// (top-level reads run before any insert, so one ENOENT used to wipe the DB).
+const safeReadJson = (filePath, fallback = {}) => {
+  try {
+    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+  } catch (e) {
+    print(`WARN: could not read ${filePath} (${e.message}); using fallback`);
+    return fallback;
+  }
+};
 
 const projects =
-  readJson("/seed/data/portfolio-projects.json").projects || [];
-const skills = readJson("/seed/data/skills.json").skills || [];
-const terminal = readJson("/seed/data/terminal-commands.json");
-const footer = readJson("/seed/data/footer-data.json").footerData || {};
-const profile = readJson("/seed/data/profile-data.json").profile || {};
+  safeReadJson("/seed/data/portfolio-projects.json").projects || [];
+const skills = safeReadJson("/seed/data/skills.json").skills || [];
+const terminal = safeReadJson("/seed/data/terminal-commands.json");
+const footer = safeReadJson("/seed/data/footer-data.json").footerData || {};
+const profile = safeReadJson("/seed/data/profile-data.json").profile || {};
 const codeDisplay =
-  readJson("/seed/data/code-display.json").codeDisplay || {};
+  safeReadJson("/seed/data/code-display.json").codeDisplay || {};
 
 db.projects.deleteMany({});
 db.skills.deleteMany({});

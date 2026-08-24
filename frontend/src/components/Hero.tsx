@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import "./Hero.css";
-import ApiService, { ProfileData, Skill } from "../services/api";
+import { usePortfolioData } from "../context/PortfolioData";
 import { useTypingAnimation } from "../hooks/useTypingAnimation";
 
 const Hero: React.FC = () => {
-  const [currentColor, setCurrentColor] = useState("blue");
-  const [profile, setProfile] = useState<ProfileData | null>(null);
-  const [skills, setSkills] = useState<Skill[]>([]);
+  const { profile, skills } = usePortfolioData();
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const [draggingItem, setDraggingItem] = useState<string | null>(null);
   const [positions, setPositions] = useState<{
@@ -35,39 +33,6 @@ const Hero: React.FC = () => {
   const colorSchemes = {
     blue: { primary: "#48c6b6", secondary: "#3c6df0", accent: "#8bd3ff" },
   };
-
-  useEffect(() => {
-    const colorKeys: Array<keyof typeof colorSchemes> = ["blue"];
-    const interval = setInterval(() => {
-      setCurrentColor((prev) => {
-        const currentIndex = colorKeys.indexOf(
-          prev as keyof typeof colorSchemes,
-        );
-        const nextIndex = (currentIndex + 1) % colorKeys.length;
-        return colorKeys[nextIndex];
-      });
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const [profileData, skillsData] = await Promise.all([
-          ApiService.getProfile(),
-          ApiService.getSkills(),
-        ]);
-        setProfile(profileData);
-        setSkills(skillsData);
-      } catch (error) {
-        console.error("Error fetching hero data:", error);
-        setProfile(null);
-        setSkills([]);
-      }
-    };
-
-    fetchProfileData();
-  }, []);
 
   const getZIndex = (itemId: string) => {
     return elementZIndices[itemId] || 1;
@@ -172,7 +137,7 @@ const Hero: React.FC = () => {
     };
   }, [draggingItem, dragStart]);
 
-  const scheme = colorSchemes[currentColor as keyof typeof colorSchemes];
+  const scheme = colorSchemes.blue;
 
   const topSkills = skills.slice(0, 5);
 
@@ -187,7 +152,27 @@ const Hero: React.FC = () => {
         } as React.CSSProperties
       }
     >
+      <div className="hero-intro">
+        {profile?.availabilityStatus && (
+          <p className="hero-eyebrow">{profile.availabilityStatus}</p>
+        )}
+        <h1 className="hero-headline">
+          {profile?.name || " "}
+          <span className="hero-role">{profile?.headline || ""}</span>
+        </h1>
+        <p className="hero-lede">{profile?.summary || ""}</p>
+        <div className="hero-cta">
+          <a href="#portfolio" className="action-btn primary">
+            View Projects
+          </a>
+          <a href="#contact" className="action-btn secondary">
+            Get in Touch
+          </a>
+        </div>
+      </div>
+
       <div
+        aria-hidden="true"
         className={`code-editor ${activeItem === "editor" ? "active" : ""} ${draggingItem === "editor" ? "dragging" : ""} ${positions.editor?.x !== 0 || positions.editor?.y !== 0 ? "moved" : ""}`}
         style={{
           transform: `translate(${positions.editor?.x || 0}px, ${positions.editor?.y || 0}px)`,
@@ -287,7 +272,7 @@ const Hero: React.FC = () => {
             </div>
 
             <div className="code-line comment">
-              <span className="comment">// Click below to explore my work</span>
+              <span className="comment">{"// Click below to explore my work"}</span>
             </div>
 
             <div className="code-line">
@@ -300,6 +285,7 @@ const Hero: React.FC = () => {
       </div>
 
       <div
+        aria-hidden="true"
         className={`floating-terminal ${activeItem === "terminal" ? "active" : ""} ${draggingItem === "terminal" ? "dragging" : ""} ${positions.terminal?.x !== 0 || positions.terminal?.y !== 0 ? "moved" : ""}`}
         style={{
           transform: `translate(${positions.terminal?.x || 0}px, ${positions.terminal?.y || 0}px)`,
@@ -333,6 +319,7 @@ const Hero: React.FC = () => {
       </div>
 
       <div
+        aria-hidden="true"
         className={`skill-visualization ${activeItem === "skills" ? "active" : ""} ${draggingItem === "skills" ? "dragging" : ""} ${positions.skills?.x !== 0 || positions.skills?.y !== 0 ? "moved" : ""}`}
         style={{
           transform: `translate(${positions.skills?.x || 0}px, ${positions.skills?.y || 0}px)`,
@@ -371,24 +358,6 @@ const Hero: React.FC = () => {
       </div>
 
       <div
-        className={`hero-actions ${activeItem === "actions" ? "active" : ""}`}
-        style={{
-          transform: `translate(${positions.actions?.x || 0}px, ${positions.actions?.y || 0}px)`,
-          zIndex: getZIndex("actions"),
-        }}
-        onClick={(e) => handleClickWithStop(e, "actions")}
-      >
-        <a href="#portfolio" className="action-btn primary">
-          <span className="btn-icon">🚀</span>
-          <span>View Projects</span>
-        </a>
-        <a href="#contact" className="action-btn secondary">
-          <span className="btn-icon">💬</span>
-          <span>Get in Touch</span>
-        </a>
-      </div>
-
-      <div
         className={`photo-sticker ${activeItem === "photo" ? "active" : ""} ${draggingItem === "photo" ? "dragging" : ""} ${positions.photo?.x !== 0 || positions.photo?.y !== 0 ? "moved" : ""}`}
         ref={photoRef}
         style={{
@@ -402,8 +371,10 @@ const Hero: React.FC = () => {
       >
         <img
           src="/hamedafzali.png"
-          alt={profile?.name || "Profile"}
+          alt={`${profile?.name || "Hamed Afzali"} — ${profile?.headline || "Senior Engineer"}`}
           className="sticker-photo"
+          width={250}
+          height={250}
           draggable={false}
         />
         <div className="sticker-shadow"></div>
