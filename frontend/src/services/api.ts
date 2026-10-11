@@ -48,7 +48,6 @@ export interface ProfileData {
   headline: string;
   summary: string;
   location: string;
-  currentFocus: string;
   contactIntro: string;
   about?: string[];
   stats?: { value: string; label: string }[];

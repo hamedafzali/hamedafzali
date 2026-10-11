@@ -9,7 +9,6 @@ const FALLBACK = {
   headline: "Senior Full-Stack Engineer & Technical Lead",
   summary:
     "20+ years designing and leading delivery of mission-critical platforms — core banking, payments, and multi-tenant SaaS.",
-  currentFocus: "Currently: architecture & AI-assisted engineering at GMG",
   stats: [
     { value: "20+", label: "years building production software" },
     { value: "15k", label: "concurrent users on core banking" },
@@ -23,7 +22,6 @@ const Hero: React.FC = () => {
   const name = profile?.name || FALLBACK.name;
   const headline = profile?.headline || FALLBACK.headline;
   const summary = profile?.summary || FALLBACK.summary;
-  const focus = profile?.currentFocus || FALLBACK.currentFocus;
   const stats = profile?.stats?.length ? profile.stats : FALLBACK.stats;
 
   return (
@@ -42,7 +40,6 @@ const Hero: React.FC = () => {
                   decoding="async"
                 />
               </picture>
-              <p className="hero-eyebrow">{focus}</p>
             </div>
 
             <h1 className="hero-headline" id="hero-name">

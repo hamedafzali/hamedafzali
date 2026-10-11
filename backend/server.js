@@ -294,7 +294,6 @@ const profileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  currentFocus: String,
   contactIntro: String,
   about: [String],
   stats: [{ value: String, label: String }],
