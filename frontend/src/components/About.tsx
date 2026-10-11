@@ -4,69 +4,63 @@ import ApiService, { Skill } from "../services/api";
 import { usePortfolioData } from "../context/PortfolioData";
 
 const CATEGORY_LABELS: Record<string, string> = {
-  backend: "Backend & Platforms",
-  frontend: "Frontend",
   architecture: "Architecture",
-  database: "Data & Databases",
-  cloud: "Cloud & DevOps",
-  integration: "Systems Integration",
-  security: "Security",
+  backend: "Backend & Platforms",
   leadership: "Leadership",
-  quality: "Quality Engineering",
+  security: "Security",
   ai: "AI-Assisted Engineering",
+  cloud: "Cloud & DevOps",
+  database: "Data & Databases",
+  integration: "Systems Integration",
+  frontend: "Frontend",
+  quality: "Quality Engineering",
   general: "Core Skills",
+};
+// Display order of skill groups: architecture and leadership first.
+const CATEGORY_ORDER = Object.keys(CATEGORY_LABELS);
+
+const prefersReducedMotion = () =>
+  typeof window !== "undefined" &&
+  window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+// Types the code out character by character. The full text is rendered
+// invisibly underneath, so the editor has its final height from the start.
+const useTypedText = (full: string, speed = 18) => {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!full) return;
+    if (prefersReducedMotion()) {
+      setCount(full.length);
+      return;
+    }
+    setCount(0);
+    const timer = setInterval(() => {
+      setCount((c) => {
+        if (c >= full.length) {
+          clearInterval(timer);
+          return c;
+        }
+        return c + 1;
+      });
+    }, speed);
+    return () => clearInterval(timer);
+  }, [full, speed]);
+  return full.slice(0, count);
 };
 
 const About: React.FC = () => {
   const { profile, skills } = usePortfolioData();
-  const [typedCode, setTypedCode] = useState("");
-  const [currentLine, setCurrentLine] = useState(0);
   const [codeLines, setCodeLines] = useState<string[]>([]);
 
   useEffect(() => {
-    if (currentLine < codeLines.length) {
-      const line = codeLines[currentLine];
-      let charIndex = 0;
-
-      const typeInterval = setInterval(() => {
-        if (charIndex <= line.length) {
-          setTypedCode((prev) => {
-            const lines = prev.split("\n");
-            if (lines.length <= currentLine) {
-              lines.push("");
-            }
-            lines[currentLine] = line.slice(0, charIndex);
-            return lines.join("\n");
-          });
-          charIndex++;
-        } else {
-          clearInterval(typeInterval);
-          setTimeout(() => {
-            setCurrentLine((prev) => prev + 1);
-          }, 500);
-        }
-      }, 50);
-
-      return () => clearInterval(typeInterval);
-    }
-  }, [currentLine, codeLines]);
-
-  useEffect(() => {
-    const fetchCodeLines = async () => {
-      try {
-        const codeData = await ApiService.getCodeDisplay();
-        setCodeLines(codeData);
-        setCurrentLine(0);
-        setTypedCode("");
-      } catch (error) {
-        console.error("Error fetching code lines:", error);
-        setCodeLines([]);
-      }
-    };
-    fetchCodeLines();
+    ApiService.getCodeDisplay()
+      .then(setCodeLines)
+      .catch(() => setCodeLines([]));
   }, []);
 
-  // Group skills by category, strongest first within each group.
+  const fullCode = codeLines.join("\n");
+  const typedCode = useTypedText(fullCode);
+
   const skillGroups = useMemo(() => {
     const groups = new Map<string, Skill[]>();
     skills.forEach((skill) => {
@@ -74,90 +68,87 @@ const About: React.FC = () => {
       if (!groups.has(key)) groups.set(key, []);
       groups.get(key)!.push(skill);
     });
+    const rank = (c: string) =>
+      CATEGORY_ORDER.includes(c) ? CATEGORY_ORDER.indexOf(c) : CATEGORY_ORDER.length;
     return Array.from(groups.entries())
       .map(([category, items]) => ({
         category,
         label: CATEGORY_LABELS[category] || category,
         items: [...items].sort((a, b) => b.level - a.level),
       }))
-      .sort((a, b) => b.items[0].level - a.items[0].level);
+      .sort((a, b) => rank(a.category) - rank(b.category));
   }, [skills]);
+
+  const highlights = profile?.careerHighlights || [];
 
   return (
     <section id="about" className="about">
-      <div className="about-container">
-        <div className="about-header">
-          <h2 className="about-title">
+      <div className="container">
+        <header className="section-head">
+          <h2 className="section-title">
             <span className="code-bracket">{"<"}</span>
             <span className="code-tag">about</span>
             <span className="code-bracket">{"/>"}</span>
           </h2>
-          <p className="about-subtitle">{profile?.headline || ""}</p>
-        </div>
+          <p className="section-subtitle">
+            Architecture, delivery, and the teams that make both work.
+          </p>
+        </header>
 
-        {profile?.about?.length ? (
+        <div className="about-intro">
           <div className="about-narrative">
-            {profile.about.map((paragraph) => (
+            {(profile?.about || []).map((paragraph) => (
               <p key={paragraph.slice(0, 32)}>{paragraph}</p>
             ))}
           </div>
-        ) : null}
 
-        <div className="about-content">
-          <div className="code-showcase" aria-hidden="true">
-            <div className="code-editor-about">
-              <div className="editor-header-about">
-                <div className="editor-controls-about">
-                  <span className="control-about close"></span>
-                  <span className="control-about minimize"></span>
-                  <span className="control-about maximize"></span>
-                </div>
-                <div className="editor-title-about">developer.js</div>
+          {fullCode && (
+            <div className="about-editor" aria-hidden="true">
+              <div className="about-editor-bar">
+                <span className="about-editor-dot" />
+                <span className="about-editor-dot" />
+                <span className="about-editor-dot" />
+                <span className="about-editor-title">developer.ts</span>
               </div>
-              <div className="editor-content-about">
-                <div className="code-content-about">
-                  <pre className="typed-code">{typedCode}</pre>
-                  <span className="typing-cursor">|</span>
-                </div>
-              </div>
+              <pre className="about-editor-code">
+                <code className="about-editor-ghost">{fullCode}</code>
+                <code className="about-editor-typed">
+                  {typedCode}
+                  <span className="about-editor-cursor" />
+                </code>
+              </pre>
             </div>
+          )}
+        </div>
+
+        {highlights.length > 0 && (
+          <div className="about-block">
+            <h3 className="about-block-title">Career highlights</h3>
+            <ol className="highlights-grid">
+              {highlights.map((highlight, index) => (
+                <li className="highlight-card" key={highlight.title}>
+                  <span className="highlight-index" aria-hidden="true">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h4>{highlight.title}</h4>
+                  <p>{highlight.description}</p>
+                </li>
+              ))}
+            </ol>
           </div>
+        )}
 
-          <div className="expertise-panel">
-            <h3 className="panel-title">Technical Expertise</h3>
-            <p className="panel-subtitle">
-              {skills.length} core competencies across{" "}
-              {skillGroups.length} disciplines · {profile?.yearsExperience || ""}{" "}
-              years
-            </p>
-
-            <div className="skill-groups">
+        {skillGroups.length > 0 && (
+          <div className="about-block">
+            <h3 className="about-block-title">Expertise</h3>
+            <div className="expertise-grid">
               {skillGroups.map((group) => (
-                <div className="skill-group" key={group.category}>
-                  <h4 className="skill-group-title">{group.label}</h4>
-                  <ul className="skill-list">
+                <div className="expertise-group" key={group.category}>
+                  <h4 className="expertise-label">{group.label}</h4>
+                  <ul>
                     {group.items.map((skill) => (
-                      <li className="skill-row" key={skill.name}>
-                        <div className="skill-row-head">
-                          <span className="skill-row-name">{skill.name}</span>
-                          <span className="skill-row-level">{skill.level}%</span>
-                        </div>
-                        <div
-                          className="skill-meter"
-                          role="meter"
-                          aria-valuenow={skill.level}
-                          aria-valuemin={0}
-                          aria-valuemax={100}
-                          aria-label={`${skill.name} proficiency`}
-                        >
-                          <div
-                            className="skill-meter-fill"
-                            style={{ width: `${skill.level}%` }}
-                          />
-                        </div>
-                        {skill.description && (
-                          <p className="skill-row-desc">{skill.description}</p>
-                        )}
+                      <li key={skill.name} title={skill.description || undefined}>
+                        {skill.name}
                       </li>
                     ))}
                   </ul>
@@ -165,22 +156,7 @@ const About: React.FC = () => {
               ))}
             </div>
           </div>
-        </div>
-
-        <div className="experience-timeline">
-          <h3 className="timeline-title">Career Highlights</h3>
-          <div className="timeline-items">
-            {(profile?.careerHighlights || []).map((highlight) => (
-              <div className="timeline-item" key={highlight.title}>
-                <div className="timeline-marker"></div>
-                <div className="timeline-content">
-                  <h4>{highlight.title}</h4>
-                  <p>{highlight.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        )}
       </div>
     </section>
   );
