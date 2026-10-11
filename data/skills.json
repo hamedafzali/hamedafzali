@@ -71,6 +71,12 @@
       "level": 84,
       "category": "quality",
       "description": "Built and maintained unit, integration, and Cypress E2E test suites at GMG. Contributed to early AWS CloudWatch monitoring setup to establish baseline observability. Experience with disciplined delivery in both regulated banking and commercial SaaS contexts."
+    },
+    {
+      "name": "AI-Assisted Engineering",
+      "level": 85,
+      "category": "ai",
+      "description": "Designed and built a Python MCP server with RAG-indexed codebase tooling so LLM-powered assistants can navigate and reason over a production codebase. Working knowledge of LLMs, RAG, vector databases, agentic workflows, and LangChain/LangGraph (IBM RAG & Agentic AI Professional Certificate)."
     }
   ]
 }

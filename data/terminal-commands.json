@@ -1,18 +1,18 @@
 {
   "terminalCommands": [
-    "$ whoami → hamed.afzali @ senior-engineer",
+    "$ whoami → hamed.afzali @ tech-lead",
     "$ cat /career/current.txt → GMG GmbH | Senior Full-Stack Engineer | Tübingen, DE",
     "$ ls /skills/ → .net8  react  typescript  distributed-systems  node.js  azure-devops",
     "$ git log --oneline | wc -l → 20 years of commits",
-    "$ curl -X POST https://hamed.dev/api/contact",
-    "$ echo 'Open to senior engineering & architecture roles'"
+    "$ curl -X POST https://afzali.eu.cc/api/contact",
+    "$ cat /focus.txt → architecture · distributed systems · AI-assisted engineering"
   ],
   "fallbackCommands": [
-    "$ whoami → hamed.afzali @ senior-engineer",
+    "$ whoami → hamed.afzali @ tech-lead",
     "$ cat /career/current.txt → GMG GmbH | Senior Full-Stack Engineer | Tübingen, DE",
     "$ ls /skills/ → .net8  react  typescript  distributed-systems  node.js  azure-devops",
     "$ git log --oneline | wc -l → 20 years of commits",
-    "$ curl -X POST https://hamed.dev/api/contact",
-    "$ echo 'Open to senior engineering & architecture roles'"
+    "$ curl -X POST https://afzali.eu.cc/api/contact",
+    "$ cat /focus.txt → architecture · distributed systems · AI-assisted engineering"
   ]
 }

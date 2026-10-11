@@ -128,7 +128,7 @@ const Contact: React.FC = () => {
                     Location: {profile?.location || ""}
                   </div>
                   <div className="output-line">
-                    Status: {profile?.availabilityStatus || ""}
+                    Focus: {profile?.currentFocus?.replace(/^Currently:\s*/i, "") || ""}
                   </div>
                 </div>
               </div>
@@ -261,26 +261,6 @@ const Contact: React.FC = () => {
                   </button>
                 </div>
               </form>
-            </div>
-
-            <div className="availability-status">
-              <div className="status-card">
-                <div className="status-header">
-                  <span className="status-dot online"></span>
-                  <span className="status-title">Current Status</span>
-                </div>
-                <div className="status-content">
-                  <p className="status-message">
-                    {profile?.availabilityStatus || ""}
-                  </p>
-                  <div className="response-time">
-                    <span className="response-label">
-                      Typical response time:
-                    </span>
-                    <span className="response-value">Within 24 hours</span>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </div>

@@ -328,14 +328,15 @@
 }
 
 .project-link.primary {
-  background: var(--primary-color, #007bff);
-  color: #ffffff;
+  background: var(--primary-color);
+  color: #04141a;
+  font-weight: 600;
 }
 
 .project-link.primary:hover {
-  background: var(--secondary-color, #0056b3);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px var(--primary-color, #007bff);
+  background: #5fd6c6;
+  color: #04141a;
+  transform: translateY(-1px);
 }
 
 .project-link.secondary {
