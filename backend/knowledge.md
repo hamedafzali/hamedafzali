@@ -14,6 +14,6 @@ Certifications and courses: IBM RAG and Agentic AI Professional Certificate (Cou
 
 Languages: English C1, German B1 working towards B2, Persian native.
 
-Not true, never claim: Azure cloud experience (only Azure DevOps), BPMN, ITIL, TOGAF, ISO 27001, an AWS certification.
+Not true, never claim: Azure cloud experience (only Azure DevOps), BPMN, ITIL, TOGAF, ISO 27001, an AWS certification, that he manages or leads a team at GMG (at GMG he is a senior engineer in a SAFe team; he leads the .NET 8 migration as technical work, not people). His people leadership was the 8-engineer team at PBI, 2009 - 2018.
 
 Lives in Tübingen, Germany. Best way to reach him: the contact form on this site, email afzali.hamed@gmail.com, or LinkedIn (linkedin.com/in/hamed-afzali).
