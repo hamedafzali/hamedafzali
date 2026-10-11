@@ -13,9 +13,22 @@ export interface ChatReply {
   answer: string;
   topic: string;
   followups?: string[];
+  offTopic?: boolean;
+  remaining?: number;
   model: string;
   tokens: number | null;
   ms: number;
+}
+
+export interface ChatStatus {
+  enabled: boolean;
+  remaining: number;
+  limit: number;
+}
+
+// Carries the questions left, which the server also sends with errors.
+export class ChatError extends Error {
+  remaining?: number;
 }
 
 export interface Project {
@@ -270,13 +283,19 @@ class ApiService {
     }
   }
 
-  static async getChatStatus(): Promise<boolean> {
+  static async getChatStatus(): Promise<ChatStatus> {
+    const off = { enabled: false, remaining: 0, limit: 0 };
     try {
       const response = await fetch(`${API_BASE_URL}/chat/status`);
-      if (!response.ok) return false;
-      return Boolean((await response.json()).enabled);
+      if (!response.ok) return off;
+      const data = await response.json();
+      return {
+        enabled: Boolean(data.enabled),
+        remaining: Number(data.remaining ?? 10),
+        limit: Number(data.limit ?? 10),
+      };
     } catch {
-      return false;
+      return off;
     }
   }
 
@@ -289,7 +308,9 @@ class ApiService {
     });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
-      throw new Error(data.message || "Something jammed in the machine.");
+      const error = new ChatError(data.message || "Something jammed in the machine.");
+      if (typeof data.remaining === "number") error.remaining = data.remaining;
+      throw error;
     }
     return data;
   }

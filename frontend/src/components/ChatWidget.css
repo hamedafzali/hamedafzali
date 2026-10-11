@@ -528,3 +528,18 @@
     animation: none;
   }
 }
+
+.machine.rejected .machine-state,
+.machine.rejected .machine-log li:last-child {
+  color: #f07178;
+}
+
+.machine.rejected .crate {
+  border-color: #f07178;
+  background: rgba(240, 113, 120, 0.12);
+  color: #f07178;
+}
+
+.chat-input textarea:disabled {
+  opacity: 0.5;
+}

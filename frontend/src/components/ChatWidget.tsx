@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./ChatWidget.css";
-import ApiService, { ChatReply, ChatTurn } from "../services/api";
+import ApiService, { ChatError, ChatReply, ChatTurn } from "../services/api";
 
 // Each question runs through a little factory: intake, tokenizer press,
 // dispatch to Mistral, quality control. The stages are for fun, but the
@@ -34,6 +34,9 @@ const QUIPS: string[][] = [
   ],
   ["Quality control is squinting at it", "Checking for hallucinations", "Polishing the answer"],
 ];
+
+// Matches the server's limit.
+const MAX_QUESTION = 200;
 
 const SUGGESTIONS = [
   "What does Hamed work on at GMG?",
@@ -177,6 +180,7 @@ const Answer: React.FC<{ text: string }> = ({ text }) => {
 const Machine: React.FC<{ job: Job }> = ({ job }) => {
   const { stage, failed, reply, keywords, question } = job;
   const done = stage === 4 && !failed;
+  const rejected = done && Boolean(reply?.offTopic);
   const crate = keywords[0] || "???";
   const tokens = Math.max(1, Math.ceil(question.length / 4));
   const log: string[] = [];
@@ -190,24 +194,25 @@ const Machine: React.FC<{ job: Job }> = ({ job }) => {
     log.push(
       `mistral: answer back in ${(reply.ms / 1000).toFixed(1)}s, ${reply.tokens ?? "?"} tokens, ${reply.model}`,
     );
-  if (done)
+  if (rejected) log.push("qc: not about Hamed, crate rejected and sent back");
+  else if (done)
     log.push(`qc: topic "${reply?.topic || "general"}", no hallucinations detected (probably)`);
   if (failed) log.push(`jam: ${failed}`);
 
   const position = Math.min(stage, 3);
 
   return (
-    <div className={`machine ${failed ? "jammed" : ""} ${done ? "done" : ""}`}>
+    <div className={`machine ${failed ? "jammed" : ""} ${done ? "done" : ""} ${rejected ? "rejected" : ""}`}>
       <div className="machine-head">
         <span>job #{String(job.id).padStart(4, "0")}</span>
         <span className="machine-state">
-          {failed ? "JAMMED" : done ? "SHIPPED ✓" : pick(QUIPS[stage] || QUIPS[3], job.id) + "…"}
+          {failed ? "JAMMED" : rejected ? "REJECTED ✗" : done ? "SHIPPED ✓" : pick(QUIPS[stage] || QUIPS[3], job.id) + "…"}
         </span>
       </div>
 
       <ol className="machine-line">
         {STATIONS.map((s, i) => {
-          const state = failed && i === position ? "fault" : i < stage ? "ok" : i === stage ? "busy" : "idle";
+          const state = (failed && i === position) || (rejected && i === 3) ? "fault" : i < stage ? "ok" : i === stage ? "busy" : "idle";
           return (
             <li key={s.label} className={`station ${state}`}>
               <span className="station-light" />
@@ -240,6 +245,7 @@ const Machine: React.FC<{ job: Job }> = ({ job }) => {
 
 const ChatWidget: React.FC = () => {
   const [enabled, setEnabled] = useState(false);
+  const [remaining, setRemaining] = useState(0);
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -250,7 +256,10 @@ const ChatWidget: React.FC = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    ApiService.getChatStatus().then(setEnabled);
+    ApiService.getChatStatus().then((status) => {
+      setEnabled(status.enabled);
+      setRemaining(status.remaining);
+    });
   }, []);
 
   useEffect(() => {
@@ -281,8 +290,8 @@ const ChatWidget: React.FC = () => {
     setJobs((all) => ({ ...all, [id]: { ...all[id], ...patch } }));
 
   const ask = async (raw: string) => {
-    const question = raw.trim().slice(0, 500);
-    if (!question || busy) return;
+    const question = raw.trim().slice(0, MAX_QUESTION);
+    if (!question || busy || remaining <= 0) return;
     const id = nextId.current++;
     const history: ChatTurn[] = messages
       .slice(-6)
@@ -304,11 +313,13 @@ const ChatWidget: React.FC = () => {
       update(id, { stage: 2 });
       const [reply] = await Promise.all([request, wait(900)]);
       update(id, { stage: 3, reply });
+      if (typeof reply.remaining === "number") setRemaining(reply.remaining);
       await wait(900);
       update(id, { stage: 4 });
       setMessages((all) => [...all, { role: "assistant", content: reply.answer, jobId: id }]);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Something jammed in the machine.";
+      if (error instanceof ChatError && typeof error.remaining === "number") setRemaining(error.remaining);
       setJobs((all) => ({ ...all, [id]: { ...all[id], failed: message } }));
     } finally {
       setBusy(false);
@@ -352,7 +363,7 @@ const ChatWidget: React.FC = () => {
               Hi! I'm a small AI factory that knows Hamed's CV. Drop a question in the hopper and
               watch it get processed.
             </p>
-            {messages.length === 0 && (
+            {messages.length === 0 && remaining > 0 && (
               <div className="chat-suggestions">
                 {SUGGESTIONS.map((s) => (
                   <button key={s} type="button" onClick={() => ask(s)}>
@@ -371,7 +382,7 @@ const ChatWidget: React.FC = () => {
                 {m.role === "user" && m.jobId && jobs[m.jobId] && <Machine job={jobs[m.jobId]} />}
               </React.Fragment>
             ))}
-            {!busy && followups.length > 0 && (
+            {!busy && remaining > 0 && followups.length > 0 && (
               <div className="chat-suggestions" aria-label="Suggested questions">
                 <span className="chat-suggestions-label">Ask next:</span>
                 {followups.map((q) => (
@@ -388,8 +399,15 @@ const ChatWidget: React.FC = () => {
               ref={inputRef}
               rows={1}
               value={input}
-              maxLength={500}
-              placeholder={busy ? "The machine is working…" : "Ask about Hamed's work"}
+              maxLength={MAX_QUESTION}
+              disabled={remaining <= 0}
+              placeholder={
+                remaining <= 0
+                  ? "No questions left today"
+                  : busy
+                    ? "The machine is working…"
+                    : "Ask about Hamed's work"
+              }
               aria-label="Your question"
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
@@ -399,13 +417,18 @@ const ChatWidget: React.FC = () => {
                 }
               }}
             />
-            <button type="submit" className="chat-send" disabled={busy || !input.trim()} aria-label="Send">
+            <button type="submit" className="chat-send" disabled={busy || remaining <= 0 || !input.trim()} aria-label="Send">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
             </button>
           </form>
-          <p className="chat-note">Answers come from Mistral AI and can be wrong.</p>
+          <p className="chat-note">
+            {remaining > 0
+              ? `${remaining} question${remaining === 1 ? "" : "s"} left today. `
+              : "No questions left today. The contact form is always open. "}
+            Answers come from Mistral AI and can be wrong.
+          </p>
         </div>
       )}
     </>
