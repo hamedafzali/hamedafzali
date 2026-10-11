@@ -1,26 +1,27 @@
 {
   "profile": {
     "name": "Hamed Afzali",
-    "brand": "hamed.dev",
-    "siteUrl": "https://hamed.dev",
-    "image": "https://hamed.dev/hamedafzali.png",
+    "brand": "hamed afzali",
+    "siteUrl": "https://afzali.eu.cc",
+    "image": "https://afzali.eu.cc/hamed-afzali.jpg",
     "headline": "Senior Full-Stack Engineer & Technical Lead",
-    "summary": "Senior engineer and technical lead with 20+ years designing and operating mission-critical distributed systems in regulated banking and fintech environments. Track record of owning full system lifecycles — from architecture decisions and team leadership to production operations — at scale (15,000+ concurrent users, 400+ branch networks, national payment infrastructure). Specializes in platform modernization, high-availability distributed architecture, and leading cross-functional engineering teams toward measurable business outcomes.",
+    "summary": "20+ years designing and delivering mission-critical platforms in banking, fintech, and SaaS — from national payment infrastructure to multi-tenant cloud products. I make the architecture calls, lead the teams that build them, and stay hands-on in the code.",
     "location": "Tübingen, Germany",
-    "availabilityStatus": "Open to senior engineering, architecture, and technical leadership roles",
-    "contactIntro": "Have a role, project, or technical problem you think I'd be a good fit for? I'd like to hear about it — send a message below, or reach out directly through any of the channels here.",
+    "currentFocus": "Currently: architecture & AI-assisted engineering at GMG",
+    "contactIntro": "Have an interesting architecture problem, a platform to modernize, or just want to talk engineering? Send a message or reach out directly.",
     "yearsExperience": "20+",
     "roles": [
       "Senior Full-Stack Engineer",
-      "Distributed Systems Architect",
-      "Technical Team Lead",
-      "Platform Modernization Lead"
+      "Technical Lead",
+      "Software Architect",
+      "AI-Assisted Engineering"
     ],
     "specializations": [
+      "Software Architecture",
       "Distributed Systems",
       "Platform Modernization",
-      "FinTech & Banking Systems",
-      "Technical Leadership"
+      "Technical Leadership",
+      "AI-Assisted Engineering"
     ],
     "contactMethods": [
       {
@@ -64,6 +65,29 @@
       {
         "title": "Team Lead — 8 Engineers",
         "description": "Led a cross-functional engineering team of 8 for 9 years at PBI, owning delivery, sprint planning, code quality, and technical mentorship across mission-critical projects."
+      }
+    ],
+    "about": [
+      "I've spent two decades building software that people and institutions depend on: a core banking platform serving 15,000 concurrent users, national card and cheque-clearing infrastructure, and a regulatory analytics platform used across 400+ branches and for Central Bank reporting.",
+      "For nine years I led an 8-person engineering team — owning delivery, sprint planning, code quality, and mentorship — and served as sole architect of the analytics platform end to end, from design through production operations.",
+      "Today at GMG I take architecture-level ownership on a multi-tenant SaaS platform: leading the .NET 8 modernization, designing the security and identity architecture, shaping CI/CD, and building AI-assisted engineering tooling with MCP and RAG."
+    ],
+    "stats": [
+      {
+        "value": "20+",
+        "label": "years building production software"
+      },
+      {
+        "value": "15k",
+        "label": "concurrent users on a platform I architected"
+      },
+      {
+        "value": "400+",
+        "label": "branches on one analytics platform"
+      },
+      {
+        "value": "9 yrs",
+        "label": "leading an 8-person engineering team"
       }
     ]
   }

@@ -63,16 +63,14 @@ AI: RAG, LangChain, LangGraph, MCP, Vector Databases
 
 ## 📈 Current Focus
 
-🔍 **Open to New Challenges** - Seeking opportunities in:
-
-- Senior software architecture / solution architecture roles
-- Enterprise digital transformation projects
+- Architecture-level ownership on a multi-tenant SaaS platform (.NET 8 modernization, security & identity architecture, CI/CD)
+- AI-assisted engineering tooling (MCP, RAG) and licence-compliance governance
 - Distributed systems and platform modernization
 - Technical leadership and mentoring
 
 ## 📞 Contact
 
-I'm always interested in discussing innovative projects and new opportunities. Feel free to reach out!
+Happy to talk architecture, distributed systems, or AI-assisted engineering. Feel free to reach out.
 
 - **Email**: [afzali.hamed@gmail.com](mailto:afzali.hamed@gmail.com)
 - **LinkedIn**: [linkedin.com/in/hamed-afzali](https://linkedin.com/in/hamed-afzali)

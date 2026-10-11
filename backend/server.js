@@ -294,10 +294,10 @@ const profileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  availabilityStatus: {
-    type: String,
-    required: true,
-  },
+  currentFocus: String,
+  contactIntro: String,
+  about: [String],
+  stats: [{ value: String, label: String }],
   yearsExperience: {
     type: String,
     required: true,
@@ -580,7 +580,7 @@ app.get("/api/terminal-commands", async (req, res) => {
 app.get("/api/footer", async (req, res) => {
   try {
     // Fetch footer data from database
-    const footer = await Footer.findOne().sort({ createdAt: -1 });
+    const footer = await Footer.findOne().sort({ createdAt: -1 }).lean();
     if (footer) {
       res.json(footer);
     } else {
@@ -593,7 +593,7 @@ app.get("/api/footer", async (req, res) => {
 
 app.get("/api/profile", async (req, res) => {
   try {
-    const profile = await Profile.findOne().sort({ createdAt: -1 });
+    const profile = await Profile.findOne().sort({ createdAt: -1 }).lean();
     if (profile) {
       res.json(profile);
     } else {

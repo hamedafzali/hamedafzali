@@ -13,6 +13,7 @@ const CATEGORY_LABELS: Record<string, string> = {
   security: "Security",
   leadership: "Leadership",
   quality: "Quality Engineering",
+  ai: "AI-Assisted Engineering",
   general: "Core Skills",
 };
 
@@ -93,6 +94,14 @@ const About: React.FC = () => {
           </h2>
           <p className="about-subtitle">{profile?.headline || ""}</p>
         </div>
+
+        {profile?.about?.length ? (
+          <div className="about-narrative">
+            {profile.about.map((paragraph) => (
+              <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+            ))}
+          </div>
+        ) : null}
 
         <div className="about-content">
           <div className="code-showcase" aria-hidden="true">
