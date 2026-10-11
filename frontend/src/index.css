@@ -132,6 +132,38 @@ p {
   color: var(--muted);
 }
 
+/* Shared section header: <name /> in mono, plain-language subtitle. */
+.section-head {
+  margin-bottom: clamp(40px, 5vw, 64px);
+  text-align: center;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin-bottom: var(--space-3);
+  font-family: var(--font-mono);
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 400;
+}
+
+.section-subtitle {
+  max-width: 56ch;
+  margin: 0 auto;
+  color: var(--muted);
+}
+
+.code-bracket {
+  color: var(--primary-color);
+}
+
+.code-tag {
+  color: var(--text);
+  font-weight: 600;
+}
+
 /* Accessibility utilities */
 :focus-visible {
   outline: 2px solid var(--primary-color);

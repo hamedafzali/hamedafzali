@@ -2,55 +2,46 @@ import React from "react";
 import "./Footer.css";
 import { usePortfolioData } from "../context/PortfolioData";
 
+// Used when the footer API is unavailable, so the footer is never empty.
+const FALLBACK_SOCIAL = [
+  { name: "linkedin", href: "https://linkedin.com/in/hamed-afzali", text: "LinkedIn" },
+  { name: "github", href: "https://github.com/hamedafzali", text: "GitHub" },
+  { name: "email", href: "mailto:afzali.hamed@gmail.com", text: "Email" },
+];
+
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
-  const { footer } = usePortfolioData();
-  const footerData = footer || {
-    copyright: "",
-    navigationLinks: [] as { name: string; href: string }[],
-    socialLinks: [] as { name: string; href: string; text: string }[],
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  const { footer, profile } = usePortfolioData();
+  const social = footer?.socialLinks?.length ? footer.socialLinks : FALLBACK_SOCIAL;
+  const name = profile?.name || "Hamed Afzali";
 
   return (
     <footer className="footer">
-      <div className="container">
-        <div className="footer-content">
-          <div className="footer-info">
-            <p>
-              &copy; {currentYear} {footerData.copyright}
-            </p>
-          </div>
-          <div className="footer-links">
-            {footerData.navigationLinks.map((link) => (
-              <a key={link.name} href={link.href}>
-                {link.name}
-              </a>
-            ))}
-          </div>
-          <div className="footer-social">
-            {footerData.socialLinks.map((social) => (
+      <div className="container footer-content">
+        <p className="footer-info">
+          &copy; {currentYear} {name}
+          <span className="footer-sep" aria-hidden="true">·</span>
+          <span className="footer-location">{profile?.location || "Tübingen, Germany"}</span>
+        </p>
+        <ul className="footer-social">
+          {social.map((link) => (
+            <li key={link.name}>
               <a
-                key={social.name}
-                href={social.href}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={link.href}
+                {...(link.href.startsWith("http")
+                  ? { target: "_blank", rel: "noopener noreferrer" }
+                  : {})}
               >
-                {social.text}
+                {link.text}
               </a>
-            ))}
-          </div>
-        </div>
-        <button
-          className="back-to-top"
-          onClick={scrollToTop}
-          aria-label="Back to top"
-        >
-          Back to top
-        </button>
+            </li>
+          ))}
+          <li>
+            <a href="#main-content" className="footer-top">
+              Back to top ↑
+            </a>
+          </li>
+        </ul>
       </div>
     </footer>
   );

@@ -1,241 +1,157 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./Portfolio.css";
 import ApiService, { Project } from "../services/api";
 
+const FILTERS = [
+  { id: "featured", label: "Featured" },
+  { id: "all", label: "All" },
+  { id: "enterprise", label: "Enterprise" },
+  { id: "fintech", label: "FinTech" },
+  { id: "cloud", label: "Cloud" },
+  { id: "integration", label: "Integration" },
+];
+
+const MAX_TAGS = 5;
+// Descriptions longer than this are clamped with an inline "Read more".
+const CLAMP_AT = 220;
+
+const hasLink = (link?: string) => !!link && link.trim() !== "" && link.trim() !== "#";
+
 const Portfolio: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
-  const [filter, setFilter] = useState("all");
-  const [hoveredProject, setHoveredProject] = useState<string | null>(null);
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const closeButtonRef = useRef<HTMLButtonElement>(null);
-  const lastFocusedRef = useRef<HTMLElement | null>(null);
+  const [filter, setFilter] = useState("featured");
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const data = await ApiService.getProjects();
-        setProjects(data);
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-        // Set empty array on error - no hardcoded fallback
-        setProjects([]);
-      }
-    };
-
-    fetchProjects();
+    ApiService.getProjects()
+      .then(setProjects)
+      .catch(() => setProjects([]));
   }, []);
 
-  // Modal: lock scroll, close on Escape, move focus in, restore focus out.
-  useEffect(() => {
-    if (!selectedProject) return;
-    lastFocusedRef.current = document.activeElement as HTMLElement;
-    document.body.style.overflow = "hidden";
-    closeButtonRef.current?.focus();
+  const matches = (project: Project, id: string) =>
+    id === "all" ? true : id === "featured" ? project.featured : project.category === id;
 
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setSelectedProject(null);
-    };
-    document.addEventListener("keydown", onKeyDown);
+  const counts = useMemo(
+    () =>
+      Object.fromEntries(
+        FILTERS.map(({ id }) => [id, projects.filter((p) => matches(p, id)).length]),
+      ),
+    [projects],
+  );
 
-    return () => {
-      document.removeEventListener("keydown", onKeyDown);
-      document.body.style.overflow = "";
-      lastFocusedRef.current?.focus();
-    };
-  }, [selectedProject]);
+  const visible = projects.filter((p) => matches(p, filter));
 
-  const categories = ["all", "enterprise", "fintech", "cloud", "integration"];
-  const capitalize = (value: string) =>
-    value.charAt(0).toUpperCase() + value.slice(1);
-  const filteredProjects =
-    filter === "all"
-      ? projects
-      : projects.filter((project) => project.category === filter);
+  const toggle = (id: string) =>
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
 
   return (
     <section id="portfolio" className="portfolio">
-      <div className="portfolio-container">
-        <div className="portfolio-header">
-          <h2 className="portfolio-title">
+      <div className="container">
+        <header className="section-head">
+          <h2 className="section-title">
             <span className="code-bracket">{"<"}</span>
-            <span className="code-tag">projects</span>
+            <span className="code-tag">work</span>
             <span className="code-bracket">{"/>"}</span>
           </h2>
-          <p className="portfolio-subtitle">Enterprise, Cloud & FinTech</p>
+          <p className="section-subtitle">
+            Platforms I've architected, led, or built — from national payment
+            infrastructure to multi-tenant SaaS.
+          </p>
 
-          <div className="filter-tabs">
-            {categories.map((category) => (
-              <button
-                key={category}
-                className={`filter-tab ${filter === category ? "active" : ""}`}
-                onClick={() => setFilter(category)}
-              >
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </button>
-            ))}
+          <div className="filter-tabs" role="group" aria-label="Filter projects">
+            {FILTERS.filter(({ id }) => !projects.length || counts[id] > 0).map(
+              ({ id, label }) => (
+                <button
+                  key={id}
+                  type="button"
+                  className={`filter-tab ${filter === id ? "active" : ""}`}
+                  aria-pressed={filter === id}
+                  onClick={() => setFilter(id)}
+                >
+                  {label}
+                  {projects.length > 0 && (
+                    <span className="filter-count">{counts[id]}</span>
+                  )}
+                </button>
+              ),
+            )}
           </div>
-        </div>
+        </header>
 
-        <div className="projects-grid">
-          {filteredProjects.map((project, index) => {
-            const projectId = project._id || project.id || `project-${index}`;
+        <ul className="projects-grid">
+          {visible.map((project, index) => {
+            const id = project._id || project.id || `project-${index}`;
+            const isOpen = expanded.has(id);
+            const long = project.description.length > CLAMP_AT;
+            const tags = project.technologies || [];
+            const active = (project.status || "").toLowerCase() === "active";
             return (
-              <div
-                key={projectId}
-                className={`project-card ${project.featured ? "featured" : ""} ${hoveredProject === projectId ? "hovered" : ""}`}
-                style={{ animationDelay: `${index * 0.1}s` }}
-                onMouseEnter={() => setHoveredProject(projectId)}
-                onMouseLeave={() => setHoveredProject(null)}
-              >
-                <div className="project-header">
-                  <h3 className="project-title">{project.title}</h3>
-                  <div className="project-meta">
-                    {project.featured && (
-                      <span className="featured-badge">
-                        <span className="featured-icon">⭐</span>
-                        <span>Featured</span>
-                      </span>
-                    )}
-                    <span
-                      className={`status-badge ${project.status ? project.status.toLowerCase() : "active"}`}
-                    >
-                      {project.status || "Active"}
-                    </span>
-                    <span className="duration">
-                      {project.duration || "Ongoing"}
-                    </span>
-                  </div>
+              <li key={id} className="project-card">
+                <div className="project-meta">
+                  <span className={`project-status ${active ? "active" : ""}`}>
+                    {active ? "Current" : project.status || "Completed"}
+                  </span>
+                  {project.duration && (
+                    <span className="project-duration">{project.duration}</span>
+                  )}
                 </div>
 
-                <p className="project-description">{project.description}</p>
+                <h3 className="project-title">{project.title}</h3>
 
-                <div className="technologies">
-                  {(project.technologies || []).map((tech, techIndex) => (
-                    <span key={techIndex} className="tech-tag">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-
-                <div className="project-actions">
+                <p
+                  className={`project-description ${long && !isOpen ? "clamped" : ""}`}
+                  id={`desc-${id}`}
+                >
+                  {project.description}
+                </p>
+                {long && (
                   <button
                     type="button"
-                    className="project-link primary project-link-button"
-                    onClick={() => setSelectedProject(project)}
+                    className="project-more"
+                    aria-expanded={isOpen}
+                    aria-controls={`desc-${id}`}
+                    onClick={() => toggle(id)}
                   >
-                    <span className="link-icon">i</span>
-                    <span>Project Details</span>
+                    {isOpen ? "Show less" : "Read more"}
                   </button>
-                  {project.github && (
-                    <a href={project.github} className="project-link secondary">
-                      <span className="link-icon">GH</span>
-                      <span>Repository</span>
-                    </a>
-                  )}
-                </div>
+                )}
 
-                <div className="project-glow"></div>
-              </div>
+                <ul className="technologies" aria-label="Technologies">
+                  {(isOpen ? tags : tags.slice(0, MAX_TAGS)).map((tech) => (
+                    <li key={tech} className="tech-tag">
+                      {tech}
+                    </li>
+                  ))}
+                  {!isOpen && tags.length > MAX_TAGS && (
+                    <li className="tech-tag more">+{tags.length - MAX_TAGS}</li>
+                  )}
+                </ul>
+
+                {(hasLink(project.link) || project.github) && (
+                  <div className="project-actions">
+                    {hasLink(project.link) && (
+                      <a href={project.link} className="project-link">
+                        Open project ↗
+                      </a>
+                    )}
+                    {project.github && (
+                      <a href={project.github} className="project-link">
+                        Repository ↗
+                      </a>
+                    )}
+                  </div>
+                )}
+              </li>
             );
           })}
-        </div>
+        </ul>
 
-        {selectedProject && (
-          <div
-            className="project-modal-overlay"
-            onClick={() => setSelectedProject(null)}
-          >
-            <div
-              className="project-modal"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="project-modal-title"
-              onClick={(event) => event.stopPropagation()}
-            >
-              <div className="project-modal-header">
-                <div>
-                  <h3 className="project-modal-title" id="project-modal-title">
-                    {selectedProject.title}
-                  </h3>
-                  <div className="project-meta">
-                    {selectedProject.featured && (
-                      <span className="featured-badge">
-                        <span className="featured-icon">⭐</span>
-                        <span>Featured</span>
-                      </span>
-                    )}
-                    <span
-                      className={`status-badge ${selectedProject.status ? selectedProject.status.toLowerCase() : "active"}`}
-                    >
-                      {selectedProject.status || "Active"}
-                    </span>
-                    <span className="duration">
-                      {selectedProject.duration || "Ongoing"}
-                    </span>
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  ref={closeButtonRef}
-                  className="project-modal-close"
-                  onClick={() => setSelectedProject(null)}
-                  aria-label="Close project details"
-                >
-                  ×
-                </button>
-              </div>
-
-              <p className="project-modal-description">
-                {selectedProject.description}
-              </p>
-
-              <div className="project-modal-section">
-                <span className="project-modal-label">Category</span>
-                <span className="project-modal-value">
-                  {capitalize(selectedProject.category)}
-                </span>
-              </div>
-
-              <div className="project-modal-section">
-                <span className="project-modal-label">Technologies</span>
-                <div className="technologies">
-                  {(selectedProject.technologies || []).map((tech, techIndex) => (
-                    <span key={techIndex} className="tech-tag">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div className="project-actions project-modal-actions">
-                {selectedProject.github && (
-                  <a
-                    href={selectedProject.github}
-                    className="project-link secondary"
-                  >
-                    <span className="link-icon">GH</span>
-                    <span>Repository</span>
-                  </a>
-                )}
-                {selectedProject.link &&
-                  selectedProject.link.trim() !== "" &&
-                  selectedProject.link.trim() !== "#" && (
-                    <a href={selectedProject.link} className="project-link primary">
-                      <span className="link-icon">↗</span>
-                      <span>Open Project</span>
-                    </a>
-                  )}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {filteredProjects.length === 0 && (
-          <div className="no-projects">
-            <div className="no-projects-icon">📁</div>
-            <h3>No projects found</h3>
-            <p>Try selecting a different category</p>
-          </div>
+        {projects.length > 0 && visible.length === 0 && (
+          <p className="no-projects">No projects in this category.</p>
         )}
       </div>
     </section>
