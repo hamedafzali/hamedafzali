@@ -185,7 +185,7 @@ Rules:
 
 Reply with exactly this JSON shape and nothing else:
 {"topic": "one or two words, e.g. leadership, tech stack, off-topic", "answer": "a single string", "followups": ["question 1", "question 2", "question 3"]}
-- "answer" must be ONE string of conversational prose, never an object or array. For a list, put each item on its own line starting with "- " inside that string.
+- "answer" must be ONE string of conversational prose, never an object or array. For a list, put each item on its own line starting with "- " inside that string. No markdown: no bold, headings, or asterisks.
 - "followups" are 3 short questions (under 60 characters) a visitor might ask next about Hamed, different from what was already asked.
 
 Facts about Hamed:
@@ -261,7 +261,7 @@ const parseReply = (content) => {
     answer: text,
     // False when the model sent an object or list instead of a plain string.
     wellFormed: typeof answer === "string" && answer.trim() !== "",
-    topic: typeof topic === "string" ? topic.slice(0, 40) : "",
+    topic: typeof topic === "string" ? topic.replace(/[_-]+/g, " ").trim().slice(0, 40) : "",
     followups: (Array.isArray(followups) ? followups : [])
       .filter((q) => typeof q === "string" && q.trim())
       .map((q) => q.trim().slice(0, 90))

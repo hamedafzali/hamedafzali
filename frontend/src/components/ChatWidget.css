@@ -157,6 +157,11 @@
   margin-top: 8px;
 }
 
+.chat-msg strong {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
 .chat-msg ul {
   display: grid;
   gap: 3px;

@@ -140,6 +140,10 @@ const ChatIcon: React.FC = () => (
   </svg>
 );
 
+// **bold** spans from the model become <strong>; everything else stays text.
+const inline = (text: string) =>
+  text.split(/\*\*(.+?)\*\*/g).map((part, i) => (i % 2 ? <strong key={i}>{part}</strong> : part));
+
 // Answers are plain text; lines starting with "- " become a bullet list.
 const Answer: React.FC<{ text: string }> = ({ text }) => {
   const blocks: React.ReactNode[] = [];
@@ -150,7 +154,7 @@ const Answer: React.FC<{ text: string }> = ({ text }) => {
       <ul key={blocks.length}>
         {items.map((item, i) => (
           <li key={i} style={item.depth ? { marginLeft: item.depth * 12 } : undefined}>
-            {item.text}
+            {inline(item.text)}
           </li>
         ))}
       </ul>,
@@ -163,7 +167,7 @@ const Answer: React.FC<{ text: string }> = ({ text }) => {
       items.push({ text: bullet[2], depth: Math.floor(bullet[1].length / 2) });
     } else if (line.trim()) {
       flush();
-      blocks.push(<p key={blocks.length}>{line.trim()}</p>);
+      blocks.push(<p key={blocks.length}>{inline(line.trim())}</p>);
     }
   });
   flush();
