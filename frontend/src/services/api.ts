@@ -4,6 +4,19 @@ const API_BASE_URL =
   process.env.REACT_APP_API_BASE_URL?.replace(/\/$/, "") || "/api";
 
 // Types for API responses
+export interface ChatTurn {
+  role: "user" | "assistant";
+  content: string;
+}
+
+export interface ChatReply {
+  answer: string;
+  topic: string;
+  model: string;
+  tokens: number | null;
+  ms: number;
+}
+
 export interface Project {
   _id?: string;
   id?: string;
@@ -254,6 +267,30 @@ class ApiService {
       console.error("Error checking health:", error);
       throw error;
     }
+  }
+
+  static async getChatStatus(): Promise<boolean> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/chat/status`);
+      if (!response.ok) return false;
+      return Boolean((await response.json()).enabled);
+    } catch {
+      return false;
+    }
+  }
+
+  // Throws with the server's message so the chat can show it.
+  static async askChat(question: string, history: ChatTurn[]): Promise<ChatReply> {
+    const response = await fetch(`${API_BASE_URL}/chat`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question, history }),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(data.message || "Something jammed in the machine.");
+    }
+    return data;
   }
 }
 

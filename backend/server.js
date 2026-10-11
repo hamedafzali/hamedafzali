@@ -5,6 +5,7 @@ const crypto = require("crypto");
 const path = require("path");
 const fs = require("fs");
 require("dotenv").config();
+const { registerChatRoutes } = require("./chat");
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -43,7 +44,7 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
   .map((o) => o.trim())
   .filter(Boolean);
 app.use(cors({ origin: allowedOrigins.length ? allowedOrigins : false }));
-app.use(express.json());
+app.use(express.json({ limit: "20kb" }));
 
 // Simple in-memory rate limiter for the contact form
 const contactSubmissions = new Map();
@@ -602,6 +603,8 @@ app.get("/api/profile", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+registerChatRoutes(app, { Profile, Skill, Project });
 
 app.get("/robots.txt", async (req, res) => {
   try {
