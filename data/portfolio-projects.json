@@ -24,7 +24,7 @@
     },
     {
       "title": ".NET Framework to .NET 8 Migration",
-      "description": "Helped make the decision to move the product from .NET Framework to .NET 8, then led the migration work, including moving local storage from SQL CE to SQLite. The codebase is large and commercial, so the work was done step by step while the product stayed in production.",
+      "description": "Helped make the decision to move the product from .NET Framework to .NET 8 and lead the migration work, including moving local storage from SQL CE to SQLite. The codebase is large and commercial, so the work is done step by step while the product stays in production.",
       "category": "enterprise",
       "image": "/core-banking-modernization.jpg",
       "link": "#",
@@ -36,7 +36,8 @@
         "SQL CE",
         "Azure DevOps"
       ],
-      "status": "Completed"
+      "status": "Active",
+      "duration": "2022 - Present"
     },
     {
       "title": "OSS Licence Compliance Automation",
@@ -57,7 +58,7 @@
     },
     {
       "title": "MCP Server for AI-Assisted Development",
-      "description": "Built an MCP (Model Context Protocol) server in Python that gives LLM tools search over a RAG index of the codebase. Engineers use it to find their way around the legacy code, and it made onboarding new people to the platform much faster.",
+      "description": "Built and maintain an MCP (Model Context Protocol) server in Python that gives LLM tools search over a RAG index of the codebase. Engineers use it to find their way around the legacy code, and it has made onboarding new people to the platform much faster.",
       "category": "enterprise",
       "image": "/mcp-server.jpg",
       "link": "#",
@@ -69,8 +70,8 @@
         "LLM",
         "Developer Tooling"
       ],
-      "status": "Completed",
-      "duration": "2024"
+      "status": "Active",
+      "duration": "2024 - Present"
     },
     {
       "title": "Enterprise Analytics & Regulatory Reporting Platform",
