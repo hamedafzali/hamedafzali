@@ -1,4 +1,4 @@
-/* Hero — text left, framed photo right, stats strip below.
+/* Hero — text left, framed photo right, "what I do" strip below.
    Normal-flow grid only (no absolute positioning), so nothing can
    overlap the text at any width. On mobile the large photo is replaced
    by a small avatar so name, role and CTAs sit above the fold. */
@@ -169,40 +169,47 @@
   object-fit: cover;
 }
 
-/* Stats strip */
-.hero-stats {
+/* "What I do" strip */
+.hero-pillars {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   margin-top: clamp(48px, 6vw, 80px);
   border: 1px solid var(--border);
   border-radius: 16px;
   background: rgba(17, 24, 39, 0.6);
+  list-style: none;
 }
 
-.hero-stat {
-  display: flex;
-  flex-direction: column-reverse;
-  justify-content: flex-end;
-  gap: 4px;
-  padding: 20px 24px;
+.hero-pillar {
+  padding: 22px 24px;
   min-width: 0;
 }
 
-.hero-stat + .hero-stat {
+.hero-pillar + .hero-pillar {
   border-left: 1px solid var(--border);
 }
 
-.hero-stat dd {
-  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+.hero-pillar-index {
+  display: block;
+  margin-bottom: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--primary-color);
+}
+
+.hero-pillar-title {
+  margin-bottom: 6px;
+  font-size: 1.02rem;
   font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
   color: var(--text);
 }
 
-.hero-stat dt {
-  font-size: 0.85rem;
-  line-height: 1.45;
+.hero-pillar-text {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.55;
   color: var(--muted);
 }
 
@@ -233,15 +240,15 @@
     border: 2px solid rgba(72, 198, 182, 0.5);
   }
 
-  .hero-stats {
+  .hero-pillars {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .hero-stat:nth-child(3) {
+  .hero-pillar:nth-child(3) {
     border-left: none;
   }
 
-  .hero-stat:nth-child(n + 3) {
+  .hero-pillar:nth-child(n + 3) {
     border-top: 1px solid var(--border);
   }
 }
@@ -265,12 +272,18 @@
     white-space: nowrap;
   }
 
-  .hero-stats {
+  .hero-pillars {
+    grid-template-columns: 1fr;
     margin-top: 40px;
   }
 
-  .hero-stat {
-    padding: 16px;
+  .hero-pillar {
+    padding: 16px 18px;
+  }
+
+  .hero-pillar + .hero-pillar {
+    border-left: none;
+    border-top: 1px solid var(--border);
   }
 }
 

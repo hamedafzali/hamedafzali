@@ -9,11 +9,23 @@ const FALLBACK = {
   headline: "Senior Full-Stack Engineer & Technical Lead",
   summary:
     "20+ years designing and leading delivery of mission-critical platforms — core banking, payments, and multi-tenant SaaS.",
-  stats: [
-    { value: "20+", label: "years building production software" },
-    { value: "15k", label: "concurrent users on core banking" },
-    { value: "400+", label: "branches on one analytics platform" },
-    { value: "9 yrs", label: "leading an 8-person team" },
+  pillars: [
+    {
+      title: "Platform architecture",
+      text: "Distributed, high-availability systems for banking, payments, and multi-tenant SaaS.",
+    },
+    {
+      title: "Technical leadership",
+      text: "Delivery planning, code quality, and mentoring engineers through complex work.",
+    },
+    {
+      title: "Modernization",
+      text: "Moving legacy platforms forward safely, like .NET Framework to .NET 8, without stopping production.",
+    },
+    {
+      title: "Security & identity",
+      text: "OAuth2, JWT, and fine-grained multi-tenant authorization.",
+    },
   ],
 };
 
@@ -22,7 +34,7 @@ const Hero: React.FC = () => {
   const name = profile?.name || FALLBACK.name;
   const headline = profile?.headline || FALLBACK.headline;
   const summary = profile?.summary || FALLBACK.summary;
-  const stats = profile?.stats?.length ? profile.stats : FALLBACK.stats;
+  const pillars = profile?.pillars?.length ? profile.pillars : FALLBACK.pillars;
 
   return (
     <section className="hero" aria-labelledby="hero-name">
@@ -76,14 +88,17 @@ const Hero: React.FC = () => {
           </figure>
         </div>
 
-        <dl className="hero-stats">
-          {stats.map((stat) => (
-            <div className="hero-stat" key={stat.label}>
-              <dt>{stat.label}</dt>
-              <dd>{stat.value}</dd>
-            </div>
+        <ul className="hero-pillars" aria-label="What I do">
+          {pillars.map((pillar, index) => (
+            <li className="hero-pillar" key={pillar.title}>
+              <span className="hero-pillar-index" aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h2 className="hero-pillar-title">{pillar.title}</h2>
+              <p className="hero-pillar-text">{pillar.text}</p>
+            </li>
           ))}
-        </dl>
+        </ul>
       </div>
     </section>
   );

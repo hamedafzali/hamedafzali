@@ -50,7 +50,7 @@ export interface ProfileData {
   location: string;
   contactIntro: string;
   about?: string[];
-  stats?: { value: string; label: string }[];
+  pillars?: { title: string; text: string }[];
   image?: string;
   yearsExperience: string;
   roles: string[];

@@ -296,7 +296,7 @@ const profileSchema = new mongoose.Schema({
   },
   contactIntro: String,
   about: [String],
-  stats: [{ value: String, label: String }],
+  pillars: [{ title: String, text: String }],
   yearsExperience: {
     type: String,
     required: true,

@@ -71,22 +71,22 @@
       "For nine years I led an 8-person engineering team — owning delivery, sprint planning, code quality, and mentorship — and served as sole architect of the analytics platform end to end, from design through production operations.",
       "Today at GMG I take architecture-level ownership on a multi-tenant SaaS platform: leading the .NET 8 modernization, designing the security and identity architecture, shaping CI/CD, and building AI-assisted engineering tooling with MCP and RAG."
     ],
-    "stats": [
+    "pillars": [
       {
-        "value": "20+",
-        "label": "years building production software"
+        "title": "Platform architecture",
+        "text": "Distributed, high-availability systems for banking, payments, and multi-tenant SaaS."
       },
       {
-        "value": "15k",
-        "label": "concurrent users on a platform I architected"
+        "title": "Technical leadership",
+        "text": "Delivery planning, code quality, and mentoring engineers through complex work."
       },
       {
-        "value": "400+",
-        "label": "branches on one analytics platform"
+        "title": "Modernization",
+        "text": "Moving legacy platforms forward safely, like .NET Framework to .NET 8, without stopping production."
       },
       {
-        "value": "9 yrs",
-        "label": "leading an 8-person engineering team"
+        "title": "Security & identity",
+        "text": "OAuth2, JWT, and fine-grained multi-tenant authorization."
       }
     ]
   }
