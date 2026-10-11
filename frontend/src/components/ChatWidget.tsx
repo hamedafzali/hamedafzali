@@ -42,6 +42,16 @@ const SUGGESTIONS = [
   "How can I contact him?",
 ];
 
+// Used when the model doesn't suggest follow-ups of its own.
+const MORE_QUESTIONS = [
+  ...SUGGESTIONS,
+  "What was the biggest system he built?",
+  "Does he have AI experience?",
+  "Tell me about the national payment work",
+  "Which languages does he speak?",
+  "What is his education?",
+];
+
 const STOP = new Set(
   "a an the and or but of to in on at for with by from about is are was were be been do does did has have had can could would should will what which who whom whose when where why how this that these those it its he him his she her they them their you your i me my we our us any some tell more please hamed afzali".split(
     " ",
@@ -130,6 +140,36 @@ const ChatIcon: React.FC = () => (
   </svg>
 );
 
+// Answers are plain text; lines starting with "- " become a bullet list.
+const Answer: React.FC<{ text: string }> = ({ text }) => {
+  const blocks: React.ReactNode[] = [];
+  let items: { text: string; depth: number }[] = [];
+  const flush = () => {
+    if (!items.length) return;
+    blocks.push(
+      <ul key={blocks.length}>
+        {items.map((item, i) => (
+          <li key={i} style={item.depth ? { marginLeft: item.depth * 12 } : undefined}>
+            {item.text}
+          </li>
+        ))}
+      </ul>,
+    );
+    items = [];
+  };
+  text.split("\n").forEach((line) => {
+    const bullet = line.match(/^(\s*)[-*•]\s+(.*)$/);
+    if (bullet) {
+      items.push({ text: bullet[2], depth: Math.floor(bullet[1].length / 2) });
+    } else if (line.trim()) {
+      flush();
+      blocks.push(<p key={blocks.length}>{line.trim()}</p>);
+    }
+  });
+  flush();
+  return <div className="chat-msg assistant">{blocks}</div>;
+};
+
 const Machine: React.FC<{ job: Job }> = ({ job }) => {
   const { stage, failed, reply, keywords, question } = job;
   const done = stage === 4 && !failed;
@@ -179,7 +219,7 @@ const Machine: React.FC<{ job: Job }> = ({ job }) => {
 
       <div className="belt" aria-hidden="true">
         <span className={`crate ${stage === 2 && !failed ? "waiting" : ""}`} style={{ left: `${(position / 3) * 100}%` }}>
-          {stage >= 1 ? pressed(crate).slice(0, 9) : crate.slice(0, 9)}
+          {stage >= 1 ? pressed(crate).split("|").slice(0, 3).join("|") : crate.slice(0, 10)}
         </span>
       </div>
 
@@ -222,6 +262,16 @@ const ChatWidget: React.FC = () => {
   }, [messages, jobs]);
 
   if (!enabled) return null;
+
+  // After an answer (or a jam), offer the model's follow-ups, topped up from
+  // our own list with questions not asked yet.
+  const asked = new Set(messages.filter((m) => m.role === "user").map((m) => m.content));
+  const lastJob = messages.length ? jobs[messages[messages.length - 1].jobId ?? -1] : undefined;
+  const followups = lastJob
+    ? Array.from(new Set([...(lastJob.reply?.followups || []), ...MORE_QUESTIONS]))
+        .filter((q) => !asked.has(q))
+        .slice(0, 3)
+    : [];
 
   const update = (id: number, patch: Partial<Job>) =>
     setJobs((all) => ({ ...all, [id]: { ...all[id], ...patch } }));
@@ -309,10 +359,24 @@ const ChatWidget: React.FC = () => {
             )}
             {messages.map((m, i) => (
               <React.Fragment key={i}>
-                <p className={`chat-msg ${m.role}`}>{m.content}</p>
+                {m.role === "assistant" ? (
+                  <Answer text={m.content} />
+                ) : (
+                  <p className="chat-msg user">{m.content}</p>
+                )}
                 {m.role === "user" && m.jobId && jobs[m.jobId] && <Machine job={jobs[m.jobId]} />}
               </React.Fragment>
             ))}
+            {!busy && followups.length > 0 && (
+              <div className="chat-suggestions" aria-label="Suggested questions">
+                <span className="chat-suggestions-label">Ask next:</span>
+                {followups.map((q) => (
+                  <button key={q} type="button" onClick={() => ask(q)}>
+                    {q}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
           <form className="chat-input" onSubmit={onSubmit}>

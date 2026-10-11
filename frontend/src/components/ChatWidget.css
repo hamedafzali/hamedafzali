@@ -147,6 +147,36 @@
   animation: msgIn 0.3s ease-out;
 }
 
+.chat-msg p {
+  margin: 0;
+}
+
+.chat-msg p + p,
+.chat-msg p + ul,
+.chat-msg ul + p {
+  margin-top: 8px;
+}
+
+.chat-msg ul {
+  display: grid;
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chat-msg li {
+  position: relative;
+  padding-left: 14px;
+}
+
+.chat-msg li::before {
+  content: "›";
+  position: absolute;
+  left: 2px;
+  color: var(--primary-color);
+}
+
 .chat-msg.user {
   align-self: flex-end;
   background: rgba(72, 198, 182, 0.14);
@@ -164,6 +194,13 @@
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+}
+
+.chat-suggestions-label {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--muted);
 }
 
 .chat-suggestions button {

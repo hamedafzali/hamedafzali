@@ -12,6 +12,7 @@ export interface ChatTurn {
 export interface ChatReply {
   answer: string;
   topic: string;
+  followups?: string[];
   model: string;
   tokens: number | null;
   ms: number;
