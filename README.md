@@ -6,7 +6,7 @@
 
 ## 🚀 About Me
 
-**Senior Software Architect / Technical Lead** with **20+ years** of experience designing, modernizing, and operating mission-critical enterprise software platforms. Specialized in distributed systems, microservices architecture, API design, cloud-native engineering, and digital transformation initiatives across regulated banking, fintech, and SaaS environments.
+**Senior Software Architect / Technical Lead** with **20+ years** of experience designing, modernizing, and running enterprise software platforms. Specialized in distributed systems, microservices architecture, API design, cloud-native engineering, and digital transformation initiatives across regulated banking, fintech, and SaaS environments.
 
 ### 🎯 Expertise Areas
 
@@ -56,7 +56,7 @@ AI: RAG, LangChain, LangGraph, MCP, Vector Databases
 
 ## 🎓 Education & Certifications
 
-- **B.Sc. Software Engineering** - Azad University, Parand Branch (2008–2013, part-time while employed)
+- **B.Sc. Software Engineering** - Azad University, Parand Branch (2008-2013, part-time while employed)
 - **Architecting Solutions on AWS** - AWS Training & Certification, via Coursera
 - **IBM RAG and Agentic AI Professional Certificate** - Coursera (10-course program covering RAG, vector databases, and agentic AI frameworks including LangChain, LangGraph, CrewAI, AutoGen, and MCP)
 - **Linux Foundation** - Open Source Licensing (Compliance Management & Basics for Developers)

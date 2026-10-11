@@ -518,7 +518,7 @@ app.post("/api/contact", contactRateLimiter, async (req, res) => {
   }
 });
 
-// Get all contacts (admin only — requires ADMIN_TOKEN header or query param)
+// Get all contacts (admin only, requires ADMIN_TOKEN header or query param)
 app.get("/api/contacts", requireAdmin, async (req, res) => {
   try {
     const contacts = await Contact.find().sort({ createdAt: -1 });

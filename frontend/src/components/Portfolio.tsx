@@ -58,8 +58,8 @@ const Portfolio: React.FC = () => {
             <span className="code-bracket">{"/>"}</span>
           </h2>
           <p className="section-subtitle">
-            Platforms I've architected, led, or built — from national payment
-            infrastructure to multi-tenant SaaS.
+            Systems I designed, led, or built, from national payment
+            networks to multi-tenant SaaS.
           </p>
 
           <div className="filter-tabs" role="group" aria-label="Filter projects">

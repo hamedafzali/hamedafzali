@@ -8,7 +8,7 @@ const FALLBACK = {
   name: "Hamed Afzali",
   headline: "Senior Full-Stack Engineer & Technical Lead",
   summary:
-    "20+ years designing and leading delivery of mission-critical platforms — core banking, payments, and multi-tenant SaaS.",
+    "20+ years designing and leading delivery of banking, payment, and multi-tenant SaaS platforms.",
   pillars: [
     {
       title: "Platform architecture",

@@ -10,7 +10,7 @@
       "name": "Distributed Systems",
       "level": 94,
       "category": "architecture",
-      "description": "Architected mission-critical distributed platforms at national scale: 15-node SQL Server cluster for 15,000 concurrent users, Shetab card network services, and Chakavak cheque-clearing backbone."
+      "description": "Designed national-scale distributed banking platforms: 15-node SQL Server cluster for 15,000 concurrent users, Shetab card network services, and Chakavak cheque-clearing backbone."
     },
     {
       "name": "SQL Server, MongoDB & Data Engineering",

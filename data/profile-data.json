@@ -5,7 +5,7 @@
     "siteUrl": "https://afzali.eu.cc",
     "image": "https://afzali.eu.cc/hamed-afzali.jpg",
     "headline": "Senior Full-Stack Engineer & Technical Lead",
-    "summary": "20+ years designing and delivering mission-critical platforms in banking, fintech, and SaaS — from national payment infrastructure to multi-tenant cloud products. I make the architecture calls, lead the teams that build them, and stay hands-on in the code.",
+    "summary": "20+ years building banking, payment, and SaaS platforms, from national payment networks to multi-tenant cloud products. I make architecture decisions, lead the teams that build them, and still write code every day.",
     "location": "Tübingen, Germany",
     "contactIntro": "Have an interesting architecture problem, a platform to modernize, or just want to talk engineering? Send a message or reach out directly.",
     "yearsExperience": "20+",
@@ -62,13 +62,13 @@
         "description": "Sole architect and technical lead of a regulatory-grade BI and reporting platform consolidating real-time transaction data from 400+ branches, submitted to the Central Bank."
       },
       {
-        "title": "Team Lead — 8 Engineers",
-        "description": "Led a cross-functional engineering team of 8 for 9 years at PBI, owning delivery, sprint planning, code quality, and technical mentorship across mission-critical projects."
+        "title": "Team Lead, 8 Engineers",
+        "description": "Led a cross-functional engineering team of 8 for 9 years at PBI, owning delivery, sprint planning, code quality, and technical mentorship across banking projects."
       }
     ],
     "about": [
       "I've spent two decades building software that people and institutions depend on: a core banking platform serving 15,000 concurrent users, national card and cheque-clearing infrastructure, and a regulatory analytics platform used across 400+ branches and for Central Bank reporting.",
-      "For nine years I led an 8-person engineering team — owning delivery, sprint planning, code quality, and mentorship — and served as sole architect of the analytics platform end to end, from design through production operations.",
+      "For nine years I led an 8-person engineering team. I owned delivery, sprint planning, code quality, and mentoring, and I was the sole architect of the analytics platform, from design through production operations.",
       "Today at GMG I take architecture-level ownership on a multi-tenant SaaS platform: leading the .NET 8 modernization, designing the security and identity architecture, shaping CI/CD, and building AI-assisted engineering tooling with MCP and RAG."
     ],
     "pillars": [

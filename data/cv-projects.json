@@ -1,114 +1,200 @@
 {
   "projects": [
     {
-      "title": "GMG SaaS Platform Modernization",
-      "description": "Spearheaded migration from .NET Framework to .NET 8, including SQL CE to SQLite data migration and architectural cleanup for long-term platform stability. Kept a mission-critical commercial SaaS product running throughout the transition.",
+      "title": "GMG Print Workflow SaaS Platform",
+      "description": "Senior engineer on GMG's multi-tenant SaaS product for professional print hardware, working in a SAFe Agile team. My ongoing work covers the security and identity layer (REST APIs with OAuth2, JWT, and fine-grained tenant permissions using Authzed), the IPC layer between the software and the printers (Named Pipes and sockets), CI/CD pipelines in Azure DevOps with Docker, automated tests including Cypress E2E, and React and TypeScript features in the frontend.",
+      "category": "enterprise",
+      "image": "/api-gateway.jpg",
+      "link": "#",
+      "featured": true,
+      "technologies": [
+        ".NET 8",
+        "C#",
+        "OAuth2",
+        "JWT",
+        "Authzed",
+        "Named Pipes",
+        "React",
+        "TypeScript",
+        "Azure DevOps",
+        "Docker"
+      ],
+      "status": "Active",
+      "duration": "2022 - Present"
+    },
+    {
+      "title": ".NET Framework to .NET 8 Migration",
+      "description": "Helped make the decision to move the product from .NET Framework to .NET 8, then led the migration work, including moving local storage from SQL CE to SQLite. The codebase is large and commercial, so the work was done step by step while the product stayed in production.",
       "category": "enterprise",
       "image": "/core-banking-modernization.jpg",
       "link": "#",
       "featured": true,
-      "technologies": [".NET 8", "C#", "SQLite", "Azure DevOps", "Docker", "SAFe Agile"],
-      "status": "Active",
-      "duration": "2022 – Present"
+      "technologies": [
+        ".NET 8",
+        "C#",
+        "SQLite",
+        "SQL CE",
+        "Azure DevOps"
+      ],
+      "status": "Completed"
     },
     {
-      "title": "Printer Hardware IPC Integration",
-      "description": "Built the complete IPC layer between SaaS software and professional printer hardware using Named Pipes and socket networking — enabling reliable real-time communication and eliminating race conditions in hardware-software interaction.",
-      "category": "integration",
-      "image": "/printer-integration.jpg",
-      "link": "#",
-      "featured": true,
-      "technologies": ["Named Pipes", "Socket Networking", "C#", ".NET 8", "IPC", "Hardware Integration"],
-      "status": "Active",
-      "duration": "2022 – Present"
-    },
-    {
-      "title": "Multi-Tenant Authorization Platform",
-      "description": "Architected RESTful APIs with OAuth2 and JWT authentication and fine-grained authorization using Authzed (Google Zanzibar-inspired) — supporting complex cross-tenant permission models for a commercial SaaS platform.",
+      "title": "OSS Licence Compliance Automation",
+      "description": "Designed and built a tool on my own that checks open-source licences for 3 applications and all their transitive dependencies (57+ NuGet packages in the main app). It checks each package against the approved licence policy, generates the copyright notices, acknowledgement file, and SBOM, and runs in the CI pipeline so an unreviewed package cannot ship. Manual legal review is no longer needed.",
       "category": "cloud",
-      "image": "/api-gateway.jpg",
+      "image": "/cloud-migration.jpg",
       "link": "#",
       "featured": true,
-      "technologies": ["REST", "OAuth2", "JWT", "Authzed", "Google Zanzibar", ".NET 8", "Multi-Tenant"],
-      "status": "Active",
-      "duration": "2022 – Present"
+      "technologies": [
+        "Node.js",
+        "CI/CD",
+        "Azure DevOps",
+        "SBOM",
+        "Dependency Analysis"
+      ],
+      "status": "Completed",
+      "duration": "2023"
     },
     {
-      "title": "MCP Server with RAG-Indexed Codebase",
-      "description": "Built an MCP (Model Context Protocol) server with RAG-indexed codebase routes for AI-assisted development, making it easier for the team to navigate complex legacy code and accelerating onboarding.",
+      "title": "MCP Server for AI-Assisted Development",
+      "description": "Built an MCP (Model Context Protocol) server in Python that gives LLM tools search over a RAG index of the codebase. Engineers use it to find their way around the legacy code, and it made onboarding new people to the platform much faster.",
       "category": "enterprise",
       "image": "/mcp-server.jpg",
       "link": "#",
       "featured": true,
-      "technologies": ["MCP", "RAG", "AI Integration", "Node.js", "Codebase Indexing", "Developer Tooling"],
-      "status": "Active",
-      "duration": "2024 – Present"
+      "technologies": [
+        "Python",
+        "MCP",
+        "RAG",
+        "LLM",
+        "Developer Tooling"
+      ],
+      "status": "Completed",
+      "duration": "2024"
     },
     {
       "title": "Enterprise Analytics & Regulatory Reporting Platform",
-      "description": "Sole architect and technical lead of a regulatory-grade BI platform (React.js, Node.js, microservices) aggregating real-time transaction data from 400+ branches, ATM, POS, and core banking — used by senior management and submitted to Central Bank regulators.",
+      "description": "Sole architect and technical lead of a BI and regulatory reporting platform (React.js, Node.js, Docker, microservices) that brought together transaction data from Postbank of Iran's core banking system, 400+ branches, ATMs, and POS network. I added an API layer for external BI tools and a React Native app for branch-level reports. Senior management used it daily, and its reports went directly to the Central Bank.",
       "category": "fintech",
       "image": "/analytics-dashboard.jpg",
       "link": "#",
       "featured": true,
-      "technologies": ["React.js", "Node.js", "SQL Server", "ETL", "Docker", "Microservices", "Regulatory Reporting"],
+      "technologies": [
+        "React.js",
+        "Node.js",
+        "SQL Server",
+        "ETL",
+        "Docker",
+        "Microservices",
+        "Regulatory Reporting"
+      ],
       "status": "Completed",
-      "duration": "2018 – 2022"
+      "duration": "2018 - 2022"
     },
     {
-      "title": "Shetab National Card Network Integration",
-      "description": "Spearheaded R&D and architecture for Iran's Shetab national card network integration at Postbank of Iran — Java-based high-availability services for real-time national payment transaction processing.",
+      "title": "Banking ETL & Regulatory Data Pipelines",
+      "description": "Designed Node.js and SQL Server ETL pipelines that processed high volumes of transaction data from several banking systems at PBI. Mistakes in Central Bank submissions had legal and financial consequences, so the pipelines enforced strict validation rules.",
       "category": "fintech",
-      "image": "/shetab-banking.jpg",
+      "image": "/budget-reporting.jpg",
       "link": "#",
-      "featured": true,
-      "technologies": ["Java", "Distributed Systems", "High Availability", "Real-Time Processing", "National Payments"],
+      "featured": false,
+      "technologies": [
+        "Node.js",
+        "SQL Server",
+        "ETL",
+        "Data Validation",
+        "BI Integration",
+        "Regulatory Compliance"
+      ],
       "status": "Completed",
-      "duration": "2009 – 2018"
-    },
-    {
-      "title": "Chakavak National Cheque-Clearing Backbone",
-      "description": "Owned IBM MQ architecture for the Chakavak national cheque-clearing system — fault-tolerant asynchronous processing across distributed nodes under strict Central Bank regulatory SLAs.",
-      "category": "fintech",
-      "image": "/chakavak-system.jpg",
-      "link": "#",
-      "featured": true,
-      "technologies": ["IBM MQ", "Event-Driven Architecture", "Distributed Messaging", "Fault Tolerance", "Async Processing"],
-      "status": "Completed",
-      "duration": "2009 – 2018"
-    },
-    {
-      "title": "Core Banking Platform — 15,000 Concurrent Users",
-      "description": "Architected and delivered a full-scope core banking platform (.NET, C#) spanning Accounting, Treasury, HR, Branch Operations, and Supervisor workflows — 15-node distributed SQL Server cluster, 15,000 concurrent users, ACID-compliant transactional isolation.",
-      "category": "enterprise",
-      "image": "/core-banking-modernization.jpg",
-      "link": "#",
-      "featured": true,
-      "technologies": [".NET", "C#", "SQL Server", "NHibernate", "Distributed Database", "ACID Transactions"],
-      "status": "Completed",
-      "duration": "2009 – 2018"
+      "duration": "2018 - 2022"
     },
     {
       "title": "Amitis Hamta FinTech Platform",
-      "description": "Software architecture consultant for Amitis Hamta Co. — strategic guidance on full-stack architecture and secure payment panel integration for a fintech platform (2019–2022).",
+      "description": "Freelance architecture consultant for Amitis Hamta Co. alongside my full-time role. Advised on the full-stack architecture and built a secure payment panel integration, covering API design and payment flows.",
       "category": "fintech",
       "image": "/payment-panel.jpg",
       "link": "#",
       "featured": false,
-      "technologies": ["ReactJS", "Node.js", "MongoDB", "Payment Systems", "Architecture Consulting"],
+      "technologies": [
+        "ReactJS",
+        "Node.js",
+        "MongoDB",
+        "Payment Systems",
+        "Architecture Consulting"
+      ],
       "status": "Completed",
-      "duration": "2019 – 2022"
+      "duration": "2019 - 2022"
+    },
+    {
+      "title": "Shetab National Card Network Integration",
+      "description": "Led R&D and design for PBI's integration with Shetab, Iran's national card network. Built high-availability Java services that process national card payments in real time.",
+      "category": "fintech",
+      "image": "/shetab-banking.jpg",
+      "link": "#",
+      "featured": true,
+      "technologies": [
+        "Java",
+        "Distributed Systems",
+        "High Availability",
+        "Real-Time Processing",
+        "National Payments"
+      ],
+      "status": "Completed",
+      "duration": "2009 - 2018"
+    },
+    {
+      "title": "Chakavak National Cheque-Clearing Backbone",
+      "description": "Designed the IBM MQ messaging layer for PBI's part of Chakavak, the national cheque-clearing system. Messages are processed asynchronously across distributed nodes and survive node failures, within the Central Bank's SLAs.",
+      "category": "fintech",
+      "image": "/chakavak-system.jpg",
+      "link": "#",
+      "featured": true,
+      "technologies": [
+        "IBM MQ",
+        "Event-Driven Architecture",
+        "Distributed Messaging",
+        "Fault Tolerance",
+        "Async Processing"
+      ],
+      "status": "Completed",
+      "duration": "2009 - 2018"
+    },
+    {
+      "title": "Core Banking Platform",
+      "description": "Designed and delivered a full core banking platform in .NET and C#, covering Accounting, Treasury, HR, Branch Operations, and Supervisor workflows. It ran on a 15-node SQL Server cluster and served 15,000 concurrent users with ACID transactional isolation.",
+      "category": "enterprise",
+      "image": "/core-banking-modernization.jpg",
+      "link": "#",
+      "featured": true,
+      "technologies": [
+        ".NET",
+        "C#",
+        "SQL Server",
+        "NHibernate",
+        "Distributed Database",
+        "ACID Transactions"
+      ],
+      "status": "Completed",
+      "duration": "2009 - 2018"
     },
     {
       "title": "POS Terminal & ATM Integration Software",
-      "description": "Developed C++ POS terminal software with hardware-level protocol integration and ATM/card processing modules with real-time authorisation and settlement flows.",
+      "description": "Developed C++ POS terminal software that talks to the hardware at protocol level, plus ATM and card-processing modules with real-time authorisation and settlement at PBI.",
       "category": "integration",
       "image": "/pos-management.jpg",
       "link": "#",
       "featured": false,
-      "technologies": ["C++", "C#", "POS Systems", "ATM Integration", "Hardware Protocols", "Real-Time Settlement"],
+      "technologies": [
+        "C++",
+        "C#",
+        "POS Systems",
+        "ATM Integration",
+        "Hardware Protocols",
+        "Real-Time Settlement"
+      ],
       "status": "Completed",
-      "duration": "2009 – 2018"
+      "duration": "2009 - 2018"
     }
   ]
 }

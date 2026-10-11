@@ -34,7 +34,7 @@
 }
 
 /*
- * Light theme — opt-in via [data-theme="light"] only.
+ * Light theme, opt-in via [data-theme="light"] only.
  * NOT auto-applied via prefers-color-scheme yet: several components still
  * have hardcoded dark backgrounds (editors, expertise panel, nav), so a
  * full auto-light render is not readable until those are tokenized.

@@ -202,7 +202,7 @@ const Contact: React.FC = () => {
               )}
               {formSuccess && (
                 <p className="form-success" role="status">
-                  Thanks — your message was sent. I'll reply as soon as I can.
+                  Thanks, your message was sent. I'll reply as soon as I can.
                 </p>
               )}
             </div>

@@ -1,4 +1,4 @@
-/* Hero — text left, framed photo right, "what I do" strip below.
+/* Hero: text left, framed photo right, "what I do" strip below.
    Normal-flow grid only (no absolute positioning), so nothing can
    overlap the text at any width. On mobile the large photo is replaced
    by a small avatar so name, role and CTAs sit above the fold. */
