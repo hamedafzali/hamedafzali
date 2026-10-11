@@ -29,49 +29,89 @@ function aiConfigured() {
 
 let workingModel = null;
 const deniedModels = new Set();
+// Model -> time until which it is skipped because it kept returning 429.
+const coolingUntil = new Map();
 
 function candidateModels() {
   const pinned = (process.env.MISTRAL_MODEL || "").trim();
   const list = pinned ? [pinned, ...PREFERRED_MODELS] : PREFERRED_MODELS;
   const ordered = workingModel ? [workingModel, ...list] : list;
-  return [...new Set(ordered)].filter((m) => !deniedModels.has(m));
+  const usable = [...new Set(ordered)].filter((m) => !deniedModels.has(m));
+  const now = Date.now();
+  const ready = usable.filter((m) => (coolingUntil.get(m) || 0) <= now);
+  // Everything cooling down: try anyway rather than fail without asking.
+  return ready.length ? ready : usable;
+}
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+// Lower tiers allow about one request per second, so requests are queued
+// and spaced out, like in trainova.
+let queue = Promise.resolve();
+let lastStart = 0;
+function nextSlot() {
+  const slot = queue.then(async () => {
+    const waitMs = lastStart + 1100 - Date.now();
+    if (waitMs > 0) await sleep(waitMs);
+    lastStart = Date.now();
+  });
+  queue = slot.catch(() => {});
+  return slot;
+}
+
+async function post(model, messages) {
+  await nextSlot();
+  return fetch(MISTRAL_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.MISTRAL_API_KEY.trim()}`,
+    },
+    body: JSON.stringify({
+      model,
+      messages,
+      temperature: 0.4,
+      max_tokens: 450,
+      response_format: { type: "json_object" },
+    }),
+    signal: AbortSignal.timeout(25000),
+  });
 }
 
 async function callMistral(messages) {
   let lastError;
   for (const model of candidateModels()) {
-    const res = await fetch(MISTRAL_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.MISTRAL_API_KEY.trim()}`,
-      },
-      body: JSON.stringify({
-        model,
-        messages,
-        temperature: 0.4,
-        max_tokens: 450,
-        response_format: { type: "json_object" },
-      }),
-      signal: AbortSignal.timeout(25000),
-    });
+    let res = await post(model, messages);
+    // A 429 is often a burst limit: wait a moment and try once more.
+    if (res.status === 429) {
+      await sleep(1500);
+      res = await post(model, messages);
+    }
     if (res.ok) {
       if (workingModel !== model) console.info(`[chat] using Mistral model ${model}`);
       workingModel = model;
+      coolingUntil.delete(model);
       const data = await res.json();
       return { model, content: data.choices?.[0]?.message?.content || "", usage: data.usage };
     }
-    // 403 (tier) / 404 (unknown model): this key can't use it, try the next.
-    if (res.status === 403 || res.status === 404) {
-      console.warn(`[chat] Mistral model ${model} not available for this key`);
-      deniedModels.add(model);
-      if (workingModel === model) workingModel = null;
-      lastError = new Error(`Mistral ${res.status}`);
-      continue;
-    }
-    const err = new Error(`Mistral ${res.status}`);
+
+    const detail = (await res.text().catch(() => "")).slice(0, 300);
+    const err = new Error(`Mistral ${res.status} on ${model}: ${detail}`);
     err.status = res.status;
-    throw err;
+    lastError = err;
+
+    if (res.status === 403 || res.status === 404) {
+      // This key's tier can't use the model: skip it from now on.
+      console.warn(`[chat] ${err.message}`);
+      deniedModels.add(model);
+    } else if (res.status === 429) {
+      // Still limited (quota used up?): rest this model, use the next one.
+      console.warn(`[chat] ${err.message}`);
+      coolingUntil.set(model, Date.now() + 10 * 60 * 1000);
+    } else {
+      throw err;
+    }
+    if (workingModel === model) workingModel = null;
   }
   throw lastError || new Error("No Mistral model is available for this API key.");
 }
