@@ -25,6 +25,12 @@
       "description": "Modelling banking processes with the business before building them."
     },
     {
+      "name": "UML Modelling",
+      "level": 85,
+      "category": "architecture",
+      "description": "Class, sequence, and component diagrams to align teams on the core banking platform before building it."
+    },
+    {
       "name": "REST API Design",
       "level": 90,
       "category": "architecture",
@@ -47,6 +53,12 @@
       "level": 95,
       "category": "backend",
       "description": "Core banking platform and years of production .NET work."
+    },
+    {
+      "name": "VB.NET",
+      "level": 75,
+      "category": "backend",
+      "description": "Enterprise and banking applications early in my career, 2006 - 2009."
     },
     {
       "name": "Node.js",
@@ -163,6 +175,12 @@
       "description": "Fine-grained multi-tenant authorization (Zanzibar model)."
     },
     {
+      "name": "GDPR & Data Protection",
+      "level": 80,
+      "category": "security",
+      "description": "Multi-tenant permission design under GDPR constraints at GMG."
+    },
+    {
       "name": "Azure DevOps",
       "level": 90,
       "category": "cloud",
@@ -221,6 +239,12 @@
       "level": 72,
       "category": "ai",
       "description": "From the IBM RAG and Agentic AI certificate."
+    },
+    {
+      "name": "AI Agents & Vector Databases",
+      "level": 72,
+      "category": "ai",
+      "description": "Agentic workflows and vector search, from the IBM RAG and Agentic AI certificate."
     },
     {
       "name": "Team Leadership",

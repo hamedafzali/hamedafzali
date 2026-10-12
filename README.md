@@ -1,4 +1,4 @@
-# 👋 Hamed Afzali - Senior Software Architect / Technical Lead
+# 👋 Hamed Afzali - Senior Full-Stack Engineer & Technical Lead
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://linkedin.com/in/hamed-afzali)
 [![GitHub](https://img.shields.io/badge/GitHub-Follow-black)](https://github.com/hamedafzali)
@@ -6,15 +6,24 @@
 
 ## 🚀 About Me
 
-**Senior Software Architect / Technical Lead** with **20+ years** of experience designing, modernizing, and running enterprise software platforms. Specialized in distributed systems, microservices architecture, API design, cloud-native engineering, and digital transformation initiatives across regulated banking, fintech, and SaaS environments.
+**Senior Full-Stack Engineer & Technical Lead** with **20+ years** of experience designing, modernizing, and running enterprise software platforms. Specialized in distributed systems, microservices architecture, API design, cloud-native engineering, and digital transformation initiatives across regulated banking, fintech, and SaaS environments.
 
 ### 🎯 Expertise Areas
 
 - **Distributed Systems & Architecture** - Microservices, Event-Driven Architecture, Domain-Driven Design, Message Queues (IBM MQ)
 - **Enterprise Software Development** - .NET Core/C#, Node.js, Enterprise Banking Systems
 - **Cloud-Native Solutions** - AWS, Azure DevOps, Docker, Kubernetes
-- **Technical Leadership** - Technical Lead experience (8+ engineers), architecture reviews, mentoring, SAFe Agile
+- **Technical Leadership** - Led a team of 8 engineers for 9 years, architecture reviews, mentoring, SAFe Agile
 - **AI Engineering** - RAG, AI agents & agentic workflows, MCP, LangChain/LangGraph
+
+## 🧭 Experience
+
+- **Senior Full-Stack Engineer** - GMG GmbH & Co. KG, Tübingen (2022 - Present)
+- **Technical Lead, Analytics Platform** - Postbank of Iran (2018 - 2022)
+- **Technical Lead, Core Banking R&D** - Postbank of Iran (2009 - 2018)
+- **Software Developer** - Postbank of Iran (2007 - 2009)
+- **Software Developer** - RASA-Rayaneh-Sabz Co., Tehran (2006 - 2007)
+- **Freelance, alongside full-time roles** - Software Architecture Consultant for Amitis Hamta Co. (2019 - 2022); Core Banking Consultant for Tejarat Bank and the Kosar, Arman, and Javanan-Khayer financial institutes (2010 - 2017)
 
 ## 💼 Professional Highlights
 
@@ -59,6 +68,8 @@ AI: RAG, LangChain, LangGraph, MCP, Vector Databases
 - **B.Sc. Software Engineering** - Azad University, Parand Branch (2008-2013, part-time while employed)
 - **Architecting Solutions on AWS** - AWS Training & Certification, via Coursera
 - **IBM RAG and Agentic AI Professional Certificate** - Coursera (10-course program covering RAG, vector databases, and agentic AI frameworks including LangChain, LangGraph, CrewAI, AutoGen, and MCP)
+- **Cloud & DevOps Engineering** - AWS, Docker, Kubernetes, CI/CD, Jenkins, CloudFormation
+- **Linux Foundation** - Cybersecurity Essentials (LFC108)
 - **Linux Foundation** - Open Source Licensing (Compliance Management & Basics for Developers)
 
 ## 📈 Current Focus

@@ -75,7 +75,7 @@
       }
     ],
     "about": [
-      "I started writing banking software in Tehran in 2006 and spent most of the next sixteen years at Postbank of Iran, growing from developer to the person who decided how the bank's systems were built. In banking a wrong number or a late report has real consequences, so I learned to be careful: test it properly, write the decision down, and keep production running.",
+      "I started writing software professionally in Tehran in 2006 and from 2007 spent fifteen years at Postbank of Iran, growing from developer to the person who decided how the bank's systems were built. In banking a wrong number or a late report has real consequences, so I learned to be careful: test it properly, write the decision down, and keep production running.",
       "Nine of those years I led a team of eight engineers. That taught me that most delivery problems are communication problems, so I try to make the reasoning behind technical choices clear and to use code reviews to teach, not to gatekeep.",
       "Since 2022 I've been at GMG in Tübingen, working hands-on across a multi-tenant SaaS platform for print hardware, from the backend and security to the printers themselves. Lately a lot of my energy goes into AI-assisted engineering: tools that help developers understand a large codebase faster."
     ],
@@ -86,9 +86,19 @@
         "org": "GMG GmbH & Co. KG, Tübingen"
       },
       {
+        "period": "2019 - 2022",
+        "role": "Software Architecture Consultant (freelance)",
+        "org": "Amitis Hamta Co., Tehran"
+      },
+      {
         "period": "2018 - 2022",
         "role": "Technical Lead, Analytics Platform",
         "org": "Postbank of Iran"
+      },
+      {
+        "period": "2010 - 2017",
+        "role": "Core Banking Consultant (freelance)",
+        "org": "Tejarat Bank, Kosar, Arman and Javanan-Khayer Financial Institutes"
       },
       {
         "period": "2009 - 2018",
@@ -96,9 +106,14 @@
         "org": "Postbank of Iran"
       },
       {
-        "period": "2006 - 2009",
+        "period": "2007 - 2009",
         "role": "Software Developer",
-        "org": "Postbank of Iran, RASA-Rayaneh-Sabz"
+        "org": "Postbank of Iran"
+      },
+      {
+        "period": "2006 - 2007",
+        "role": "Software Developer",
+        "org": "RASA-Rayaneh-Sabz Co., Tehran"
       }
     ],
     "pillars": [
@@ -136,13 +151,18 @@
     "credentials": [
       {
         "title": "B.Sc. Software Engineering",
-        "issuer": "Azad University, Tehran",
-        "year": "2013",
+        "issuer": "Azad University, Parand Branch, Tehran",
+        "year": "2008 - 2013",
         "kind": "degree"
       },
       {
         "title": "IBM RAG and Agentic AI Professional Certificate",
         "issuer": "IBM via Coursera",
+        "kind": "certificate"
+      },
+      {
+        "title": "Cloud & DevOps Engineering",
+        "issuer": "AWS, Docker, Kubernetes, CI/CD, Jenkins, CloudFormation",
         "kind": "certificate"
       },
       {

@@ -128,6 +128,23 @@
       "duration": "2019 - 2022"
     },
     {
+      "title": "Core Banking Consulting",
+      "description": "Freelance core banking consultant alongside my role at Postbank of Iran. Delivered architectural analysis and system design for Tejarat Bank and the Kosar, Arman, and Javanan-Khayer financial institutions, with a focus on regulatory compliance and high-concurrency design.",
+      "category": "fintech",
+      "image": "/core-banking-modernization.jpg",
+      "link": "#",
+      "featured": false,
+      "technologies": [
+        "Core Banking",
+        "System Design",
+        "SQL Server",
+        "High Concurrency",
+        "Regulatory Compliance"
+      ],
+      "status": "Completed",
+      "duration": "2010 - 2017"
+    },
+    {
       "title": "Shetab National Card Network Integration",
       "description": "Led R&D and design for PBI's integration with Shetab, Iran's national card network. Built high-availability Java services that process national card payments in real time.",
       "category": "fintech",
