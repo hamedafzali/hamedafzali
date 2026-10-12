@@ -15,7 +15,6 @@ export interface ChatReply {
   followups?: string[];
   offTopic?: boolean;
   remaining?: number;
-  model: string;
   tokens: number | null;
   ms: number;
 }

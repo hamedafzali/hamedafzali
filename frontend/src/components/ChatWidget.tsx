@@ -3,8 +3,8 @@ import "./ChatWidget.css";
 import ApiService, { ChatError, ChatReply, ChatTurn } from "../services/api";
 
 // Each question runs through a little factory: intake, tokenizer press,
-// dispatch to Mistral, quality control. The stages are for fun, but the
-// numbers in the log are real (keywords, size, model, time, tokens).
+// dispatch to the AI, quality control. The stages are for fun, but the
+// numbers in the log are real (keywords, size, time, tokens).
 
 type Stage = 0 | 1 | 2 | 3 | 4; // 4 = done
 type Job = {
@@ -20,7 +20,7 @@ type Message = { role: "user" | "assistant"; content: string; jobId?: number };
 const STATIONS = [
   { label: "Intake", icon: "hopper" },
   { label: "Tokenizer", icon: "press" },
-  { label: "Mistral", icon: "cloud" },
+  { label: "AI Core", icon: "cloud" },
   { label: "QC", icon: "stamp" },
 ] as const;
 
@@ -28,8 +28,8 @@ const QUIPS: string[][] = [
   ["Unloading your question at dock 3", "Signing the delivery note", "Checking the crate for spiders"],
   ["Pressing words into tokens (gently)", "Hydraulic press at 80%", "Chopping vowels, keeping consonants"],
   [
-    "Shipping to Mistral by pneumatic tube",
-    "Mistral is reading 20 years of CV",
+    "Shipping by pneumatic tube",
+    "The AI is reading 20 years of CV",
     "Waiting for the AI to finish its croissant",
   ],
   ["Quality control is squinting at it", "Checking for hallucinations", "Polishing the answer"],
@@ -189,10 +189,10 @@ const Machine: React.FC<{ job: Job }> = ({ job }) => {
       `intake: ${question.length} chars received, keywords [${keywords.join(", ") || "none, how mysterious"}]`,
     );
   if (stage >= 1) log.push(`press: squeezed into ~${tokens} tokens (${pressed(crate)})`);
-  if (stage >= 2) log.push("dispatch: crate sent to Mistral, waiting for a reply");
+  if (stage >= 2) log.push("dispatch: crate sent to the AI core, waiting for a reply");
   if (reply)
     log.push(
-      `mistral: answer back in ${(reply.ms / 1000).toFixed(1)}s, ${reply.tokens ?? "?"} tokens, ${reply.model}`,
+      `ai core: answer back in ${(reply.ms / 1000).toFixed(1)}s, ${reply.tokens ?? "?"} tokens`,
     );
   if (rejected) log.push("qc: not about Hamed, crate rejected and sent back");
   else if (done)
@@ -425,9 +425,8 @@ const ChatWidget: React.FC = () => {
           </form>
           <p className="chat-note">
             {remaining > 0
-              ? `${remaining} question${remaining === 1 ? "" : "s"} left today. `
-              : "No questions left today. The contact form is always open. "}
-            Answers come from Mistral AI and can be wrong.
+              ? `${remaining} question${remaining === 1 ? "" : "s"} left today.`
+              : "No questions left today. The contact form is always open."}
           </p>
         </div>
       )}
