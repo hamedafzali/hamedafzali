@@ -1,8 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./ChatWidget.css";
 import WindowControls from "./WindowControls";
+import AiRobot, { RobotCue } from "./AiRobot";
 import ApiService, { ChatError, ChatReply, ChatTurn } from "../services/api";
 import { OPEN_CHAT_EVENT, usePortfolioData } from "../context/PortfolioData";
+
+// The robot waves once when it appears.
+const WAVE: RobotCue = { gesture: "wave", key: 0 };
 
 // Each question runs through a little factory: intake, tokenizer press,
 // dispatch to the AI, quality control. The stages are for fun, but the
@@ -138,11 +142,6 @@ const Gear: React.FC<{ className?: string }> = ({ className }) => (
   </svg>
 );
 
-// ربو, the robot from the PixelWizardsCharachters library, exported as a static SVG.
-const RobotIcon: React.FC<{ className: string }> = ({ className }) => (
-  <img className={className} src="/robo.svg" alt="" aria-hidden="true" draggable={false} />
-);
-
 // **bold** spans from the model become <strong>; everything else stays text.
 const inline = (text: string) =>
   text.split(/\*\*(.+?)\*\*/g).map((part, i) => (i % 2 ? <strong key={i}>{part}</strong> : part));
@@ -253,6 +252,9 @@ const ChatWidget: React.FC = () => {
   const [busy, setBusy] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [jobs, setJobs] = useState<Record<number, Job>>({});
+  const [mood, setMood] = useState<"happy" | "thinking" | "sad">("happy");
+  const [cue, setCue] = useState<RobotCue | null>(null);
+  const play = (gesture: RobotCue["gesture"]) => setCue((c) => ({ gesture, key: (c?.key ?? 0) + 1 }));
   const nextId = useRef(1);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -306,6 +308,7 @@ const ChatWidget: React.FC = () => {
 
     setInput("");
     setBusy(true);
+    setMood("thinking");
     setJobs((all) => ({ ...all, [id]: { id, question, keywords: keywordsOf(question), stage: 0 } }));
     setMessages((all) => [...all, { role: "user", content: question, jobId: id }]);
 
@@ -324,7 +327,10 @@ const ChatWidget: React.FC = () => {
       await wait(900);
       update(id, { stage: 4 });
       setMessages((all) => [...all, { role: "assistant", content: reply.answer, jobId: id }]);
+      setMood("happy");
+      play("nod");
     } catch (error) {
+      setMood("sad");
       const message = error instanceof Error ? error.message : "Something jammed in the machine.";
       if (error instanceof ChatError && typeof error.remaining === "number") setRemaining(error.remaining);
       setJobs((all) => ({ ...all, [id]: { ...all[id], failed: message } }));
@@ -349,7 +355,7 @@ const ChatWidget: React.FC = () => {
         aria-controls="chat-panel"
         onClick={() => setOpen((v) => !v)}
       >
-        {open ? <span className="chat-fab-close" aria-hidden="true">×</span> : <RobotIcon className="chat-fab-robot" />}
+        {open ? <span className="chat-fab-close" aria-hidden="true">×</span> : <AiRobot className="chat-fab-robot" size={54} cue={WAVE} />}
         {!open && <span className="chat-fab-badge">AI</span>}
       </button>
 
@@ -367,7 +373,7 @@ const ChatWidget: React.FC = () => {
               onZoom={() => setExpanded((v) => !v)}
               zoomed={expanded}
             />
-            <RobotIcon className="chat-title-robot" />
+            <AiRobot className="chat-title-robot" size={26} mood={mood} cue={cue ?? WAVE} />
             <span className="chat-title">ask-hamed.ai</span>
           </div>
 

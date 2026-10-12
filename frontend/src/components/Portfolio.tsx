@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./Portfolio.css";
 import ApiService, { Project } from "../services/api";
+import AiRobot from "./AiRobot";
 
 const FILTERS = [
   { id: "featured", label: "Featured" },
@@ -79,7 +80,7 @@ const Portfolio: React.FC = () => {
                   onClick={() => setFilter(id)}
                 >
                   {id === "ai" && (
-                    <img className="filter-robot" src="/robo.svg" alt="" aria-hidden="true" />
+                    <AiRobot className="filter-robot" size={24} />
                   )}
                   {label}
                   {projects.length > 0 && (

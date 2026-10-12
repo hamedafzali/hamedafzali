@@ -211,3 +211,9 @@ p {
     scroll-behavior: auto !important;
   }
 }
+
+/* Host for the pixel-wizards-charachters rig (see AiRobot.tsx). */
+.ai-robot {
+  display: inline-flex;
+  line-height: 0;
+}

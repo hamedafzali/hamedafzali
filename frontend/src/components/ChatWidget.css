@@ -29,8 +29,6 @@
 }
 
 .chat-fab-robot {
-  width: 46px;
-  height: 46px;
   pointer-events: none;
 }
 
@@ -104,8 +102,6 @@
 
 
 .chat-title-robot {
-  width: 24px;
-  height: 24px;
   margin-left: 8px;
 }
 
@@ -512,8 +508,7 @@
   }
 
   .chat-fab-robot {
-    width: 40px;
-    height: 40px;
+    transform: scale(0.88);
   }
 
   .chat-panel {
