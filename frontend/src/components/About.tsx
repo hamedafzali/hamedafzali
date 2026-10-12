@@ -84,6 +84,7 @@ const About: React.FC = () => {
   // Older data may not have the about paragraphs yet: fall back to the summary.
   const paragraphs = profile?.about?.length ? profile.about : profile?.summary ? [profile.summary] : [];
   const timeline = profile?.timeline || [];
+  const advisory = profile?.advisory || [];
   const credentials = profile?.credentials || [];
 
   return (
@@ -116,6 +117,22 @@ const About: React.FC = () => {
                   </li>
                 ))}
               </ol>
+            )}
+
+            {advisory.length > 0 && (
+              <div className="about-credentials">
+                <h3 className="about-block-title">Advisory & consulting</h3>
+                <ul>
+                  {advisory.map((item) => (
+                    <li key={item.period}>
+                      <span className="about-credential-title">{item.role}</span>
+                      <span className="about-credential-issuer">
+                        {item.org}, {item.period}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
 
             {credentials.length > 0 && (

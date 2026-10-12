@@ -86,19 +86,9 @@
         "org": "GMG GmbH & Co. KG, Tübingen"
       },
       {
-        "period": "2019 - 2022",
-        "role": "Software Architecture Consultant (freelance)",
-        "org": "Amitis Hamta Co., Tehran"
-      },
-      {
         "period": "2018 - 2022",
         "role": "Technical Lead, Analytics Platform",
         "org": "Postbank of Iran"
-      },
-      {
-        "period": "2010 - 2017",
-        "role": "Core Banking Consultant (freelance)",
-        "org": "Tejarat Bank, Kosar, Arman and Javanan-Khayer Financial Institutes"
       },
       {
         "period": "2009 - 2018",
@@ -114,6 +104,18 @@
         "period": "2006 - 2007",
         "role": "Software Developer",
         "org": "RASA-Rayaneh-Sabz Co., Tehran"
+      }
+    ],
+    "advisory": [
+      {
+        "period": "2019 - 2022",
+        "role": "Software Architecture Consultant",
+        "org": "Amitis Hamta Co., freelance alongside my role at Postbank of Iran"
+      },
+      {
+        "period": "2010 - 2017",
+        "role": "Core Banking Consultant",
+        "org": "Tejarat Bank and the Kosar, Arman, and Javanan-Khayer financial institutes, freelance alongside my role at Postbank of Iran"
       }
     ],
     "pillars": [

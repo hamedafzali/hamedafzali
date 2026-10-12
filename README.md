@@ -23,7 +23,11 @@
 - **Technical Lead, Core Banking R&D** - Postbank of Iran (2009 - 2018)
 - **Software Developer** - Postbank of Iran (2007 - 2009)
 - **Software Developer** - RASA-Rayaneh-Sabz Co., Tehran (2006 - 2007)
-- **Freelance, alongside full-time roles** - Software Architecture Consultant for Amitis Hamta Co. (2019 - 2022); Core Banking Consultant for Tejarat Bank and the Kosar, Arman, and Javanan-Khayer financial institutes (2010 - 2017)
+
+### Advisory & Consulting (freelance, alongside full-time roles)
+
+- **Software Architecture Consultant** - Amitis Hamta Co. (2019 - 2022)
+- **Core Banking Consultant** - Tejarat Bank and the Kosar, Arman, and Javanan-Khayer financial institutes (2010 - 2017)
 
 ## 💼 Professional Highlights
 
