@@ -12,6 +12,7 @@ const Contact: React.FC = () => {
     message: "",
   });
   const [formError, setFormError] = useState("");
+  const [errorField, setErrorField] = useState<keyof typeof formData | null>(null);
   const [formSuccess, setFormSuccess] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [terminalCommands, setTerminalCommands] = useState<string[]>([]);
@@ -43,7 +44,19 @@ const Contact: React.FC = () => {
     });
     if (formSuccess) setFormSuccess(false);
     if (formError) setFormError("");
+    setErrorField(null);
   };
+
+  const fail = (field: keyof typeof formData, message: string) => {
+    setErrorField(field);
+    setFormError(message);
+    document.getElementById(field)?.focus();
+  };
+
+  const fieldProps = (field: keyof typeof formData) => ({
+    "aria-invalid": errorField === field,
+    "aria-describedby": errorField === field ? "form-error" : undefined,
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,15 +65,15 @@ const Contact: React.FC = () => {
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (formData.name.trim().length < 2) {
-      setFormError("Name must be at least 2 characters.");
+      fail("name", "Name must be at least 2 characters.");
       return;
     }
     if (!emailRegex.test(formData.email)) {
-      setFormError("Please enter a valid email address.");
+      fail("email", "Please enter a valid email address.");
       return;
     }
     if (formData.message.trim().length < 10) {
-      setFormError("Message must be at least 10 characters.");
+      fail("message", "Message must be at least 10 characters.");
       return;
     }
 
@@ -85,9 +98,9 @@ const Contact: React.FC = () => {
       <div className="container">
         <header className="section-head">
           <h2 className="section-title">
-            <span className="code-bracket">{"<"}</span>
+            <span className="code-bracket" aria-hidden="true">{"<"}</span>
             <span className="code-tag">contact</span>
-            <span className="code-bracket">{"/>"}</span>
+            <span className="code-bracket" aria-hidden="true">{"/>"}</span>
           </h2>
           <p className="section-subtitle">{profile?.contactIntro || ""}</p>
         </header>
@@ -156,8 +169,7 @@ const Contact: React.FC = () => {
                 autoComplete="name"
                 value={formData.name}
                 onChange={handleChange}
-                aria-invalid={!!formError}
-                aria-describedby={formError ? "form-error" : undefined}
+                {...fieldProps("name")}
                 required
                 className="form-input"
               />
@@ -174,6 +186,7 @@ const Contact: React.FC = () => {
                 autoComplete="email"
                 value={formData.email}
                 onChange={handleChange}
+                {...fieldProps("email")}
                 required
                 className="form-input"
               />
@@ -188,6 +201,7 @@ const Contact: React.FC = () => {
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
+                {...fieldProps("message")}
                 required
                 rows={6}
                 className="form-input form-textarea"

@@ -299,6 +299,8 @@ const profileSchema = new mongoose.Schema({
   about: [String],
   pillars: [{ title: String, text: String }],
   timeline: [{ period: String, role: String, org: String }],
+  languages: [{ name: String, level: String }],
+  credentials: [{ title: String, issuer: String, year: String, kind: String }],
   yearsExperience: {
     type: String,
     required: true,
@@ -375,9 +377,20 @@ const buildStructuredData = (profile, footer, skills) =>
         jobTitle: profile.headline,
         address: {
           "@type": "PostalAddress",
-          addressLocality: profile.location,
+          addressLocality: (profile.location || "").split(",")[0].trim(),
+          addressCountry: (profile.location || "").split(",").slice(1).join(",").trim() || undefined,
         },
         description: profile.summary,
+        ...(profile.timeline?.[0] && {
+          worksFor: { "@type": "Organization", name: profile.timeline[0].org.split(",")[0] },
+        }),
+        knowsLanguage: (profile.languages || []).map((l) => l.name),
+        hasCredential: (profile.credentials || []).map((c) => ({
+          "@type": "EducationalOccupationalCredential",
+          name: c.title,
+          credentialCategory: c.kind,
+          recognizedBy: { "@type": "Organization", name: c.issuer },
+        })),
         knowsAbout: (skills || []).map((s) => s.name).filter(Boolean),
         sameAs: (footer?.socialLinks || [])
           .map((link) => link.href)

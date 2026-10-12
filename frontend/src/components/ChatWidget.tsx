@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./ChatWidget.css";
 import ApiService, { ChatError, ChatReply, ChatTurn } from "../services/api";
+import { OPEN_CHAT_EVENT, usePortfolioData } from "../context/PortfolioData";
 
 // Each question runs through a little factory: intake, tokenizer press,
 // dispatch to the AI, quality control. The stages are for fun, but the
@@ -244,6 +245,7 @@ const Machine: React.FC<{ job: Job }> = ({ job }) => {
 };
 
 const ChatWidget: React.FC = () => {
+  const { chat } = usePortfolioData();
   const [enabled, setEnabled] = useState(false);
   const [remaining, setRemaining] = useState(0);
   const [open, setOpen] = useState(false);
@@ -256,10 +258,15 @@ const ChatWidget: React.FC = () => {
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    ApiService.getChatStatus().then((status) => {
-      setEnabled(status.enabled);
-      setRemaining(status.remaining);
-    });
+    if (!chat) return;
+    setEnabled(chat.enabled);
+    setRemaining(chat.remaining);
+  }, [chat]);
+
+  useEffect(() => {
+    const onOpen = () => setOpen(true);
+    window.addEventListener(OPEN_CHAT_EVENT, onOpen);
+    return () => window.removeEventListener(OPEN_CHAT_EVENT, onOpen);
   }, []);
 
   useEffect(() => {

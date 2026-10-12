@@ -85,6 +85,24 @@
   gap: 12px;
 }
 
+.hero-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin: var(--space-5) 0 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.hero-facts li + li::before {
+  content: "·";
+  margin-right: 12px;
+  color: var(--primary-color);
+}
+
 .action-btn {
   display: inline-flex;
   align-items: center;
@@ -96,6 +114,7 @@
   font-size: 15px;
   font-family: var(--font-sans);
   border: 1px solid transparent;
+  cursor: pointer;
   transition:
     transform 0.2s ease,
     background 0.2s ease,

@@ -301,3 +301,33 @@
   }
 }
 
+
+.about-credentials {
+  margin-top: var(--space-6, 32px);
+}
+
+.about-credentials ul {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-credentials li {
+  display: grid;
+  gap: 2px;
+  padding-left: 14px;
+  border-left: 2px solid var(--border);
+}
+
+.about-credential-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.about-credential-issuer {
+  font-size: 0.85rem;
+  color: var(--muted);
+}

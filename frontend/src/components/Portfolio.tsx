@@ -12,6 +12,8 @@ const FILTERS = [
 ];
 
 const MAX_TAGS = 5;
+// A category tab with a single project is noise: hide it.
+const MIN_PER_FILTER = 2;
 // Descriptions longer than this are clamped with an inline "Read more".
 const CLAMP_AT = 220;
 
@@ -39,6 +41,9 @@ const Portfolio: React.FC = () => {
     [projects],
   );
 
+  const showFilter = (id: string) =>
+    !projects.length || id === "featured" || id === "all" || counts[id] >= MIN_PER_FILTER;
+
   const visible = projects.filter((p) => matches(p, filter));
 
   const toggle = (id: string) =>
@@ -53,9 +58,9 @@ const Portfolio: React.FC = () => {
       <div className="container">
         <header className="section-head">
           <h2 className="section-title">
-            <span className="code-bracket">{"<"}</span>
+            <span className="code-bracket" aria-hidden="true">{"<"}</span>
             <span className="code-tag">work</span>
-            <span className="code-bracket">{"/>"}</span>
+            <span className="code-bracket" aria-hidden="true">{"/>"}</span>
           </h2>
           <p className="section-subtitle">
             Systems I designed, led, or built, from national payment
@@ -63,7 +68,7 @@ const Portfolio: React.FC = () => {
           </p>
 
           <div className="filter-tabs" role="group" aria-label="Filter projects">
-            {FILTERS.filter(({ id }) => !projects.length || counts[id] > 0).map(
+            {FILTERS.filter(({ id }) => showFilter(id)).map(
               ({ id, label }) => (
                 <button
                   key={id}

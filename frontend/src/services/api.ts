@@ -78,6 +78,8 @@ export interface ProfileData {
   about?: string[];
   pillars?: { title: string; text: string }[];
   timeline?: { period: string; role: string; org: string }[];
+  languages?: { name: string; level: string }[];
+  credentials?: { title: string; issuer: string; year?: string; kind?: string }[];
   image?: string;
   yearsExperience: string;
   roles: string[];

@@ -83,15 +83,16 @@ const About: React.FC = () => {
   // Older data may not have the about paragraphs yet: fall back to the summary.
   const paragraphs = profile?.about?.length ? profile.about : profile?.summary ? [profile.summary] : [];
   const timeline = profile?.timeline || [];
+  const credentials = profile?.credentials || [];
 
   return (
     <section id="about" className="about">
       <div className="container">
         <header className="section-head">
           <h2 className="section-title">
-            <span className="code-bracket">{"<"}</span>
+            <span className="code-bracket" aria-hidden="true">{"<"}</span>
             <span className="code-tag">about</span>
-            <span className="code-bracket">{"/>"}</span>
+            <span className="code-bracket" aria-hidden="true">{"/>"}</span>
           </h2>
           <p className="section-subtitle">
             Architecture, delivery, and the teams that make both work.
@@ -114,6 +115,24 @@ const About: React.FC = () => {
                   </li>
                 ))}
               </ol>
+            )}
+
+            {credentials.length > 0 && (
+              <div className="about-credentials">
+                <h3 className="about-block-title">Education & certifications</h3>
+                <ul>
+                  {credentials.map((item) => (
+                    <li key={item.title}>
+                      <span className="about-credential-title">{item.title}</span>
+                      <span className="about-credential-issuer">
+                        {item.issuer}
+                        {item.year ? `, ${item.year}` : ""}
+                        {item.kind === "course" ? " (course)" : ""}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
 

@@ -9,6 +9,8 @@ const NAV_ITEMS = [
   { id: "contact", label: "contact" },
 ];
 
+export const CV_URL = "/Hamed_Afzali_CV.pdf";
+
 const Navigation: React.FC = () => {
   const { profile } = usePortfolioData();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -89,8 +91,17 @@ const Navigation: React.FC = () => {
                 </li>
               ))}
             </ul>
-            <a href="#contact" className="nav-cta" onClick={closeMenu}>
-              Get in touch
+            <a
+              href={CV_URL}
+              className="nav-cta"
+              download
+              onClick={closeMenu}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M12 4v11 M7 10l5 5 5-5 M5 20h14" />
+              </svg>
+              Download CV
             </a>
           </div>
 

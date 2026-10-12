@@ -118,6 +118,48 @@
         "title": "Security & identity",
         "text": "OAuth2, JWT, and fine-grained multi-tenant authorization."
       }
+    ],
+    "languages": [
+      {
+        "name": "English",
+        "level": "C1"
+      },
+      {
+        "name": "German",
+        "level": "B1, working towards B2"
+      },
+      {
+        "name": "Persian",
+        "level": "Native"
+      }
+    ],
+    "credentials": [
+      {
+        "title": "B.Sc. Software Engineering",
+        "issuer": "Azad University, Tehran",
+        "year": "2013",
+        "kind": "degree"
+      },
+      {
+        "title": "IBM RAG and Agentic AI Professional Certificate",
+        "issuer": "IBM via Coursera",
+        "kind": "certificate"
+      },
+      {
+        "title": "Cybersecurity Essentials (LFC108)",
+        "issuer": "Linux Foundation",
+        "kind": "certificate"
+      },
+      {
+        "title": "Open Source Licensing: Compliance Management",
+        "issuer": "Linux Foundation",
+        "kind": "certificate"
+      },
+      {
+        "title": "Architecting Solutions on AWS",
+        "issuer": "AWS Training via Coursera",
+        "kind": "course"
+      }
     ]
   }
 }

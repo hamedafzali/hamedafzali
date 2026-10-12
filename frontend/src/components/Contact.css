@@ -176,6 +176,10 @@ a.contact-method:hover {
   border-color: #f07178;
 }
 
+.form-input[aria-invalid="true"] {
+  border-color: #f07178;
+}
+
 .form-textarea {
   min-height: 140px;
   resize: vertical;
