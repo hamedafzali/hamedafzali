@@ -8,7 +8,7 @@ const FALLBACK = {
   name: "Hamed Afzali",
   headline: "Senior Full-Stack Engineer & Technical Lead",
   summary:
-    "20+ years designing and leading delivery of banking, payment, and multi-tenant SaaS platforms.",
+    "20+ years building banking, payment, and SaaS platforms, from national payment networks to multi-tenant products.",
   pillars: [
     {
       title: "Platform architecture",
@@ -20,7 +20,7 @@ const FALLBACK = {
     },
     {
       title: "Modernization",
-      text: "Moving legacy platforms forward safely, like .NET Framework to .NET 8, without stopping production.",
+      text: "Moving legacy platforms to modern stacks in small, safe steps, like .NET Framework to .NET 8.",
     },
     {
       title: "Security & identity",

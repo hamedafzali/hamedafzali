@@ -5,15 +5,15 @@ import { usePortfolioData } from "../context/PortfolioData";
 
 const CATEGORY_LABELS: Record<string, string> = {
   architecture: "Architecture",
-  backend: "Backend & Platforms",
+  backend: "Languages & Platforms",
   leadership: "Leadership",
   security: "Security",
-  ai: "AI-Assisted Engineering",
-  cloud: "Cloud & DevOps",
+  ai: "AI Engineering",
+  cloud: "DevOps",
   database: "Data & Databases",
-  integration: "Systems Integration",
+  integration: "Integration & Messaging",
   frontend: "Frontend",
-  quality: "Quality Engineering",
+  quality: "Testing",
   general: "Core Skills",
 };
 // Display order of skill groups: architecture and leadership first.
@@ -123,7 +123,7 @@ const About: React.FC = () => {
                 <span className="about-editor-dot" />
                 <span className="about-editor-dot" />
                 <span className="about-editor-dot" />
-                <span className="about-editor-title">developer.ts</span>
+                <span className="about-editor-title">how-i-work.ts</span>
               </div>
               <pre className="about-editor-code">
                 <code className="about-editor-ghost">{fullCode}</code>
@@ -138,14 +138,11 @@ const About: React.FC = () => {
 
         {highlights.length > 0 && (
           <div className="about-block">
-            <h3 className="about-block-title">Career highlights</h3>
+            <h3 className="about-block-title">By the numbers</h3>
             <ol className="highlights-grid">
-              {highlights.map((highlight, index) => (
+              {highlights.map((highlight) => (
                 <li className="highlight-card" key={highlight.title}>
-                  <span className="highlight-index" aria-hidden="true">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <h4>{highlight.title}</h4>
+                  <h4 className="highlight-figure">{highlight.title}</h4>
                   <p>{highlight.description}</p>
                 </li>
               ))}
@@ -155,7 +152,7 @@ const About: React.FC = () => {
 
         {skillGroups.length > 0 && (
           <div className="about-block">
-            <h3 className="about-block-title">Expertise</h3>
+            <h3 className="about-block-title">Toolbox</h3>
             <dl className="expertise-panel">
               {skillGroups.map((group) => (
                 <div className="expertise-row" key={group.category}>

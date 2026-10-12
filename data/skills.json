@@ -1,82 +1,250 @@
 {
   "skills": [
     {
-      "name": ".NET Architecture",
-      "level": 96,
-      "category": "backend",
-      "description": "Deep experience across .NET Framework and .NET 8 for large regulated systems. Led migration from .NET Framework to .NET 8 at GMG, resolving complex legacy constraints while keeping production systems stable. Applies SOLID principles, object-oriented analysis and design (OOA/OOD), and test-driven development (TDD) throughout."
-    },
-    {
       "name": "Distributed Systems",
-      "level": 94,
+      "level": 95,
       "category": "architecture",
-      "description": "Designed national-scale distributed banking platforms: 15-node SQL Server cluster for 15,000 concurrent users, Shetab card network services, and Chakavak cheque-clearing backbone."
-    },
-    {
-      "name": "SQL Server, MongoDB & Data Engineering",
-      "level": 94,
-      "category": "database",
-      "description": "Designed banking-grade SQL Server schemas and MongoDB data models, high-volume ETL pipelines, NHibernate ORM layers, advanced indexing, and ACID-compliant persistence for financial systems under strict regulatory SLAs."
-    },
-    {
-      "name": "Azure DevOps & CI/CD",
-      "level": 91,
-      "category": "cloud",
-      "description": "Contributes to CI/CD strategy and owns pipeline setup, release workflows, build automation, and containerized delivery using Azure DevOps and Docker. Manages multi-environment deployment strategy at GMG."
-    },
-    {
-      "name": "System Integration & IPC",
-      "level": 91,
-      "category": "integration",
-      "description": "Built the IPC layer between software and printer hardware at GMG using Named Pipes and socket networking. Extensive integration work across banking hardware (POS, ATM), IBM MQ, and external BI systems."
-    },
-    {
-      "name": "React, Redux & TypeScript",
-      "level": 89,
-      "category": "frontend",
-      "description": "Builds modular SaaS frontend features at GMG using React, Redux, and TypeScript, and delivered the full React.js reporting dashboard for PBI's 400+ branch analytics platform. 10+ years across React and modern TypeScript."
-    },
-    {
-      "name": "Team Leadership",
-      "level": 89,
-      "category": "leadership",
-      "description": "Led an 8-person cross-functional engineering team for 9 years at PBI. Owns sprint planning, code quality, mentoring, and hiring. Currently working in SAFe Agile at GMG."
+      "description": "National-scale banking systems: a 15-node SQL Server cluster, high-availability payment services, fault-tolerant messaging."
     },
     {
       "name": "Event-Driven Architecture",
+      "level": 92,
+      "category": "architecture",
+      "description": "IBM MQ messaging for the Chakavak national cheque-clearing system."
+    },
+    {
+      "name": "Microservices",
       "level": 88,
       "category": "architecture",
-      "description": "Owned IBM MQ architecture for the Chakavak national cheque-clearing system achieving fault-tolerant async processing under regulatory SLAs. Extensive background in event-driven, message-broker design patterns."
+      "description": "Microservice-based analytics and ETL services at PBI."
     },
     {
-      "name": "Node.js & Microservices",
-      "level": 87,
+      "name": "Domain-Driven Design",
+      "level": 85,
+      "category": "architecture",
+      "description": "Modelling banking processes with the business before building them."
+    },
+    {
+      "name": "REST API Design",
+      "level": 90,
+      "category": "architecture",
+      "description": "Secure REST APIs for multi-tenant SaaS and external BI tools."
+    },
+    {
+      "name": "C#",
+      "level": 96,
       "category": "backend",
-      "description": "Designed and operated microservices-based analytics platforms and ETL services at PBI. Built MCP servers, automation tools, and API layers with Node.js at GMG."
+      "description": "Main language since 2007, from core banking to GMG's SaaS platform."
     },
     {
-      "name": "Security & Authorization",
+      "name": ".NET 8",
+      "level": 94,
+      "category": "backend",
+      "description": "Leading GMG's migration from .NET Framework to .NET 8."
+    },
+    {
+      "name": ".NET Framework",
+      "level": 95,
+      "category": "backend",
+      "description": "Core banking platform and years of production .NET work."
+    },
+    {
+      "name": "Node.js",
+      "level": 90,
+      "category": "backend",
+      "description": "ETL pipelines, analytics services, and tooling."
+    },
+    {
+      "name": "Python",
+      "level": 80,
+      "category": "backend",
+      "description": "MCP server and RAG tooling at GMG."
+    },
+    {
+      "name": "Java",
+      "level": 78,
+      "category": "backend",
+      "description": "High-availability services for the Shetab card network."
+    },
+    {
+      "name": "C++",
+      "level": 70,
+      "category": "backend",
+      "description": "POS terminal software at protocol level."
+    },
+    {
+      "name": "React",
+      "level": 88,
+      "category": "frontend",
+      "description": "SaaS features at GMG and the full analytics platform UI at PBI."
+    },
+    {
+      "name": "TypeScript",
+      "level": 88,
+      "category": "frontend",
+      "description": "Frontend work at GMG."
+    },
+    {
+      "name": "Redux",
+      "level": 80,
+      "category": "frontend",
+      "description": "State management in SaaS frontends."
+    },
+    {
+      "name": "React Native",
+      "level": 72,
+      "category": "frontend",
+      "description": "Branch reporting app at PBI."
+    },
+    {
+      "name": "SQL Server",
+      "level": 95,
+      "category": "database",
+      "description": "Banking-grade schemas, indexing, and a 15-node cluster."
+    },
+    {
+      "name": "SQLite",
+      "level": 82,
+      "category": "database",
+      "description": "Replacing SQL CE in the .NET 8 migration."
+    },
+    {
+      "name": "MongoDB",
+      "level": 80,
+      "category": "database",
+      "description": "Data models for web platforms."
+    },
+    {
+      "name": "NHibernate",
+      "level": 85,
+      "category": "database",
+      "description": "Persistence layer of the core banking platform."
+    },
+    {
+      "name": "ETL",
+      "level": 90,
+      "category": "database",
+      "description": "Validated regulatory data pipelines for Central Bank reporting."
+    },
+    {
+      "name": "IBM MQ",
+      "level": 88,
+      "category": "integration",
+      "description": "Messaging backbone for national cheque clearing."
+    },
+    {
+      "name": "Named Pipes & Sockets",
+      "level": 88,
+      "category": "integration",
+      "description": "IPC layer between GMG's software and printer hardware."
+    },
+    {
+      "name": "Payment Networks",
       "level": 86,
+      "category": "integration",
+      "description": "Shetab card network, ATM and POS integration."
+    },
+    {
+      "name": "OAuth2",
+      "level": 90,
       "category": "security",
-      "description": "Architected OAuth2, JWT, and fine-grained multi-tenant authorization with Authzed (Google Zanzibar-inspired) at GMG. Extensive background in regulated financial security requirements."
+      "description": "Authentication for GMG's multi-tenant APIs."
     },
     {
-      "name": "Cloud Operations",
-      "level": 86,
+      "name": "JWT",
+      "level": 90,
+      "category": "security",
+      "description": "Token-based auth across services."
+    },
+    {
+      "name": "Authzed",
+      "level": 85,
+      "category": "security",
+      "description": "Fine-grained multi-tenant authorization (Zanzibar model)."
+    },
+    {
+      "name": "Azure DevOps",
+      "level": 90,
       "category": "cloud",
-      "description": "Hands-on with AWS CloudWatch, Docker-based production operations, and self-hosted SaaS deployments on-premises. Owned full infrastructure setup and production operations at PBI."
+      "description": "CI/CD pipelines and release workflows at GMG."
     },
     {
-      "name": "Quality Engineering",
-      "level": 84,
+      "name": "Docker",
+      "level": 88,
+      "category": "cloud",
+      "description": "Containerized builds and deployments."
+    },
+    {
+      "name": "CI/CD",
+      "level": 90,
+      "category": "cloud",
+      "description": "Build automation, release pipelines, licence checks in CI."
+    },
+    {
+      "name": "AWS CloudWatch",
+      "level": 70,
+      "category": "cloud",
+      "description": "Early monitoring setup at GMG."
+    },
+    {
+      "name": "Cypress",
+      "level": 82,
       "category": "quality",
-      "description": "Built and maintained unit, integration, and Cypress E2E test suites at GMG. Contributed to early AWS CloudWatch monitoring setup to establish baseline observability. Experience with disciplined delivery in both regulated banking and commercial SaaS contexts."
+      "description": "End-to-end tests for the SaaS frontend."
     },
     {
-      "name": "AI-Assisted Engineering",
+      "name": "Unit & Integration Tests",
+      "level": 88,
+      "category": "quality",
+      "description": "Automated test suites at GMG."
+    },
+    {
+      "name": "TDD",
+      "level": 80,
+      "category": "quality",
+      "description": "Test-first where it pays off."
+    },
+    {
+      "name": "MCP",
       "level": 85,
       "category": "ai",
-      "description": "Designed and built a Python MCP server with RAG-indexed codebase tooling so LLM-powered assistants can navigate and reason over a production codebase. Working knowledge of LLMs, RAG, vector databases, agentic workflows, and LangChain/LangGraph (IBM RAG & Agentic AI Professional Certificate)."
+      "description": "Built a Python MCP server for GMG's codebase."
+    },
+    {
+      "name": "RAG",
+      "level": 85,
+      "category": "ai",
+      "description": "Codebase index that LLM assistants search."
+    },
+    {
+      "name": "LangChain & LangGraph",
+      "level": 72,
+      "category": "ai",
+      "description": "From the IBM RAG and Agentic AI certificate."
+    },
+    {
+      "name": "Team Leadership",
+      "level": 94,
+      "category": "leadership",
+      "description": "Led eight engineers for nine years."
+    },
+    {
+      "name": "Mentoring",
+      "level": 90,
+      "category": "leadership",
+      "description": "Growing engineers through reviews and pairing."
+    },
+    {
+      "name": "SAFe Agile",
+      "level": 82,
+      "category": "leadership",
+      "description": "Working in a SAFe team at GMG."
+    },
+    {
+      "name": "Jira",
+      "level": 85,
+      "category": "leadership",
+      "description": "Introduced Jira at PBI for structured work tracking."
     }
   ]
 }

@@ -1,17 +1,13 @@
 {
   "codeDisplay": {
     "codeLines": [
-      "const hamed = {",
-      "  role: 'Senior Full-Stack Engineer & Tech Lead',",
-      "  experience: '20+ years',",
-      "  ledTeam: { size: 8, years: 9 },",
-      "  architected: [",
-      "    'core banking · 15k concurrent users',",
-      "    'national card & cheque clearing',",
-      "    'BI platform · 400+ branches',",
-      "  ],",
-      "  stack: ['.NET 8', 'Node.js', 'React', 'SQL Server'],",
-      "  focus: 'architecture & AI-assisted engineering',",
+      "const howIWork = {",
+      "  decisions: 'written down, trade-offs included',",
+      "  changes: 'small, reversible, covered by tests',",
+      "  production: 'boring, on purpose',",
+      "  codeReview: 'to teach, not to gatekeep',",
+      "  languages: ['English C1', 'German B1 → B2', 'Persian'],",
+      "  learning: 'agentic AI workflows',",
       "};"
     ]
   }

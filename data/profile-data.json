@@ -5,7 +5,7 @@
     "siteUrl": "https://afzali.eu.cc",
     "image": "https://afzali.eu.cc/hamed-afzali.jpg",
     "headline": "Senior Full-Stack Engineer & Technical Lead",
-    "summary": "20+ years building banking, payment, and SaaS platforms, from national payment networks to multi-tenant cloud products. I make architecture decisions, lead the teams that build them, and still write code every day.",
+    "summary": "20+ years building banking, payment, and SaaS platforms, from national payment networks to multi-tenant products. I make architecture decisions, have led the teams that build them, and still write production code.",
     "location": "Tübingen, Germany",
     "contactIntro": "Have an interesting architecture problem, a platform to modernize, or just want to talk engineering? Send a message or reach out directly.",
     "yearsExperience": "20+",
@@ -50,34 +50,34 @@
     ],
     "careerHighlights": [
       {
-        "title": ".NET 8 Modernization",
-        "description": "Helped make the call to move GMG's platform from .NET Framework to .NET 8 and leads the ongoing migration, including SQL CE to SQLite, while the product stays stable in production."
+        "title": "15,000",
+        "description": "concurrent users on the core banking platform I designed"
       },
       {
-        "title": "AI-Assisted Engineering",
-        "description": "Built a Python MCP server with a RAG index of the GMG codebase, so LLM assistants can search and explain the code. Onboarding to the platform got much faster."
+        "title": "400+",
+        "description": "branches reporting through the analytics platform I architected"
       },
       {
-        "title": "15,000+ Concurrent Users",
-        "description": "Architected a 15-node distributed SQL Server core banking platform serving 15,000 concurrent users with ACID-compliant transactional isolation at Postbank of Iran (PBI)."
+        "title": "9 years",
+        "description": "leading a cross-functional team of eight engineers"
       },
       {
-        "title": "National Payment Infrastructure",
-        "description": "Designed and delivered high-availability Java services for the Shetab national card network and the IBM MQ backbone for the Chakavak national cheque-clearing system."
+        "title": "2",
+        "description": "national payment systems integrated: the Shetab card network and Chakavak cheque clearing"
       },
       {
-        "title": "400+ Branch Analytics Platform",
-        "description": "Sole architect and technical lead of a regulatory-grade BI and reporting platform consolidating real-time transaction data from 400+ branches, submitted to the Central Bank."
+        "title": "57+",
+        "description": "open-source packages checked against licence policy on every CI build"
       },
       {
-        "title": "Team Lead, 8 Engineers",
-        "description": "Led a cross-functional engineering team of 8 for 9 years at PBI, owning delivery, sprint planning, code quality, and technical mentorship across banking projects."
+        "title": "5",
+        "description": "core banking modules designed: Accounting, Treasury, HR, Branch Operations, and Supervisor"
       }
     ],
     "about": [
-      "I've spent two decades building software that people and institutions depend on: a core banking platform serving 15,000 concurrent users, national card and cheque-clearing infrastructure, and a regulatory analytics platform used across 400+ branches and for Central Bank reporting.",
-      "For nine years I led an 8-person engineering team. I owned delivery, sprint planning, code quality, and mentoring, and I was the sole architect of the analytics platform, from design through production operations.",
-      "Today at GMG I take architecture-level ownership on a multi-tenant SaaS platform: leading the .NET 8 modernization, designing the security and identity architecture, shaping CI/CD, and building AI-assisted engineering tooling with MCP and RAG."
+      "I started writing banking software in Tehran in 2006 and spent most of the next sixteen years at Postbank of Iran, growing from developer to the person who decided how the bank's systems were built. In banking a wrong number or a late report has real consequences, so I learned to be careful: test it properly, write the decision down, and keep production running.",
+      "Nine of those years I led a team of eight engineers. That taught me that most delivery problems are communication problems, so I try to make the reasoning behind technical choices clear and to use code reviews to teach, not to gatekeep.",
+      "Since 2022 I've been at GMG in Tübingen, working hands-on across a multi-tenant SaaS platform for print hardware, from the backend and security to the printers themselves. Lately a lot of my energy goes into AI-assisted engineering: tools that help developers understand a large codebase faster."
     ],
     "timeline": [
       {
@@ -112,7 +112,7 @@
       },
       {
         "title": "Modernization",
-        "text": "Moving legacy platforms forward safely, like .NET Framework to .NET 8, without stopping production."
+        "text": "Moving legacy platforms to modern stacks in small, safe steps, like .NET Framework to .NET 8."
       },
       {
         "title": "Security & identity",

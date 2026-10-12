@@ -137,12 +137,13 @@
   color: var(--primary-color);
 }
 
-.highlight-card h4 {
-  margin-bottom: 8px;
-  font-size: 1.05rem;
+.highlight-card .highlight-figure {
+  margin-bottom: 6px;
+  font-family: var(--font-mono);
+  font-size: clamp(1.8rem, 3vw, 2.3rem);
   font-weight: 600;
-  line-height: 1.35;
-  color: var(--text);
+  line-height: 1.1;
+  color: var(--primary-color);
 }
 
 .highlight-card p {
