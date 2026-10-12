@@ -8,10 +8,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 58px;
-  height: 58px;
+  width: 87px;
+  height: 87px;
   border: 1px solid rgba(72, 198, 182, 0.55);
-  border-radius: 18px;
+  border-radius: 24px;
   background: #0d131e;
   color: var(--primary-color);
   box-shadow: var(--shadow-md), 0 0 0 0 rgba(72, 198, 182, 0.45);
@@ -60,16 +60,39 @@
   }
 }
 
-/* Panel */
-.chat-panel {
+/* The open chat: the panel, with the robot standing beside it. */
+.chat-dock {
   position: fixed;
   right: 20px;
-  bottom: 90px;
+  bottom: 120px;
   z-index: 1100;
+}
+
+.chat-companion {
+  position: absolute;
+  right: calc(100% + 2px);
+  bottom: 0;
+  z-index: 1;
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
+  background: none;
+  line-height: 0;
+  cursor: pointer;
+}
+
+.chat-companion:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Panel */
+.chat-panel {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: min(400px, calc(100vw - 24px));
-  height: min(600px, calc(100vh - 120px));
+  height: min(600px, calc(100vh - 150px));
   border: 1px solid var(--border);
   border-radius: 16px;
   overflow: hidden;
@@ -81,7 +104,7 @@
 /* Green light: a larger panel, like zooming a Mac window. */
 .chat-panel.expanded {
   width: min(720px, calc(100vw - 24px));
-  height: min(820px, calc(100vh - 120px));
+  height: min(820px, calc(100vh - 150px));
 }
 
 @keyframes panelIn {
@@ -100,10 +123,6 @@
   background: #151d2c;
 }
 
-
-.chat-title-robot {
-  margin-left: 8px;
-}
 
 .chat-title {
   font-family: var(--font-mono);
@@ -426,6 +445,19 @@
   transition: left 0.7s cubic-bezier(0.5, 0, 0.3, 1.3);
 }
 
+/* The latest crate is pushed along by a small robot. */
+.belt.with-robot {
+  height: 44px;
+}
+
+.belt-robot {
+  position: absolute;
+  right: 100%;
+  bottom: -8px;
+  margin-right: -7px;
+  line-height: 0;
+}
+
 .crate.waiting {
   animation: bob 0.6s ease-in-out infinite;
 }
@@ -503,18 +535,43 @@
   .chat-fab {
     right: 14px;
     bottom: 14px;
-    width: 52px;
-    height: 52px;
+    width: 62px;
+    height: 62px;
+    border-radius: 20px;
   }
 
-  .chat-fab-robot {
-    transform: scale(0.88);
-  }
-
-  .chat-panel {
+  .chat-dock {
     right: 12px;
-    bottom: 76px;
-    height: min(620px, calc(100dvh - 100px));
+    bottom: 86px;
+  }
+
+  .chat-panel,
+  .chat-panel.expanded {
+    height: min(620px, calc(100dvh - 160px));
+  }
+
+  /* While the keyboard is up, sit right above it and fit what's visible. */
+  .chat-dock.keyboard {
+    bottom: calc(var(--kb, 0px) + 8px);
+  }
+
+  .chat-dock.keyboard .chat-panel {
+    height: calc(var(--vvh, 100dvh) - 76px);
+  }
+
+  /* No room beside the panel: the robot peeks over its top edge, between
+     the logo and the menu button. */
+  .chat-companion {
+    right: auto;
+    left: 56%;
+    bottom: calc(100% - 12px);
+  }
+}
+
+@media (max-width: 960px) {
+  .chat-dock.expanded .chat-companion {
+    right: 14px;
+    bottom: calc(100% - 12px);
   }
 }
 

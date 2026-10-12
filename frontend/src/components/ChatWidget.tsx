@@ -1,12 +1,30 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import "./ChatWidget.css";
 import WindowControls from "./WindowControls";
-import AiRobot, { RobotCue } from "./AiRobot";
+import AiRobot, { RobotCue, RobotMood, useMedia } from "./AiRobot";
 import ApiService, { ChatError, ChatReply, ChatTurn } from "../services/api";
 import { OPEN_CHAT_EVENT, usePortfolioData } from "../context/PortfolioData";
 
 // The robot waves once when it appears.
 const WAVE: RobotCue = { gesture: "wave", key: 0 };
+
+// Launcher robot sizes; the companion beside the open chat is larger.
+const FAB_ROBOT = { desktop: 81, mobile: 57 };
+const COMPANION = { desktop: 112, mobile: 66 };
+const ROLL_MS = 750;
+const DOZE_MS = 25000;
+
+// What the companion does when poked.
+const POKES: { mood: RobotMood; gesture: RobotCue["gesture"] }[] = [
+  { mood: "excited", gesture: "jump" },
+  { mood: "happy", gesture: "spin" },
+  { mood: "proud", gesture: "clap" },
+  { mood: "love", gesture: "bounce" },
+  { mood: "shy", gesture: "wave" },
+];
+
+type Gaze = { x: number; y: number };
+const AHEAD: Gaze = { x: 0, y: 0 };
 
 // Each question runs through a little factory: intake, tokenizer press,
 // dispatch to the AI, quality control. The stages are for fun, but the
@@ -176,7 +194,44 @@ const Answer: React.FC<{ text: string }> = ({ text }) => {
   return <div className="chat-msg assistant">{blocks}</div>;
 };
 
-const Machine: React.FC<{ job: Job }> = ({ job }) => {
+// The small robot that pushes the latest crate along the belt.
+const BeltRobot: React.FC<{ position: number; done: boolean; rejected: boolean; failed: boolean }> = ({
+  position,
+  done,
+  rejected,
+  failed,
+}) => {
+  const [rolling, setRolling] = useState(false);
+  const [cue, setCue] = useState<RobotCue | null>(null);
+  const first = useRef(true);
+
+  useEffect(() => {
+    if (first.current) {
+      first.current = false;
+      return;
+    }
+    setRolling(true);
+    const t = setTimeout(() => setRolling(false), 700);
+    return () => clearTimeout(t);
+  }, [position]);
+
+  useEffect(() => {
+    const gesture = failed ? "shrug" : rejected ? "shake" : done ? "clap" : null;
+    if (!gesture) return;
+    // Let it finish rolling to the last station first.
+    const t = setTimeout(() => setCue({ gesture, key: Date.now() }), 750);
+    return () => clearTimeout(t);
+  }, [done, rejected, failed]);
+
+  const mood: RobotMood = failed ? "sad" : rejected ? "confused" : done ? "happy" : "encouraging";
+  return (
+    <span className="belt-robot">
+      <AiRobot size={42} mood={mood} cue={cue} locomotion={rolling ? "roll" : "idle"} facing="right" />
+    </span>
+  );
+};
+
+const Machine: React.FC<{ job: Job; latest?: boolean }> = ({ job, latest }) => {
   const { stage, failed, reply, keywords, question } = job;
   const done = stage === 4 && !failed;
   const rejected = done && Boolean(reply?.offTopic);
@@ -225,9 +280,10 @@ const Machine: React.FC<{ job: Job }> = ({ job }) => {
         })}
       </ol>
 
-      <div className="belt" aria-hidden="true">
+      <div className={`belt${latest ? " with-robot" : ""}`} aria-hidden="true">
         <span className={`crate ${stage === 2 && !failed ? "waiting" : ""}`} style={{ left: `${(position / 3) * 100}%` }}>
           {stage >= 1 ? pressed(crate).split("|").slice(0, 3).join("|") : crate.slice(0, 10)}
+          {latest && <BeltRobot position={position} done={done} rejected={rejected} failed={Boolean(failed)} />}
         </span>
       </div>
 
@@ -242,6 +298,96 @@ const Machine: React.FC<{ job: Job }> = ({ job }) => {
   );
 };
 
+/**
+ * The launcher robot, moved next to the open chat. It rolls over from where
+ * the launcher was, waves, and then reacts to what happens in the chat.
+ */
+const Companion: React.FC<{
+  from: DOMRect | null;
+  size: number;
+  rest: "left" | "right";
+  mood: RobotMood;
+  cue: RobotCue | null;
+  gaze: Gaze;
+  onArrive: () => void;
+  onPoke: () => void;
+}> = ({ from, size, rest, mood, cue, gaze, onArrive, onPoke }) => {
+  const ref = useRef<HTMLButtonElement>(null);
+  const [rolling, setRolling] = useState<"left" | "right" | null>(null);
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el || !from || reducedMotion() || !el.animate) {
+      onArrive();
+      return;
+    }
+    const to = el.getBoundingClientRect();
+    const dx = from.left + from.width / 2 - (to.left + to.width / 2);
+    const dy = from.top + from.height / 2 - (to.top + to.height / 2);
+    const scale = from.width / to.width;
+    const roll = el.animate(
+      [{ transform: `translate(${dx}px, ${dy}px) scale(${scale})` }, { transform: "none" }],
+      { duration: ROLL_MS, easing: "cubic-bezier(0.3, 0.7, 0.3, 1)" },
+    );
+    setRolling(dx > 0 ? "left" : "right");
+    const t = setTimeout(() => {
+      setRolling(null);
+      onArrive();
+    }, ROLL_MS);
+    return () => {
+      clearTimeout(t);
+      roll.cancel();
+    };
+    // Runs once, when the chat opens.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <button
+      type="button"
+      ref={ref}
+      className="chat-companion"
+      style={{ width: size, height: size }}
+      aria-label="Poke the robot"
+      onClick={onPoke}
+    >
+      <AiRobot
+        size={size}
+        mood={mood}
+        cue={cue}
+        locomotion={rolling ? "roll" : "idle"}
+        facing={rolling ?? rest}
+        gaze={rolling ? AHEAD : gaze}
+      />
+    </button>
+  );
+};
+
+// Coarse pointers (phones, tablets) get an on-screen keyboard on focus.
+const touch = () => typeof window !== "undefined" && Boolean(window.matchMedia?.("(pointer: coarse)").matches);
+
+/**
+ * Mobile keyboards cover fixed elements without resizing the page. Expose how
+ * much of the bottom the keyboard hides and how tall the visible area is.
+ */
+const useKeyboardInset = (active: boolean) => {
+  const [inset, setInset] = useState({ kb: 0, height: 0 });
+  useEffect(() => {
+    const vv = window.visualViewport;
+    if (!active || !vv) return;
+    const update = () =>
+      setInset({ kb: Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop)), height: Math.round(vv.height) });
+    update();
+    vv.addEventListener("resize", update);
+    vv.addEventListener("scroll", update);
+    return () => {
+      vv.removeEventListener("resize", update);
+      vv.removeEventListener("scroll", update);
+    };
+  }, [active]);
+  return inset;
+};
+
 const ChatWidget: React.FC = () => {
   const { chat } = usePortfolioData();
   const [enabled, setEnabled] = useState(false);
@@ -252,12 +398,36 @@ const ChatWidget: React.FC = () => {
   const [busy, setBusy] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [jobs, setJobs] = useState<Record<number, Job>>({});
-  const [mood, setMood] = useState<"happy" | "thinking" | "sad">("happy");
+  const [mood, setMood] = useState<RobotMood>("happy");
+  const [flash, setFlash] = useState<RobotMood | null>(null);
+  const [asleep, setAsleep] = useState(false);
   const [cue, setCue] = useState<RobotCue | null>(null);
-  const play = (gesture: RobotCue["gesture"]) => setCue((c) => ({ gesture, key: (c?.key ?? 0) + 1 }));
   const nextId = useRef(1);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+  const fabRef = useRef<HTMLButtonElement>(null);
+  const launchFrom = useRef<DOMRect | null>(null);
+  const flashTimer = useRef<ReturnType<typeof setTimeout>>();
+  const mobile = useMedia("(max-width: 640px)");
+  const keyboard = useKeyboardInset(open);
+  // Android may resize the page for the keyboard instead, so a focused
+  // input on a touch screen counts as the keyboard being up as well.
+  const [typing, setTyping] = useState(false);
+
+  const play = useCallback((gesture: RobotCue["gesture"]) => setCue((c) => ({ gesture, key: (c?.key ?? 0) + 1 })), []);
+  // A short-lived expression on top of the robot's mood.
+  const react = useCallback((expression: RobotMood, gesture?: RobotCue["gesture"], ms = 1600) => {
+    clearTimeout(flashTimer.current);
+    setFlash(expression);
+    flashTimer.current = setTimeout(() => setFlash(null), ms);
+    if (gesture) play(gesture);
+  }, [play]);
+
+  const launch = () => {
+    const robot = fabRef.current?.querySelector(".ai-robot");
+    launchFrom.current = robot ? robot.getBoundingClientRect() : null;
+    setOpen(true);
+  };
 
   useEffect(() => {
     if (!chat) return;
@@ -266,14 +436,19 @@ const ChatWidget: React.FC = () => {
   }, [chat]);
 
   useEffect(() => {
-    const onOpen = () => setOpen(true);
+    const onOpen = () => {
+      const robot = fabRef.current?.querySelector(".ai-robot");
+      launchFrom.current = robot ? robot.getBoundingClientRect() : null;
+      setOpen(true);
+    };
     window.addEventListener(OPEN_CHAT_EVENT, onOpen);
     return () => window.removeEventListener(OPEN_CHAT_EVENT, onOpen);
   }, []);
 
   useEffect(() => {
     if (!open) return;
-    inputRef.current?.focus();
+    // On phones focusing opens the keyboard over the chat; let them tap.
+    if (!touch()) inputRef.current?.focus();
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -282,6 +457,35 @@ const ChatWidget: React.FC = () => {
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, jobs]);
+
+  // The companion dozes off when nothing happens for a while.
+  useEffect(() => {
+    if (!open || busy) return;
+    const t = setTimeout(() => setAsleep(true), DOZE_MS);
+    return () => clearTimeout(t);
+  }, [open, busy, input, messages, cue]);
+
+  useEffect(() => {
+    if (!open) {
+      setAsleep(false);
+      setFlash(null);
+    }
+  }, [open]);
+
+  useEffect(() => () => clearTimeout(flashTimer.current), []);
+
+  const wake = () => {
+    if (!asleep) return false;
+    setAsleep(false);
+    react("surprised", "jump", 1200);
+    return true;
+  };
+
+  const poke = () => {
+    if (wake()) return;
+    const choice = POKES[Math.floor(Math.random() * POKES.length)];
+    react(choice.mood, choice.gesture);
+  };
 
   if (!enabled) return null;
 
@@ -308,6 +512,8 @@ const ChatWidget: React.FC = () => {
 
     setInput("");
     setBusy(true);
+    setAsleep(false);
+    setFlash(null);
     setMood("thinking");
     setJobs((all) => ({ ...all, [id]: { id, question, keywords: keywordsOf(question), stage: 0 } }));
     setMessages((all) => [...all, { role: "user", content: question, jobId: id }]);
@@ -327,16 +533,22 @@ const ChatWidget: React.FC = () => {
       await wait(900);
       update(id, { stage: 4 });
       setMessages((all) => [...all, { role: "assistant", content: reply.answer, jobId: id }]);
-      setMood("happy");
-      play("nod");
+      if (reply.offTopic) {
+        setMood("confused");
+        play("shake");
+      } else {
+        setMood("happy");
+        play("nod");
+      }
     } catch (error) {
       setMood("sad");
+      play("shrug");
       const message = error instanceof Error ? error.message : "Something jammed in the machine.";
       if (error instanceof ChatError && typeof error.remaining === "number") setRemaining(error.remaining);
       setJobs((all) => ({ ...all, [id]: { ...all[id], failed: message } }));
     } finally {
       setBusy(false);
-      inputRef.current?.focus();
+      if (!touch()) inputRef.current?.focus();
     }
   };
 
@@ -349,104 +561,141 @@ const ChatWidget: React.FC = () => {
     <>
       <button
         type="button"
+        ref={fabRef}
         className={`chat-fab ${open ? "open" : ""}`}
         aria-label={open ? "Close the AI chat" : "Ask the AI about Hamed"}
         aria-expanded={open}
         aria-controls="chat-panel"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => (open ? setOpen(false) : launch())}
       >
-        {open ? <span className="chat-fab-close" aria-hidden="true">×</span> : <AiRobot className="chat-fab-robot" size={54} cue={WAVE} />}
+        {open ? (
+          <span className="chat-fab-close" aria-hidden="true">×</span>
+        ) : (
+          <AiRobot className="chat-fab-robot" size={mobile ? FAB_ROBOT.mobile : FAB_ROBOT.desktop} cue={WAVE} />
+        )}
         {!open && <span className="chat-fab-badge">AI</span>}
       </button>
 
       {open && (
         <div
-          id="chat-panel"
-          className={`chat-panel${expanded ? " expanded" : ""}`}
-          role="dialog"
-          aria-label="Ask about Hamed"
+          className={`chat-dock${expanded ? " expanded" : ""}${keyboard.kb > 0 || typing ? " keyboard" : ""}`}
+          style={
+            keyboard.height
+              ? ({ "--kb": `${keyboard.kb}px`, "--vvh": `${keyboard.height}px` } as React.CSSProperties)
+              : undefined
+          }
         >
-          <div className="chat-bar">
-            <WindowControls
-              onClose={() => setOpen(false)}
-              onMinimize={() => setOpen(false)}
-              onZoom={() => setExpanded((v) => !v)}
-              zoomed={expanded}
-            />
-            <AiRobot className="chat-title-robot" size={26} mood={mood} cue={cue ?? WAVE} />
-            <span className="chat-title">ask-hamed.ai</span>
-          </div>
-
-          <div className="chat-body" ref={listRef} aria-live="polite">
-            <p className="chat-msg assistant">
-              Hi! I'm a small AI factory that knows Hamed's CV. Drop a question in the hopper and
-              watch it get processed.
-            </p>
-            {messages.length === 0 && remaining > 0 && (
-              <div className="chat-suggestions">
-                {SUGGESTIONS.map((s) => (
-                  <button key={s} type="button" onClick={() => ask(s)}>
-                    {s}
-                  </button>
-                ))}
-              </div>
-            )}
-            {messages.map((m, i) => (
-              <React.Fragment key={i}>
-                {m.role === "assistant" ? (
-                  <Answer text={m.content} />
-                ) : (
-                  <p className="chat-msg user">{m.content}</p>
-                )}
-                {m.role === "user" && m.jobId && jobs[m.jobId] && <Machine job={jobs[m.jobId]} />}
-              </React.Fragment>
-            ))}
-            {!busy && remaining > 0 && followups.length > 0 && (
-              <div className="chat-suggestions" aria-label="Suggested questions">
-                <span className="chat-suggestions-label">Ask next:</span>
-                {followups.map((q) => (
-                  <button key={q} type="button" onClick={() => ask(q)}>
-                    {q}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
-          <form className="chat-input" onSubmit={onSubmit}>
-            <textarea
-              ref={inputRef}
-              rows={1}
-              value={input}
-              maxLength={MAX_QUESTION}
-              disabled={remaining <= 0}
-              placeholder={
-                remaining <= 0
-                  ? "No questions left today"
-                  : busy
-                    ? "The machine is working…"
-                    : "Ask about Hamed's work"
-              }
-              aria-label="Your question"
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey) {
-                  e.preventDefault();
-                  ask(input);
+          <Companion
+            from={launchFrom.current}
+            size={mobile ? COMPANION.mobile : COMPANION.desktop}
+            rest={mobile ? "left" : "right"}
+            mood={asleep ? "sleepy" : flash ?? (busy ? "thinking" : input.trim() ? "encouraging" : mood)}
+            cue={cue}
+            gaze={
+              busy
+                ? mobile ? { x: -0.3, y: 1 } : { x: 1, y: -0.2 }
+                : input.trim()
+                  ? mobile ? { x: -0.2, y: 1 } : { x: 1, y: 0.8 }
+                  : AHEAD
+            }
+            onArrive={() => play("wave")}
+            onPoke={poke}
+          />
+          <div
+            id="chat-panel"
+            className={`chat-panel${expanded ? " expanded" : ""}`}
+            role="dialog"
+            aria-label="Ask about Hamed"
+            onPointerDown={wake}
+          >
+            <div className="chat-bar">
+              <WindowControls
+                onClose={() => setOpen(false)}
+                onMinimize={() => setOpen(false)}
+                onZoom={() => setExpanded((v) => !v)}
+                zoomed={expanded}
+              />
+              <span className="chat-title">ask-hamed.ai</span>
+            </div>
+  
+            <div className="chat-body" ref={listRef} aria-live="polite">
+              <p className="chat-msg assistant">
+                Hi! I'm a small AI factory that knows Hamed's CV. Drop a question in the hopper and
+                watch it get processed.
+              </p>
+              {messages.length === 0 && remaining > 0 && (
+                <div className="chat-suggestions">
+                  {SUGGESTIONS.map((s) => (
+                    <button key={s} type="button" onClick={() => ask(s)}>
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              )}
+              {messages.map((m, i) => (
+                <React.Fragment key={i}>
+                  {m.role === "assistant" ? (
+                    <Answer text={m.content} />
+                  ) : (
+                    <p className="chat-msg user">{m.content}</p>
+                  )}
+                  {m.role === "user" && m.jobId && jobs[m.jobId] && (
+                    <Machine job={jobs[m.jobId]} latest={m.jobId === nextId.current - 1} />
+                  )}
+                </React.Fragment>
+              ))}
+              {!busy && remaining > 0 && followups.length > 0 && (
+                <div className="chat-suggestions" aria-label="Suggested questions">
+                  <span className="chat-suggestions-label">Ask next:</span>
+                  {followups.map((q) => (
+                    <button key={q} type="button" onClick={() => ask(q)}>
+                      {q}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+  
+            <form className="chat-input" onSubmit={onSubmit}>
+              <textarea
+                ref={inputRef}
+                rows={1}
+                value={input}
+                maxLength={MAX_QUESTION}
+                disabled={remaining <= 0}
+                placeholder={
+                  remaining <= 0
+                    ? "No questions left today"
+                    : busy
+                      ? "The machine is working…"
+                      : "Ask about Hamed's work"
                 }
+                aria-label="Your question"
+                onChange={(e) => {
+                wake();
+                setInput(e.target.value);
               }}
-            />
-            <button type="submit" className="chat-send" disabled={busy || remaining <= 0 || !input.trim()} aria-label="Send">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </button>
-          </form>
-          <p className="chat-note">
-            {remaining > 0
-              ? `${remaining} question${remaining === 1 ? "" : "s"} left today.`
-              : "No questions left today. The contact form is always open."}
-          </p>
+              onFocus={() => touch() && setTyping(true)}
+              onBlur={() => setTyping(false)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    ask(input);
+                  }
+                }}
+              />
+              <button type="submit" className="chat-send" disabled={busy || remaining <= 0 || !input.trim()} aria-label="Send">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M5 12h14M13 6l6 6-6 6" />
+                </svg>
+              </button>
+            </form>
+            <p className="chat-note">
+              {remaining > 0
+                ? `${remaining} question${remaining === 1 ? "" : "s"} left today.`
+                : "No questions left today. The contact form is always open."}
+            </p>
+          </div>
         </div>
       )}
     </>
