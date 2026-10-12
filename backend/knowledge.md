@@ -8,6 +8,8 @@ Experience:
 - Software Developer, RASA-Rayaneh-Sabz Co., Tehran, 2006 - 2007.
 - Freelance, alongside full-time roles: architecture consultant for Amitis Hamta Co. (2019 - 2022); core banking consultant for Tejarat Bank, Kosar, Arman, and Javanan-Khayer financial institutions (2010 - 2017); transportation management system for Babak Safar, a bus rental and transportation company (2007 - 2010, VB.NET, SQL Server).
 
+Personal AI projects (2026): the chat assistant on this site, grounded in a curated fact sheet and the live site data; ProductChat, a RAG product recommendation assistant (Python, FastAPI, LangChain, Qdrant, PostgreSQL, React).
+
 Education: B.Sc. Software Engineering, Azad University, Parand Branch, Tehran, 2008 - 2013 (part-time while working).
 
 Certifications and courses: IBM RAG and Agentic AI Professional Certificate (Coursera); Architecting Solutions on AWS (course, AWS Training via Coursera); Cloud & DevOps Engineering; Linux Foundation Cybersecurity Essentials (LFC108); Linux Foundation Open Source Licensing.

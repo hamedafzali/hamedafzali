@@ -59,7 +59,7 @@
     {
       "title": "MCP Server for AI-Assisted Development",
       "description": "Built and maintain an MCP (Model Context Protocol) server in Python that gives LLM tools search over a RAG index of the codebase. Engineers use it to find their way around the legacy code, and it has made onboarding new people to the platform much faster.",
-      "category": "enterprise",
+      "category": "ai",
       "image": "/mcp-server.jpg",
       "link": "#",
       "featured": true,
@@ -72,6 +72,44 @@
       ],
       "status": "Active",
       "duration": "2024 - Present"
+    },
+    {
+      "title": "Ask-about-me Chat Assistant",
+      "description": "The chat on this site. It answers visitor questions about my work from a curated fact sheet plus the live site data, with an explicit list of things it must never claim, so answers stay grounded in what is actually true. The API key stays on the server, questions and history are length-capped, and it falls back across models when one is rate-limited.",
+      "category": "ai",
+      "image": "/mcp-server.jpg",
+      "link": "#",
+      "featured": false,
+      "technologies": [
+        "LLM",
+        "Prompt Grounding",
+        "Node.js",
+        "Express",
+        "React",
+        "TypeScript"
+      ],
+      "status": "Active",
+      "duration": "2026"
+    },
+    {
+      "title": "ProductChat: RAG Product Recommendations",
+      "description": "A RAG-based product recommendation assistant. It imports and indexes product catalogues from JSON, CSV, or a database into a vector store, and answers shoppers' questions with recommendations retrieved from it. Includes an admin area for tuning retrieval settings, a test chat UI, and a REST API so other frontends can use it.",
+      "category": "ai",
+      "image": "/api-gateway.jpg",
+      "link": "#",
+      "featured": false,
+      "technologies": [
+        "Python",
+        "FastAPI",
+        "LangChain",
+        "Qdrant",
+        "RAG",
+        "PostgreSQL",
+        "React",
+        "TypeScript"
+      ],
+      "status": "Completed",
+      "duration": "2026"
     },
     {
       "title": "Enterprise Analytics & Regulatory Reporting Platform",

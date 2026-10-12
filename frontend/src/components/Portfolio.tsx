@@ -7,6 +7,7 @@ const FILTERS = [
   { id: "all", label: "All" },
   { id: "enterprise", label: "Enterprise" },
   { id: "fintech", label: "FinTech" },
+  { id: "ai", label: "AI" },
   { id: "cloud", label: "Cloud" },
   { id: "integration", label: "Integration" },
 ];
