@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from
 import "./ChatWidget.css";
 import WindowControls from "./WindowControls";
 import AiRobot, { RobotCue, RobotMood, useMedia } from "./AiRobot";
+import type { Gesture } from "pixel-wizards-charachters";
 import ApiService, { ChatError, ChatReply, ChatTurn } from "../services/api";
 import { OPEN_CHAT_EVENT, usePortfolioData } from "../context/PortfolioData";
 
@@ -194,39 +195,79 @@ const Answer: React.FC<{ text: string }> = ({ text }) => {
   return <div className="chat-msg assistant">{blocks}</div>;
 };
 
-// The small robot that pushes the latest crate along the belt.
-const BeltRobot: React.FC<{ position: number; done: boolean; rejected: boolean; failed: boolean }> = ({
-  position,
-  done,
-  rejected,
-  failed,
-}) => {
-  const [rolling, setRolling] = useState(false);
+// The worker robot on the latest job's belt: it catches the crate, pushes
+// it from station to station and does each station's job, with a speech
+// bubble saying what it's up to. Rejected crates get pushed back.
+type Shift = "intake" | "press" | "core" | "qc" | "ship" | "reject" | "jam";
+const SHIFTS: Record<Shift, { mood: RobotMood; gesture?: Gesture; say: string; gaze: Gaze; hold?: boolean }> = {
+  intake: { mood: "excited", gesture: "jump", say: "got one!", gaze: { x: 1, y: 0 } },
+  press: { mood: "encouraging", gesture: "point", say: "chop chop", gaze: { x: 0.4, y: -1 } },
+  core: { mood: "thinking", say: "…", gaze: { x: 0.3, y: -1 }, hold: true },
+  qc: { mood: "thinking", gesture: "nod", say: "looks right?", gaze: { x: 1, y: 0.4 } },
+  ship: { mood: "happy", gesture: "clap", say: "shipped!", gaze: AHEAD },
+  reject: { mood: "confused", gesture: "shake", say: "return to sender", gaze: { x: 1, y: 0 } },
+  jam: { mood: "sad", gesture: "shrug", say: "uh oh", gaze: { x: 0, y: 1 } },
+};
+const STATION_SHIFTS: Shift[] = ["intake", "press", "core", "qc"];
+
+const Worker: React.FC<{
+  stage: Stage;
+  done: boolean;
+  rejected: boolean;
+  failed: boolean;
+  label: string;
+  waiting: boolean;
+}> = ({ stage, done, rejected, failed, label, waiting }) => {
+  const shift: Shift = failed ? "jam" : rejected ? "reject" : done ? "ship" : STATION_SHIFTS[stage] || "qc";
+  const [back, setBack] = useState(false);
+  const [rolling, setRolling] = useState(true);
   const [cue, setCue] = useState<RobotCue | null>(null);
+  const [bubble, setBubble] = useState<string | null>(null);
+  const position = back ? 0 : Math.min(stage, 3);
   const first = useRef(true);
 
+  // Rolls in from the left, then rolls whenever the cart moves.
   useEffect(() => {
-    if (first.current) {
-      first.current = false;
-      return;
-    }
-    setRolling(true);
+    if (!first.current) setRolling(true);
+    first.current = false;
     const t = setTimeout(() => setRolling(false), 700);
     return () => clearTimeout(t);
   }, [position]);
 
+  // At each station: arrive, do the job, say something.
   useEffect(() => {
-    const gesture = failed ? "shrug" : rejected ? "shake" : done ? "clap" : null;
-    if (!gesture) return;
-    // Let it finish rolling to the last station first.
-    const t = setTimeout(() => setCue({ gesture, key: Date.now() }), 750);
-    return () => clearTimeout(t);
-  }, [done, rejected, failed]);
+    const job = SHIFTS[shift];
+    const timers = [
+      setTimeout(() => {
+        if (job.gesture) setCue({ gesture: job.gesture, key: Date.now() });
+        setBubble(job.say);
+      }, 720),
+    ];
+    if (!job.hold) timers.push(setTimeout(() => setBubble(null), 2600));
+    // A rejected crate goes back to the start once the robot has said so.
+    if (shift === "reject") timers.push(setTimeout(() => setBack(true), 1900));
+    return () => timers.forEach(clearTimeout);
+  }, [shift]);
 
-  const mood: RobotMood = failed ? "sad" : rejected ? "confused" : done ? "happy" : "encouraging";
+  const job = SHIFTS[shift];
   return (
-    <span className="belt-robot">
-      <AiRobot size={42} mood={mood} cue={cue} locomotion={rolling ? "roll" : "idle"} facing="right" />
+    <span className={`cart${back ? " back" : ""}`} style={{ left: `${(position / 3) * 100}%` }}>
+      <span className={`crate ${waiting ? "waiting" : ""}`}>{label}</span>
+      <span className="belt-robot">
+        {bubble && (
+          <span key={bubble} className={`belt-bubble${bubble === "…" ? " dots" : ""}`}>
+            {bubble === "…" ? <i /> : bubble}
+          </span>
+        )}
+        <AiRobot
+          size={42}
+          mood={job.mood}
+          cue={cue}
+          locomotion={rolling ? "roll" : "idle"}
+          facing={back ? "left" : "right"}
+          gaze={rolling ? AHEAD : job.gaze}
+        />
+      </span>
     </span>
   );
 };
@@ -254,6 +295,7 @@ const Machine: React.FC<{ job: Job; latest?: boolean }> = ({ job, latest }) => {
   if (failed) log.push(`jam: ${failed}`);
 
   const position = Math.min(stage, 3);
+  const label = stage >= 1 ? pressed(crate).split("|").slice(0, 3).join("|") : crate.slice(0, 10);
 
   return (
     <div className={`machine ${failed ? "jammed" : ""} ${done ? "done" : ""} ${rejected ? "rejected" : ""}`}>
@@ -281,10 +323,20 @@ const Machine: React.FC<{ job: Job; latest?: boolean }> = ({ job, latest }) => {
       </ol>
 
       <div className={`belt${latest ? " with-robot" : ""}`} aria-hidden="true">
-        <span className={`crate ${stage === 2 && !failed ? "waiting" : ""}`} style={{ left: `${(position / 3) * 100}%` }}>
-          {stage >= 1 ? pressed(crate).split("|").slice(0, 3).join("|") : crate.slice(0, 10)}
-          {latest && <BeltRobot position={position} done={done} rejected={rejected} failed={Boolean(failed)} />}
-        </span>
+        {latest ? (
+          <Worker
+            stage={stage}
+            done={done}
+            rejected={rejected}
+            failed={Boolean(failed)}
+            label={label}
+            waiting={stage === 2 && !failed}
+          />
+        ) : (
+          <span className="cart" style={{ left: `${(position / 3) * 100}%` }}>
+            <span className="crate">{label}</span>
+          </span>
+        )}
       </div>
 
       <ul className="machine-log">
@@ -304,6 +356,7 @@ const Machine: React.FC<{ job: Job; latest?: boolean }> = ({ job, latest }) => {
  */
 const Companion: React.FC<{
   from: DOMRect | null;
+  leaveTo: DOMRect | null;
   size: number;
   rest: "left" | "right";
   mood: RobotMood;
@@ -311,7 +364,7 @@ const Companion: React.FC<{
   gaze: Gaze;
   onArrive: () => void;
   onPoke: () => void;
-}> = ({ from, size, rest, mood, cue, gaze, onArrive, onPoke }) => {
+}> = ({ from, leaveTo, size, rest, mood, cue, gaze, onArrive, onPoke }) => {
   const ref = useRef<HTMLButtonElement>(null);
   const [rolling, setRolling] = useState<"left" | "right" | null>(null);
 
@@ -341,6 +394,21 @@ const Companion: React.FC<{
     // Runs once, when the chat opens.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // On close, roll back into the launcher.
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el || !leaveTo || !el.animate) return;
+    const at = el.getBoundingClientRect();
+    const dx = leaveTo.left + leaveTo.width / 2 - (at.left + at.width / 2);
+    const dy = leaveTo.top + leaveTo.height / 2 - (at.top + at.height / 2);
+    setRolling(dx < 0 ? "left" : "right");
+    const roll = el.animate(
+      [{ transform: "none" }, { transform: `translate(${dx}px, ${dy}px) scale(${leaveTo.width / at.width})` }],
+      { duration: ROLL_MS, easing: "cubic-bezier(0.5, 0, 0.6, 0.9)", fill: "forwards" },
+    );
+    return () => roll.cancel();
+  }, [leaveTo]);
 
   return (
     <button
@@ -423,6 +491,27 @@ const ChatWidget: React.FC = () => {
     if (gesture) play(gesture);
   }, [play]);
 
+  // Closing: the robot rolls back into the launcher, then the chat goes.
+  const [leaveTo, setLeaveTo] = useState<DOMRect | null>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout>>();
+  const close = useCallback(() => {
+    const fab = fabRef.current?.getBoundingClientRect();
+    if (!fab || reducedMotion()) {
+      setOpen(false);
+      return;
+    }
+    const size = window.matchMedia("(max-width: 640px)").matches ? FAB_ROBOT.mobile : FAB_ROBOT.desktop;
+    setLeaveTo((current) => {
+      if (current) return current;
+      closeTimer.current = setTimeout(() => {
+        setOpen(false);
+        setLeaveTo(null);
+      }, ROLL_MS);
+      return new DOMRect(fab.left + (fab.width - size) / 2, fab.top + (fab.height - size) / 2, size, size);
+    });
+  }, []);
+  useEffect(() => () => clearTimeout(closeTimer.current), []);
+
   const launch = () => {
     const robot = fabRef.current?.querySelector(".ai-robot");
     launchFrom.current = robot ? robot.getBoundingClientRect() : null;
@@ -449,10 +538,10 @@ const ChatWidget: React.FC = () => {
     if (!open) return;
     // On phones focusing opens the keyboard over the chat; let them tap.
     if (!touch()) inputRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, close]);
 
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
@@ -515,6 +604,7 @@ const ChatWidget: React.FC = () => {
     setAsleep(false);
     setFlash(null);
     setMood("thinking");
+    play("point");
     setJobs((all) => ({ ...all, [id]: { id, question, keywords: keywordsOf(question), stage: 0 } }));
     setMessages((all) => [...all, { role: "user", content: question, jobId: id }]);
 
@@ -566,10 +656,10 @@ const ChatWidget: React.FC = () => {
         aria-label={open ? "Close the AI chat" : "Ask the AI about Hamed"}
         aria-expanded={open}
         aria-controls="chat-panel"
-        onClick={() => (open ? setOpen(false) : launch())}
+        onClick={() => (open ? close() : launch())}
       >
         {open ? (
-          <span className="chat-fab-close" aria-hidden="true">×</span>
+          !leaveTo && <span className="chat-fab-close" aria-hidden="true">×</span>
         ) : (
           <AiRobot className="chat-fab-robot" size={mobile ? FAB_ROBOT.mobile : FAB_ROBOT.desktop} cue={WAVE} />
         )}
@@ -578,7 +668,7 @@ const ChatWidget: React.FC = () => {
 
       {open && (
         <div
-          className={`chat-dock${expanded ? " expanded" : ""}${keyboard.kb > 0 || typing ? " keyboard" : ""}`}
+          className={`chat-dock${leaveTo ? " closing" : ""}${expanded ? " expanded" : ""}${keyboard.kb > 0 || typing ? " keyboard" : ""}`}
           style={
             keyboard.height
               ? ({ "--kb": `${keyboard.kb}px`, "--vvh": `${keyboard.height}px` } as React.CSSProperties)
@@ -587,6 +677,7 @@ const ChatWidget: React.FC = () => {
         >
           <Companion
             from={launchFrom.current}
+            leaveTo={leaveTo}
             size={mobile ? COMPANION.mobile : COMPANION.desktop}
             rest={mobile ? "left" : "right"}
             mood={asleep ? "sleepy" : flash ?? (busy ? "thinking" : input.trim() ? "encouraging" : mood)}
@@ -610,8 +701,8 @@ const ChatWidget: React.FC = () => {
           >
             <div className="chat-bar">
               <WindowControls
-                onClose={() => setOpen(false)}
-                onMinimize={() => setOpen(false)}
+                onClose={close}
+                onMinimize={close}
                 onZoom={() => setExpanded((v) => !v)}
                 zoomed={expanded}
               />

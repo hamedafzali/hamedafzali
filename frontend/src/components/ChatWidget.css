@@ -431,10 +431,17 @@
   animation: none;
 }
 
-.crate {
+/* The cart carries the crate (and, on the latest job, the robot). */
+.cart {
   position: absolute;
   bottom: 8px;
   transform: translateX(-50%);
+  line-height: 1.2;
+  transition: left 0.7s cubic-bezier(0.5, 0, 0.3, 1.3);
+}
+
+.crate {
+  display: inline-block;
   padding: 1px 6px;
   border: 1px solid #a07a32;
   border-radius: 3px;
@@ -442,12 +449,14 @@
   color: #f0c05a;
   font-size: 0.6rem;
   white-space: nowrap;
-  transition: left 0.7s cubic-bezier(0.5, 0, 0.3, 1.3);
 }
 
-/* The latest crate is pushed along by a small robot. */
 .belt.with-robot {
-  height: 44px;
+  height: 70px;
+}
+
+.belt.with-robot .crate {
+  animation: crateDrop 0.45s cubic-bezier(0.3, 0, 0.5, 1.4);
 }
 
 .belt-robot {
@@ -456,6 +465,114 @@
   bottom: -8px;
   margin-right: -7px;
   line-height: 0;
+  animation: workerIn 0.7s ease-out;
+}
+
+/* Pushing a rejected crate back: the robot moves to the other side. */
+.cart.back .belt-robot {
+  right: auto;
+  left: 100%;
+  margin: 0 0 0 -7px;
+}
+
+.belt-bubble {
+  position: absolute;
+  bottom: calc(100% - 2px);
+  left: 50%;
+  padding: 2px 7px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #151d2c;
+  color: var(--text);
+  font-size: 0.6rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  transform: translateX(-30%);
+  animation: bubbleIn 0.25s ease-out;
+}
+
+.belt-bubble::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 30%;
+  border: 4px solid transparent;
+  border-top-color: #151d2c;
+}
+
+/* "Thinking" dots while the AI core works. */
+.belt-bubble.dots i,
+.belt-bubble.dots i::before,
+.belt-bubble.dots i::after {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: dot 1s ease-in-out infinite;
+}
+
+.belt-bubble.dots i {
+  position: relative;
+  margin: 0 7px;
+  animation-delay: 0.15s;
+}
+
+.belt-bubble.dots i::before,
+.belt-bubble.dots i::after {
+  content: "";
+  position: absolute;
+  top: 0;
+}
+
+.belt-bubble.dots i::before {
+  left: -7px;
+  animation-delay: 0s;
+}
+
+.belt-bubble.dots i::after {
+  left: 7px;
+  animation-delay: 0.3s;
+}
+
+@keyframes crateDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-22px) rotate(-8deg);
+  }
+}
+
+@keyframes workerIn {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+}
+
+@keyframes bubbleIn {
+  from {
+    opacity: 0;
+    transform: translate(-30%, 4px) scale(0.8);
+  }
+}
+
+@keyframes dot {
+  50% {
+    opacity: 0.25;
+    transform: translateY(-2px);
+  }
+}
+
+/* Closing: the panel fades while the robot rolls back to the launcher. */
+.chat-dock.closing .chat-panel {
+  animation: panelOut 0.35s ease-in forwards;
+}
+
+@keyframes panelOut {
+  to {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
 }
 
 .crate.waiting {
@@ -518,7 +635,7 @@
 
 @keyframes bob {
   50% {
-    transform: translate(-50%, -4px) rotate(-3deg);
+    transform: translateY(-4px) rotate(-3deg);
   }
 }
 
@@ -580,7 +697,13 @@
   .station.busy,
   .station-gear,
   .belt::before,
-  .crate.waiting {
+  .crate.waiting,
+  .belt.with-robot .crate,
+  .belt-robot,
+  .belt-bubble,
+  .belt-bubble.dots i,
+  .belt-bubble.dots i::before,
+  .belt-bubble.dots i::after {
     animation: none;
   }
 }
