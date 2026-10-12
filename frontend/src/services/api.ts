@@ -77,6 +77,7 @@ export interface ProfileData {
   contactIntro: string;
   about?: string[];
   pillars?: { title: string; text: string }[];
+  timeline?: { period: string; role: string; org: string }[];
   image?: string;
   yearsExperience: string;
   roles: string[];

@@ -50,6 +50,14 @@
     ],
     "careerHighlights": [
       {
+        "title": ".NET 8 Modernization",
+        "description": "Helped make the call to move GMG's platform from .NET Framework to .NET 8 and leads the ongoing migration, including SQL CE to SQLite, while the product stays stable in production."
+      },
+      {
+        "title": "AI-Assisted Engineering",
+        "description": "Built a Python MCP server with a RAG index of the GMG codebase, so LLM assistants can search and explain the code. Onboarding to the platform got much faster."
+      },
+      {
         "title": "15,000+ Concurrent Users",
         "description": "Architected a 15-node distributed SQL Server core banking platform serving 15,000 concurrent users with ACID-compliant transactional isolation at Postbank of Iran (PBI)."
       },
@@ -70,6 +78,28 @@
       "I've spent two decades building software that people and institutions depend on: a core banking platform serving 15,000 concurrent users, national card and cheque-clearing infrastructure, and a regulatory analytics platform used across 400+ branches and for Central Bank reporting.",
       "For nine years I led an 8-person engineering team. I owned delivery, sprint planning, code quality, and mentoring, and I was the sole architect of the analytics platform, from design through production operations.",
       "Today at GMG I take architecture-level ownership on a multi-tenant SaaS platform: leading the .NET 8 modernization, designing the security and identity architecture, shaping CI/CD, and building AI-assisted engineering tooling with MCP and RAG."
+    ],
+    "timeline": [
+      {
+        "period": "2022 - Present",
+        "role": "Senior Full-Stack Engineer",
+        "org": "GMG GmbH & Co. KG, Tübingen"
+      },
+      {
+        "period": "2018 - 2022",
+        "role": "Technical Lead, Analytics Platform",
+        "org": "Postbank of Iran"
+      },
+      {
+        "period": "2009 - 2018",
+        "role": "Technical Lead, Core Banking R&D",
+        "org": "Postbank of Iran"
+      },
+      {
+        "period": "2006 - 2009",
+        "role": "Software Developer",
+        "org": "Postbank of Iran, RASA-Rayaneh-Sabz"
+      }
     ],
     "pillars": [
       {

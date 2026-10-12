@@ -80,6 +80,9 @@ const About: React.FC = () => {
   }, [skills]);
 
   const highlights = profile?.careerHighlights || [];
+  // Older data may not have the about paragraphs yet: fall back to the summary.
+  const paragraphs = profile?.about?.length ? profile.about : profile?.summary ? [profile.summary] : [];
+  const timeline = profile?.timeline || [];
 
   return (
     <section id="about" className="about">
@@ -97,9 +100,21 @@ const About: React.FC = () => {
 
         <div className="about-intro">
           <div className="about-narrative">
-            {(profile?.about || []).map((paragraph) => (
+            {paragraphs.map((paragraph) => (
               <p key={paragraph.slice(0, 32)}>{paragraph}</p>
             ))}
+
+            {timeline.length > 0 && (
+              <ol className="about-timeline" aria-label="Career path">
+                {timeline.map((step) => (
+                  <li key={step.period}>
+                    <span className="about-timeline-period">{step.period}</span>
+                    <span className="about-timeline-role">{step.role}</span>
+                    <span className="about-timeline-org">{step.org}</span>
+                  </li>
+                ))}
+              </ol>
+            )}
           </div>
 
           {fullCode && (
@@ -141,20 +156,22 @@ const About: React.FC = () => {
         {skillGroups.length > 0 && (
           <div className="about-block">
             <h3 className="about-block-title">Expertise</h3>
-            <div className="expertise-grid">
+            <dl className="expertise-panel">
               {skillGroups.map((group) => (
-                <div className="expertise-group" key={group.category}>
-                  <h4 className="expertise-label">{group.label}</h4>
-                  <ul>
-                    {group.items.map((skill) => (
-                      <li key={skill.name} title={skill.description || undefined}>
-                        {skill.name}
-                      </li>
-                    ))}
-                  </ul>
+                <div className="expertise-row" key={group.category}>
+                  <dt className="expertise-label">{group.label}</dt>
+                  <dd>
+                    <ul>
+                      {group.items.map((skill) => (
+                        <li key={skill.name} title={skill.description || undefined}>
+                          {skill.name}
+                        </li>
+                      ))}
+                    </ul>
+                  </dd>
                 </div>
               ))}
-            </div>
+            </dl>
           </div>
         )}
       </div>

@@ -298,6 +298,7 @@ const profileSchema = new mongoose.Schema({
   contactIntro: String,
   about: [String],
   pillars: [{ title: String, text: String }],
+  timeline: [{ period: String, role: String, org: String }],
   yearsExperience: {
     type: String,
     required: true,
