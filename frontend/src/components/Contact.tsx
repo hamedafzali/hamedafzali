@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Contact.css";
+import WindowControls from "./WindowControls";
 import ApiService from "../services/api";
 import { usePortfolioData } from "../context/PortfolioData";
 import { useTypingAnimation } from "../hooks/useTypingAnimation";
@@ -109,9 +110,7 @@ const Contact: React.FC = () => {
           <div className="contact-aside">
             <div className="contact-terminal" aria-hidden="true">
               <div className="contact-terminal-bar">
-                <span className="contact-terminal-dot" />
-                <span className="contact-terminal-dot" />
-                <span className="contact-terminal-dot" />
+                <WindowControls />
                 <span className="contact-terminal-title">hamed@portfolio:~</span>
               </div>
               <div className="contact-terminal-body">

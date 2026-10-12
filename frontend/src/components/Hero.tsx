@@ -1,5 +1,6 @@
 import React from "react";
 import "./Hero.css";
+import WindowControls from "./WindowControls";
 import { openChat, usePortfolioData } from "../context/PortfolioData";
 
 // Shown until the profile API responds (or if it fails), so the first
@@ -89,9 +90,7 @@ const Hero: React.FC = () => {
 
           <figure className="hero-photo">
             <div className="hero-window" aria-hidden="true">
-              <span className="hero-window-dot" />
-              <span className="hero-window-dot" />
-              <span className="hero-window-dot" />
+              <WindowControls />
               <span className="hero-window-title">hamed-afzali.jpg</span>
             </div>
             <picture>

@@ -1,0 +1,69 @@
+/* macOS window controls: red, yellow, green, with glyphs on group hover. */
+
+.traffic-lights {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.traffic-light {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.25);
+}
+
+.traffic-light.close {
+  background: #ff5f57;
+  color: #4d0000;
+}
+
+.traffic-light.minimize {
+  background: #febc2e;
+  color: #995700;
+}
+
+.traffic-light.zoom {
+  background: #28c840;
+  color: #006500;
+}
+
+.traffic-light svg {
+  width: 8px;
+  height: 8px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  opacity: 0;
+  transition: opacity 0.12s ease;
+}
+
+.traffic-light svg .fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* Like macOS: hovering anywhere on the group shows all three glyphs. */
+.traffic-lights:hover .traffic-light svg,
+.traffic-light:focus-visible svg {
+  opacity: 1;
+}
+
+button.traffic-light {
+  cursor: pointer;
+}
+
+button.traffic-light:active {
+  filter: brightness(0.82);
+}
+
+button.traffic-light:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}

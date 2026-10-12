@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import "./About.css";
+import WindowControls from "./WindowControls";
 import ApiService, { Skill } from "../services/api";
 import { usePortfolioData } from "../context/PortfolioData";
 
@@ -139,9 +140,7 @@ const About: React.FC = () => {
           {fullCode && (
             <div className="about-editor" aria-hidden="true">
               <div className="about-editor-bar">
-                <span className="about-editor-dot" />
-                <span className="about-editor-dot" />
-                <span className="about-editor-dot" />
+                <WindowControls />
                 <span className="about-editor-title">how-i-work.ts</span>
               </div>
               <pre className="about-editor-code">

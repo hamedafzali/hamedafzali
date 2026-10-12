@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./ChatWidget.css";
+import WindowControls from "./WindowControls";
 import ApiService, { ChatError, ChatReply, ChatTurn } from "../services/api";
 import { OPEN_CHAT_EVENT, usePortfolioData } from "../context/PortfolioData";
 
@@ -249,6 +250,7 @@ const ChatWidget: React.FC = () => {
   const [enabled, setEnabled] = useState(false);
   const [remaining, setRemaining] = useState(0);
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -354,15 +356,20 @@ const ChatWidget: React.FC = () => {
       </button>
 
       {open && (
-        <div id="chat-panel" className="chat-panel" role="dialog" aria-label="Ask about Hamed">
+        <div
+          id="chat-panel"
+          className={`chat-panel${expanded ? " expanded" : ""}`}
+          role="dialog"
+          aria-label="Ask about Hamed"
+        >
           <div className="chat-bar">
-            <span className="chat-dot" />
-            <span className="chat-dot" />
-            <span className="chat-dot" />
+            <WindowControls
+              onClose={() => setOpen(false)}
+              onMinimize={() => setOpen(false)}
+              onZoom={() => setExpanded((v) => !v)}
+              zoomed={expanded}
+            />
             <span className="chat-title">ask-hamed.ai</span>
-            <button type="button" className="chat-close" aria-label="Close" onClick={() => setOpen(false)}>
-              ×
-            </button>
           </div>
 
           <div className="chat-body" ref={listRef} aria-live="polite">
