@@ -138,11 +138,9 @@ const Gear: React.FC<{ className?: string }> = ({ className }) => (
   </svg>
 );
 
-const ChatIcon: React.FC = () => (
-  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <rect x="4" y="7" width="16" height="12" rx="3" />
-    <path d="M12 3v4M9 12h.01M15 12h.01M10 15.5h4M2 12v3M22 12v3" />
-  </svg>
+// ربو, the robot from the PixelWizardsCharachters library, exported as a static SVG.
+const RobotIcon: React.FC<{ className: string }> = ({ className }) => (
+  <img className={className} src="/robo.svg" alt="" aria-hidden="true" draggable={false} />
 );
 
 // **bold** spans from the model become <strong>; everything else stays text.
@@ -351,7 +349,7 @@ const ChatWidget: React.FC = () => {
         aria-controls="chat-panel"
         onClick={() => setOpen((v) => !v)}
       >
-        {open ? <span className="chat-fab-close" aria-hidden="true">×</span> : <ChatIcon />}
+        {open ? <span className="chat-fab-close" aria-hidden="true">×</span> : <RobotIcon className="chat-fab-robot" />}
         {!open && <span className="chat-fab-badge">AI</span>}
       </button>
 
@@ -369,6 +367,7 @@ const ChatWidget: React.FC = () => {
               onZoom={() => setExpanded((v) => !v)}
               zoomed={expanded}
             />
+            <RobotIcon className="chat-title-robot" />
             <span className="chat-title">ask-hamed.ai</span>
           </div>
 

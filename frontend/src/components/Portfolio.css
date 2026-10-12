@@ -36,6 +36,12 @@
     background 0.2s ease;
 }
 
+.filter-robot {
+  width: 22px;
+  height: 22px;
+  margin: -4px -2px -4px -6px;
+}
+
 .filter-tab:hover {
   color: var(--text);
   border-color: rgba(72, 198, 182, 0.5);

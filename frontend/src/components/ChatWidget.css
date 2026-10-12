@@ -28,6 +28,12 @@
   animation: none;
 }
 
+.chat-fab-robot {
+  width: 46px;
+  height: 46px;
+  pointer-events: none;
+}
+
 .chat-fab-close {
   font-size: 1.8rem;
   line-height: 1;
@@ -97,8 +103,13 @@
 }
 
 
-.chat-title {
+.chat-title-robot {
+  width: 24px;
+  height: 24px;
   margin-left: 8px;
+}
+
+.chat-title {
   font-family: var(--font-mono);
   font-size: 0.78rem;
   color: var(--muted);
@@ -498,6 +509,11 @@
     bottom: 14px;
     width: 52px;
     height: 52px;
+  }
+
+  .chat-fab-robot {
+    width: 40px;
+    height: 40px;
   }
 
   .chat-panel {

@@ -78,6 +78,9 @@ const Portfolio: React.FC = () => {
                   aria-pressed={filter === id}
                   onClick={() => setFilter(id)}
                 >
+                  {id === "ai" && (
+                    <img className="filter-robot" src="/robo.svg" alt="" aria-hidden="true" />
+                  )}
                   {label}
                   {projects.length > 0 && (
                     <span className="filter-count">{counts[id]}</span>
