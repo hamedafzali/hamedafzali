@@ -7,6 +7,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { buildIndex, retrieve } = require("./retrieve");
 
 const MISTRAL_URL = "https://api.mistral.ai/v1/chat/completions";
 
@@ -118,7 +119,7 @@ async function callMistral(messages) {
 
 // Knowledge: the live profile, skills, and projects from MongoDB, plus the
 // CV facts in knowledge.md. Rebuilt at most every 10 minutes.
-let cached = { text: "", at: 0 };
+let cached = { index: null, at: 0 };
 
 const readJson = (file) => {
   try {
@@ -143,7 +144,7 @@ const withTimeSpans = (text) =>
     .replace(/\bsince ((?:19|20)\d{2})\b/gi, (m, y) => `${m}, ${yearsSince(y)} so far`);
 
 async function loadKnowledge({ Profile, Skill, Project }) {
-  if (cached.text && Date.now() - cached.at < 10 * 60 * 1000) return cached.text;
+  if (cached.index && Date.now() - cached.at < 10 * 60 * 1000) return cached.index;
 
   let profile, skills, projects;
   try {
@@ -164,27 +165,52 @@ async function loadKnowledge({ Profile, Skill, Project }) {
     cv = fs.readFileSync(path.join(__dirname, "knowledge.md"), "utf8");
   } catch {}
 
-  const lines = [
-    `Name: ${profile.name || "Hamed Afzali"}`,
-    profile.headline && `Headline: ${profile.headline}`,
-    profile.location && `Location: ${profile.location}`,
-    profile.summary && `Summary: ${profile.summary}`,
-    ...(profile.about || []).map((p) => `About: ${p}`),
-    ...(profile.careerHighlights || []).map((h) => `Highlight: ${h.title}. ${h.description}`),
-    ...(profile.contactMethods || []).map((c) => `Contact (${c.label}): ${c.value}`),
-    "",
-    "Projects:",
-    ...projects.map(
-      (p) =>
-        `- ${p.title} (${p.status === "Active" ? "current" : "completed"}${p.duration ? `, ${p.duration}` : ""}): ${p.description} Tech: ${(p.technologies || []).join(", ")}`,
-    ),
-    "",
-    "Skills: " + skills.map((s) => s.name).join(", "),
-    "",
-    cv,
-  ];
-  cached = { text: withTimeSpans(lines.filter((l) => l !== undefined && l !== false).join("\n")), at: Date.now() };
-  return cached.text;
+  // knowledge.md: each bullet and paragraph is a chunk. Its experience
+  // bullets also give a one-line-per-role timeline that always goes along,
+  // so "where" and "how long" questions work whatever else matches.
+  const cvChunks = cv
+    .split("\n")
+    .map((l) => l.trim())
+    .filter((l) => l && !/:$/.test(l) && !/^CV facts/.test(l))
+    .map((l) => withTimeSpans(l.replace(/^- /, "")));
+  // A role line starts "Title, Company, Place, 2018 - 2022" (and maybe a
+  // note in brackets); that prefix is its timeline entry.
+  const roles = cvChunks
+    .map((l) => l.match(/^[^:;]*?\b(?:19|20)\d{2}\s*-\s*(?:present|(?:19|20)\d{2})\b(?: \([^)]*\))?/i)?.[0])
+    .filter(Boolean);
+  const timeline = "Career timeline:\n" + roles.map((r) => `- ${r}`).join("\n");
+  const isCore = (l) => /^Not true, never claim/.test(l) || /^Lives in .*reach him/.test(l);
+
+  const chunks = [
+    {
+      core: true,
+      text: [
+        `Name: ${profile.name || "Hamed Afzali"}`,
+        profile.headline && `Headline: ${profile.headline}`,
+        profile.location && `Location: ${profile.location}`,
+        profile.summary && `Summary: ${withTimeSpans(profile.summary)}`,
+      ]
+        .filter(Boolean)
+        .join("\n"),
+    },
+    { core: true, text: timeline },
+    ...cvChunks.filter(isCore).map((text) => ({ core: true, text })),
+    ...cvChunks.filter((l) => !isCore(l)).map((text) => ({ text })),
+    ...(profile.about || []).map((p, i) => ({ text: `About: ${withTimeSpans(p)}`, overview: i === 0 })),
+    ...(profile.careerHighlights || []).map((h) => ({ text: `Highlight: ${h.title}. ${h.description}`, overview: true })),
+    {
+      text: (profile.contactMethods || []).map((c) => `Contact (${c.label}): ${c.value}`).join("\n"),
+    },
+    ...projects.map((p) => ({
+      text: withTimeSpans(
+        `Project: ${p.title} (${p.status === "Active" ? "current" : "completed"}${p.duration ? `, ${p.duration}` : ""}): ${p.description} Tech: ${(p.technologies || []).join(", ")}`,
+      ),
+    })),
+    { text: "Skills and technologies: " + skills.map((s) => s.name).join(", "), overview: true },
+  ].filter((c) => c.text && c.text.trim());
+
+  cached = { index: buildIndex(chunks), at: Date.now() };
+  return cached.index;
 }
 
 const systemPrompt = (knowledge) => `You are the assistant on Hamed Afzali's portfolio website. Visitors ask you about Hamed: his experience, projects, skills, and how to contact him.
@@ -206,7 +232,7 @@ Reply with exactly this JSON shape and nothing else:
 - "answer" must be ONE string of conversational prose, never an object or array. For a list, put each item on its own line starting with "- " inside that string. No markdown: no bold, headings, or asterisks.
 - "followups" are 3 short questions (under 60 characters) a visitor might ask next about Hamed, different from what was already asked.
 
-Facts about Hamed:
+Facts about Hamed (the ones relevant to this question):
 ${knowledge}`;
 
 // Each visitor gets a few questions a day, and the whole site has a daily cap
@@ -353,7 +379,11 @@ function registerChatRoutes(app, models) {
     daily.count++;
 
     try {
-      const knowledge = await loadKnowledge(models);
+      const index = await loadKnowledge(models);
+      // Follow-ups like "and before that?" lean on the previous question.
+      const previous = [...history].reverse().find((m) => m.role === "user")?.content || "";
+      const facts = retrieve(index, `${question} ${previous}`);
+      const knowledge = facts.chunks.map((c) => c.text).join("\n\n");
       const started = Date.now();
       const { content, usage } = await callMistral([
         { role: "system", content: systemPrompt(knowledge) },
@@ -368,6 +398,7 @@ function registerChatRoutes(app, models) {
         offTopic,
         remaining: remainingFor(ip),
         tokens: usage?.total_tokens || null,
+        facts: { used: facts.used, total: facts.total },
         ms: Date.now() - started,
       });
     } catch (error) {
@@ -384,4 +415,4 @@ function registerChatRoutes(app, models) {
   });
 }
 
-module.exports = { registerChatRoutes };
+module.exports = { registerChatRoutes, loadKnowledge };

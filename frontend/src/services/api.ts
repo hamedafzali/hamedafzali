@@ -17,6 +17,8 @@ export interface ChatReply {
   remaining?: number;
   tokens: number | null;
   ms: number;
+  // How many fact chunks were sent with the question, out of how many.
+  facts?: { used: number; total: number };
 }
 
 export interface ChatStatus {

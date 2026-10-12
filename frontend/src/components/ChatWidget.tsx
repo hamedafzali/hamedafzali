@@ -285,6 +285,8 @@ const Machine: React.FC<{ job: Job; latest?: boolean }> = ({ job, latest }) => {
     );
   if (stage >= 1) log.push(`press: squeezed into ~${tokens} tokens (${pressed(crate)})`);
   if (stage >= 2) log.push("dispatch: crate sent to the AI core, waiting for a reply");
+  if (reply?.facts)
+    log.push(`retrieval: picked ${reply.facts.used} of ${reply.facts.total} fact cards (+ the basics)`);
   if (reply)
     log.push(
       `ai core: answer back in ${(reply.ms / 1000).toFixed(1)}s, ${reply.tokens ?? "?"} tokens`,
