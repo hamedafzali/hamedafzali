@@ -24,10 +24,11 @@
 - **Software Developer** - Postbank of Iran (2007 - 2009)
 - **Software Developer** - RASA-Rayaneh-Sabz Co., Tehran (2006 - 2007)
 
-### Advisory & Consulting (freelance, alongside full-time roles)
+### Freelance & Consulting (alongside full-time roles)
 
 - **Software Architecture Consultant** - Amitis Hamta Co. (2019 - 2022)
 - **Core Banking Consultant** - Tejarat Bank and the Kosar, Arman, and Javanan-Khayer financial institutes (2010 - 2017)
+- **Software Developer** - Babak Safar, a bus rental and transportation company (2007 - 2010)
 
 ## 💼 Professional Highlights
 
@@ -35,6 +36,7 @@
 
 - **Core Banking Platform** - Architected a full-scope core banking platform (.NET, C#) on a 15-node distributed SQL Server cluster serving 15,000 concurrent users with ACID-compliant transactional isolation, at Postbank (PBI)
 - **National Payment Infrastructure** - Designed high-availability Java services for the Shetab national card network and the IBM MQ backbone for the Chakavak national cheque-clearing system
+- **HR & Payroll Systems** - Designed and built Postbank's in-house Human Resource Management System (2010 - 2014) and Payroll System (2014 - 2017) in VB.NET and SQL Server
 - **Regulatory Analytics Platform** - Sole architect of a BI and reporting platform consolidating data from 400+ branches for Central Bank submission
 
 ### 🏗️ Systems Integration & Architecture

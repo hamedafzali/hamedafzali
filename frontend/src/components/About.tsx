@@ -121,7 +121,7 @@ const About: React.FC = () => {
 
             {advisory.length > 0 && (
               <div className="about-credentials">
-                <h3 className="about-block-title">Advisory & consulting</h3>
+                <h3 className="about-block-title">Freelance & consulting</h3>
                 <ul>
                   {advisory.map((item) => (
                     <li key={item.period}>

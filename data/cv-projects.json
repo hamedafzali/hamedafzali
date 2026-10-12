@@ -145,6 +145,22 @@
       "duration": "2010 - 2017"
     },
     {
+      "title": "Babak Safar Transportation System",
+      "description": "Freelance project for Babak Safar, a bus rental and transportation company. Built their transportation management system in VB.NET and SQL Server with a web interface, and supported it until 2010.",
+      "category": "enterprise",
+      "image": "/pos-management.jpg",
+      "link": "#",
+      "featured": false,
+      "technologies": [
+        "VB.NET",
+        "SQL Server",
+        "JavaScript",
+        "HTML"
+      ],
+      "status": "Completed",
+      "duration": "2007 - 2010"
+    },
+    {
       "title": "Shetab National Card Network Integration",
       "description": "Led R&D and design for PBI's integration with Shetab, Iran's national card network. Built high-availability Java services that process national card payments in real time.",
       "category": "fintech",
@@ -195,6 +211,23 @@
       ],
       "status": "Completed",
       "duration": "2009 - 2018"
+    },
+    {
+      "title": "Human Resources & Payroll Systems",
+      "description": "Two in-house systems for Postbank of Iran's own staff, separate from the HR module of the core banking platform. I designed them with UML and built them in VB.NET and SQL Server: first the Human Resource Management System (2010 - 2014), then the Payroll System on top of it (2014 - 2017).",
+      "category": "enterprise",
+      "image": "/budget-reporting.jpg",
+      "link": "#",
+      "featured": false,
+      "technologies": [
+        "VB.NET",
+        "SQL Server",
+        "jQuery",
+        "HTML",
+        "UML"
+      ],
+      "status": "Completed",
+      "duration": "2010 - 2017"
     },
     {
       "title": "POS Terminal & ATM Integration Software",
