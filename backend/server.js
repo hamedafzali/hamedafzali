@@ -6,6 +6,7 @@ const path = require("path");
 const fs = require("fs");
 require("dotenv").config();
 const { registerChatRoutes } = require("./chat");
+const { seedContent, DATA_DIR: SEED_DIR } = require("./seed");
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -88,7 +89,17 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("MongoDB connected successfully"))
+  .then(async () => {
+    console.log("MongoDB connected successfully");
+    // Publish data/*.json on every start. SEED_ON_START=false keeps the
+    // database as it is (for example while editing content by hand).
+    if (process.env.SEED_ON_START === "false") return;
+    try {
+      console.log("Content seeded:", await seedContent(mongoose.connection.db));
+    } catch (err) {
+      console.error(`Content seed from ${SEED_DIR} failed:`, err.message);
+    }
+  })
   .catch((err) => console.error("MongoDB connection error:", err));
 
 // Project Schema

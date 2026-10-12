@@ -28,6 +28,11 @@ COPY backend/ ./
 # Verify the server.js file is copied correctly
 RUN ls -la server.js && wc -l server.js
 
+# Portfolio content. The server seeds MongoDB from it on every start, so the
+# content always matches the deployed commit (no bind mount needed).
+COPY data/ ./seed-data/
+ENV SEED_DATA_DIR=/app/seed-data
+
 # Copy built frontend from builder stage
 COPY --from=frontend-builder /app/frontend/build ./frontend/build
 

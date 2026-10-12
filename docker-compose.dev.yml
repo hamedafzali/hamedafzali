@@ -21,8 +21,8 @@ services:
     networks:
       - profile-network
     depends_on:
-      mongo-seed:
-        condition: service_completed_successfully
+      mongodb:
+        condition: service_healthy
 
   frontend-dev:
     image: node:18-alpine
