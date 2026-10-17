@@ -5,6 +5,7 @@ import AiRobot, { RobotCue, RobotMood, useMedia } from "./AiRobot";
 import type { Gesture } from "pixel-wizards-charachters";
 import ApiService, { ChatError, ChatReply, ChatTurn } from "../services/api";
 import { OPEN_CHAT_EVENT, usePortfolioData } from "../context/PortfolioData";
+import { trackEvent } from "../services/analytics";
 
 // The robot waves once when it appears.
 const WAVE: RobotCue = { gesture: "wave", key: 0 };
@@ -514,7 +515,11 @@ const ChatWidget: React.FC = () => {
   }, []);
   useEffect(() => () => clearTimeout(closeTimer.current), []);
 
-  const launch = () => {
+  useEffect(() => {
+    if (open) trackEvent("chat_open");
+  }, [open]);
+
+    const launch = () => {
     const robot = fabRef.current?.querySelector(".ai-robot");
     launchFrom.current = robot ? robot.getBoundingClientRect() : null;
     setOpen(true);

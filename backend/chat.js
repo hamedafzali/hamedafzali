@@ -8,6 +8,7 @@
 const fs = require("fs");
 const path = require("path");
 const { buildIndex, retrieve } = require("./retrieve");
+const { count } = require("./analytics");
 
 const MISTRAL_URL = "https://api.mistral.ai/v1/chat/completions";
 
@@ -393,6 +394,7 @@ function registerChatRoutes(app, models) {
       const { wellFormed, offTopic = false, ...reply } = parseReply(content);
       if (!reply.answer) throw new Error("Empty answer");
       if (!wellFormed) reply.answer = await reformat(question, content, reply.answer);
+      count("chat_question");
       res.json({
         ...reply,
         offTopic,

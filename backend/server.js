@@ -6,6 +6,7 @@ const path = require("path");
 const fs = require("fs");
 require("dotenv").config();
 const { registerChatRoutes } = require("./chat");
+const { registerAnalyticsRoutes, count } = require("./analytics");
 const { seedContent, DATA_DIR: SEED_DIR } = require("./seed");
 
 const app = express();
@@ -462,8 +463,10 @@ const renderIndexHtml = async (nonce) => {
 // Require a valid admin token (header or query param) for privileged routes.
 const requireAdmin = (req, res, next) => {
   const adminToken = process.env.ADMIN_TOKEN;
-  const provided = req.headers["x-admin-token"] || req.query.token;
-  if (!adminToken || provided !== adminToken) {
+  const provided = String(req.headers["x-admin-token"] || req.query.token || "");
+  const a = crypto.createHash("sha256").update(provided).digest();
+  const b = crypto.createHash("sha256").update(adminToken || "").digest();
+  if (!adminToken || !crypto.timingSafeEqual(a, b)) {
     return res.status(401).json({ message: "Unauthorized" });
   }
   next();
@@ -538,6 +541,7 @@ app.post("/api/contact", contactRateLimiter, async (req, res) => {
       message: message.trim(),
     });
     await contact.save();
+    count("contact_sent");
     res.status(201).json({ message: "Contact form submitted successfully" });
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -630,6 +634,7 @@ app.get("/api/profile", async (req, res) => {
 });
 
 registerChatRoutes(app, { Profile, Skill, Project });
+registerAnalyticsRoutes(app, { requireAdmin });
 
 app.get("/robots.txt", async (req, res) => {
   try {
@@ -677,6 +682,8 @@ app.get("*", async (req, res) => {
   try {
     const nonce = crypto.randomBytes(16).toString("base64");
     res.setHeader("Content-Security-Policy", buildCsp(nonce));
+    // The private stats page must never show up in search results.
+    if (req.path.startsWith("/stats")) res.setHeader("X-Robots-Tag", "noindex, nofollow");
     const html = await renderIndexHtml(nonce);
     res.send(html);
   } catch (error) {

@@ -12,6 +12,7 @@ services:
       - MONGODB_URI=mongodb://admin:password123@mongodb:27017/portfolio?authSource=admin
       - MISTRAL_API_KEY=${MISTRAL_API_KEY:-}
       - MISTRAL_MODEL=${MISTRAL_MODEL:-}
+      - ADMIN_TOKEN=${ADMIN_TOKEN:-}
     restart: unless-stopped
     volumes:
       - ./logs:/app/logs
